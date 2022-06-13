@@ -1,0 +1,16 @@
+{
+    "watch": [
+      "src",
+      "dist",
+      ".env"
+    ],
+    "ext": "ts, js",
+    "ignore": [
+      "*.test.ts"
+    ],
+    "delay": "1000",
+    "execMap": {
+      "js": "probot run ./dist/index.js",
+      "env": "probot run ./dist/index.js"
+    }
+  }
