@@ -7,7 +7,7 @@ standalone environment for development.
 
 The application automatically re-opens any security alert which is closed by someone
 that is not part of the `approving-alerters` team. This team name is configured in 
-[codeScanningAlertDismissed.ts](./src/events/codeScanningAlertDismissed.ts#L40).
+[codeScanningAlertDismissed.ts](./src/events/codeScanningAlertDismissed.ts#L4`).
 
 ## GitHub Setup
 
@@ -17,7 +17,7 @@ The application expects two teams to exist in your organization:
   close the alerts. Note that organization owners are automatically approved and do not need to be included. Because
   this team is a child of the previous team, it is included in the Security Managers
 
-> Note:  
+> **Note**  
 > The Security Managers for an organization automatically have read access to all repositories.
 > This permission is not removed if the team is removed from the Security Managers.
 
@@ -50,7 +50,7 @@ when the TypeScript-generated files in `dist` are changed.
 
 Open http://localhost:3000 and click **Register GitHub App**. This will guide you through the process of registering and configuring the application. You will need to select the repository (or repositories) you want to use with the application as part of the setup process. When the workflow is completed, the `.env` file will be updated to match the configuration. 
 
-> Note:  
+> **Note**  
 > For production applications, the environment settings should be configured 
 > using appropriate secret and environment variable management.
 
