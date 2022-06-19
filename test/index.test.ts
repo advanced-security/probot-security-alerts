@@ -7,8 +7,8 @@ import { approvingTeamName } from "../src/events/approvingTeam";
 import { Probot, ProbotOctokit } from "probot";
 import payload from "./fixtures/code_scanning_alert.closed_by_user.json";
 
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
 const privateKey = fs.readFileSync(
   path.join(__dirname, "fixtures/mock-cert.pem"),
