@@ -2,7 +2,7 @@
 import type { Probot } from "probot";
 import codeScanningAlertDismissed from "./events/codeScanningAlertDismissed"
 
-export = (app: Probot) => {
+export default (app: Probot) => {
 
   // Log the start
   app.log.info("Started monitoring process");
