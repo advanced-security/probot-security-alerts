@@ -1,5 +1,5 @@
 // For implementation details, see https://probot.github.io/docs/README/
-import { Probot } from "probot";
+import type { Probot } from "probot";
 import codeScanningAlertDismissed from "./events/codeScanningAlertDismissed"
 
 export = (app: Probot) => {
