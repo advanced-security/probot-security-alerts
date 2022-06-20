@@ -50,10 +50,6 @@ when the TypeScript-generated files in `dist` are changed.
 
 Open http://localhost:3000 and click **Register GitHub App**. This will guide you through the process of registering and configuring the application. You will need to select the repository (or repositories) you want to use with the application as part of the setup process. When the workflow is completed, the `.env` file will be updated to match the configuration. 
 
-> **Note**  
-> For production applications, the environment settings should be configured 
-> using appropriate secret and environment variable management.
-
 ## Known Issues
 When running in a development container (Visual Studio Code), the Docker environment can occasionally stop correctly proxying messages. When this occurs:
 
@@ -61,3 +57,21 @@ When running in a development container (Visual Studio Code), the Docker environ
 - The Node.js application may occasionally log an error beginning with ECONN.
 
 If this occurs, restart Docker Desktop. Visual Studio code can reload the window once Docker Desktop has restarted, and `npm start` can be used to restart the application. The connectivity issues should be resolved.
+
+## Container Build
+A standalone container can be built using `docker build`. The standard `docker run` can be used to either run the Probot application or override the command to explore the container. The container is configured to expose port 3000. As a development environment, it will require the environment variable `GH_ORG` to enable setup to use an organization.
+
+For testing and deploying outside of development environments, the following environment variables would need to be configured:
+- NODE_ENV (set to `production`)
+- APP_ID
+- GH_ORG
+- PRIVATE_KEY
+- WEBHOOK_SECRET
+- GITHUB_CLIENT_ID
+- GITHUB_CLIENT_SECRET
+
+The complete set of variables and the details for setting those are available in the [Probot documentaton](https://probot.github.io/docs/configuration/).
+
+> **Note**  
+> For production applications, the environment settings should be configured 
+> using appropriate secret and environment variable management.

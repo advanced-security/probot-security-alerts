@@ -1,0 +1,14 @@
+.devcontainer
+.dockerignore
+.env
+.env.example
+.git
+.gitattributes
+.gitignore
+.vscode
+*.log
+dist
+Dockerfile*
+LICENSE
+node_modules
+README.td
