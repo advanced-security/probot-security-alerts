@@ -59,9 +59,10 @@ When running in a development container (Visual Studio Code), the Docker environ
 If this occurs, restart Docker Desktop. Visual Studio code can reload the window once Docker Desktop has restarted, and `npm start` can be used to restart the application. The connectivity issues should be resolved.
 
 ## Container Build
-A standalone container can be built using `docker build`. The standard `docker run` can be used to either run the Probot application or override the command to explore the container. The container is configured to expose port 3000. As a development environment, it will require the environment variable `GH_ORG` to enable setup to use an organization.
+A standalone image can be built using `docker build`, and `docker run` can be used to launch the container. The image is configured to expose port 3000. As a development environment, it will require the environment variable `GH_ORG` to enable setup to use an organization.
 
 For testing and deploying outside of development environments, the following environment variables would need to be configured:
+
 - NODE_ENV (set to `production`)
 - APP_ID
 - GH_ORG
