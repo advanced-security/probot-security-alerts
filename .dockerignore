@@ -1,5 +1,6 @@
 .devcontainer
 .dockerignore
+.editorconfig
 .env
 .env.example
 .git
