@@ -1,1 +1,1 @@
-export const approvingTeamName = 'approving-alerters';
+export const approvingTeamName =  process.env.SCAN_CLOSE_TEAM  || 'scan-managers';

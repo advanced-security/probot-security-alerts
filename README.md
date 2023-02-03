@@ -6,21 +6,22 @@ in TypeScript, running on Node.js 16. A developer container is provided which cr
 standalone environment for development.
 
 The application automatically re-opens any security alert which is closed by someone
-that is not part of the `approving-alerters` team. This team name is configured in 
-[codeScanningAlertDismissed.ts](./src/events/codeScanningAlertDismissed.ts#L4`).
+that is not part of the `scan-managers` team. This team name is configured in 
+[codeScanningAlertDismissed.ts](./src/events/codeScanningAlertDismissed.ts#L4`) and can be
+overriden using the environment variable SCAN_CLOSE_TEAM.
+
 
 ## GitHub Setup
 
 The application expects two teams to exist in your organization:
 - A [team](https://docs.github.com/en/enterprise-cloud@latest/organizations/organizing-members-into-teams/creating-a-team) that has been assigned as the [Security Managers](https://docs.github.com/en/enterprise-cloud@latest/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)
-- A [child team](https://docs.github.com/en/enterprise-cloud@latest/organizations/organizing-members-into-teams/requesting-to-add-a-child-team) that is called `approving-alerters` which contains only those users that should be able to
+- A [child team](https://docs.github.com/en/enterprise-cloud@latest/organizations/organizing-members-into-teams/requesting-to-add-a-child-team) that is called `scan-managers` which contains only those users that should be able to
   close the alerts. Note that organization owners are automatically approved and do not need to be included. Because
   this team is a child of the previous team, it is included in the Security Managers
 
 > **Note**  
 > The Security Managers for an organization automatically have read access to all repositories.
 > This permission is not removed if the team is removed from the Security Managers.
-
 
 ## Setup and Local Development
 
@@ -70,6 +71,7 @@ For testing and deploying outside of development environments, the following env
 - WEBHOOK_SECRET
 - GITHUB_CLIENT_ID
 - GITHUB_CLIENT_SECRET
+- SCAN_CLOSE_TEAM (if using a different team name)
 
 The complete set of variables and the details for setting those are available in the [Probot documentaton](https://probot.github.io/docs/configuration/).
 
