@@ -5,11 +5,10 @@ import { isUserInApproverTeam } from "./approvingTeam";
  * Handles the code scanning alert event
  * @param context the event context
  */
-export default async function codeScanningAlertDismissed(context: Context<"code_scanning_alert">) {
-    context.log.info("Code scanning alert event received.");
-    
+export default async function secretScanningAlertDismissed(context: Context<"secret_scanning_alert">) {
+    context.log.info("Secret scanning alert event received.");
     const owner = context.payload.repository.owner.login;
-    const user = context.payload.alert.dismissed_by?.login;
+    const user = context.payload.alert?.resolved_by?.login;
     var isMemberApproved =  await isUserInApproverTeam(context, owner, user);
 
     if (isMemberApproved) {
@@ -21,7 +20,7 @@ export default async function codeScanningAlertDismissed(context: Context<"code_
         const repo = context.payload.repository.name;
         const alert_number = context.payload.alert.number;
         
-        await context.octokit.codeScanning.updateAlert({
+        await context.octokit.secretScanning.updateAlert({
             owner,
             repo,
             alert_number,
