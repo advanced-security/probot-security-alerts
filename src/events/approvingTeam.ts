@@ -1,7 +1,7 @@
 import { ProbotOctokit, Logger } from "probot";
 
 // Define the team resposible for the approvals
-export const approvingTeamName =  process.env.SCAN_CLOSE_TEAM  || 'scan-managers';
+export const approvingTeamName =  process.env.SECURITY_ALERT_CLOSE_TEAM  || 'scan-managers';
 
 // Interface to avoid TS2590
 export interface OctokitContext{

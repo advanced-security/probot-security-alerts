@@ -1,20 +1,16 @@
-# Code Scanning Alert Watcher
+# Security Alert Watcher
 
-A sample GitHub App built with [Probot](https://github.com/probot/probot) that demonstrates how to monitor and respond to code scanning alert events. The application is written in TypeScript, running on Node.js 16. A developer container is provided which creates a standalone environment for development.
+A sample GitHub App built with [Probot](https://github.com/probot/probot) that demonstrates how to monitor and respond to security alert events. The application is written in TypeScript, running on Node.js 16. A developer container is provided which creates a standalone environment for development. The application supports alerts from code scanning, secret scanning, and Dependabot.
 
-The application automatically re-opens any security alert which is closed by someone
-that is not part of the `scan-managers` team. This team name is configured in [codeScanningAlertDismissed.ts](./src/events/codeScanningAlertDismissed.ts#L4`) and can be overriden using the environment variable `SCAN_CLOSE_TEAM`.
-
+The application automatically re-opens any security alert which is closed by someone that is not part of the `scan-managers` team. This team name is configured in [approvingTeam.ts](./src/events/approvingTeam.ts#L4`) and can be overriden using the environment variable `SECURITY_ALERT_CLOSE_TEAM`.
 
 ## GitHub Organization Setup
 
-The application expects a team called `scan-managers` (or the value in the environment variable `SCAN_CLOSE_TEAM`) to exist in your organization. This team contains the users that are approved to close code scanning alerts. Note that organization owners are automatically included and will not need to be added.
-
-All other users attempting to close an alert will be rejected.
+The application expects a team called `scan-managers` (or the value in the environment variable `SECURITY_ALERT_CLOSE_TEAM`) to exist in your organization. This team contains the users that are approved to close code scanning alerts. If the team does not exist, all requests will be rejected. Alerts closed by users that are not part of this team will be automatically reopened.
 
 ## GitHub Security Managers
 
-It is possible to configure the approving team as a child of the team assigned to the [Security Managers](https://docs.github.com/en/enterprise-cloud@latest/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization) role. You can [follow these steps to create a child team](https://docs.github.com/en/enterprise-cloud@latest/organizations/organizing-members-into-teams/requesting-to-add-a-child-team). Because this team is a child of the previous team, it is included in the Security Managers.
+It is possible to configure the approving team as a child of the team assigned to the [Security Managers](https://docs.github.com/en/enterprise-cloud@latest/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization) role. You can [follow these steps to create a child team](https://docs.github.com/en/enterprise-cloud@latest/organizations/organizing-members-into-teams/requesting-to-add-a-child-team). Because this team is a child of the previous team, it is included in the Security Managers. All members of this child team will be Security Managers and able to review alerts in all repositories.
 
 > **Note**  
 > The Security Managers for an organization automatically have read access to all repositories.
@@ -48,7 +44,7 @@ Open http://localhost:3000 and click **Register GitHub App**. This will guide yo
 
 ## GitHub Codespaces
 
-When using Codespaces, the environment will use a private port and will not use [smee.io](https://smee.io) as a proxy. The port will need public visibility to be reachable without using a proxy service. There is a [feature request](https://github.com/devcontainers/spec/issues/5) to add support for specifying port visibility in `devcontainer.json`.
+When using Codespaces, the environment will use a private port (3000) for the app and [smee.io](https://smee.io) as a proxy for public visibility. If you do not want to use SMEE, the Codespaces port will need public visibility to be reachable. There is a [feature request](https://github.com/devcontainers/spec/issues/5) to add support for specifying port visibility in `devcontainer.json`.
 
 To configure visibility manually:
 
@@ -60,21 +56,18 @@ To configure visibility manually:
 
 ## Using a proxy
 
-To use Smee.io as a proxy for a private port or local development environment:
+The GitHub App will automatically create an use an endpoint on smee.io as a proxy if the environment `NODE_ENV` is not set to `production`. It will create a new endpoint and add it to the `.env` file automatically. To manually configure the App to use Smee.io as a proxy for a private port or local development environment:
 
 1. Go to https://smee.io/new. Copy the provided webhook URL.
 1. Create (or update) a `.env` file. An example file (`.env.example`) is provided.
-1. Add a line with `WEBHOOK_PROXY_URL=` and the URL from Step 1. For example, `WEBHOOK_PROXY_URL=https://smee.io/ABCDEF`
-
-Alternatively, you can use set the environment variable manually in the Terminal window.
+1. Add a line with `WEBHOOK_PROXY_URL=` and the URL from Step 1. For example, `WEBHOOK_PROXY_URL=https://smee.io/ABCDEF
 
 ## The environment (.env) file
 
-This file `.env` contains the environment settings used by the Probot application. A sample file is provided (`.env.sample`). The first time the application is run and the GitHub App is registered, the file will be created. If the file already exists, the settings will be updated to include the APP_ID and security settings for the registered application. Typically, there
-are only two settings that may need to be configured initially:
+This file `.env` contains the environment settings used by the Probot application. A sample file is provided (`.env.sample`). The first time the application is run, the file will be created. Once the GitHub App is registered, the file will be updated with the security settings required for creating tokens. Typically, there are only two settings that may need to be configured initially:
 
 - `GH_ORG` - Configure the application to register with an organization rather than the current user, specify the organization name
-- `WEBHOOK_PROXY_URL` - Configure a proxy server that will receive all webhook messages
+- `WEBHOOK_PROXY_URL` - Configure a proxy server that will receive all webhook messages. If not provided, this will be created automatically in non-production environments.
 
 ## First launch
 
@@ -82,6 +75,9 @@ The first time the application is run, it will open a port (typically https://lo
 Opening this page in the browser will start a process of configuring and registering the GitHub App. This process is called the [Manifest Flow](https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app-from-a-manifest). The configuration settings in the `app.yml` file are used to register the application, associate it with a public webhook URL, and secure the communications.  Once this process completes, the `.env` file will be updated based on that registration. The web page will then be changed to disable the registration process.
 
 Removing the `.env` settings for the application will re-enable the process.
+
+> **Note**
+> Support for Dependabot alerts is in beta. As a result, the `dependabot_alert` event is not yet supported by manifest flow. After installing the GitHub App, you will need to edit the app's **Settings**. In **Permissions & events** > **Subscribe to events**, enable **Dependabot alert** and press **Save Changes**. If this event is not enabled, Dependabot alerts will not be monitored.
 
 ## Known Issues
 When running in a development container (Visual Studio Code), the Docker environment can occasionally stop correctly proxying messages. When this occurs:
@@ -103,7 +99,7 @@ For testing and deploying outside of development environments, the following env
 - `WEBHOOK_SECRET`
 - `GITHUB_CLIENT_ID`
 - `GITHUB_CLIENT_SECRET`
-- `SCAN_CLOSE_TEAM` (if using a different team name)
+- `SECURITY_ALERT_CLOSE_TEAM` (if using a different team name)
 
 The complete set of variables and the details for setting those are available in the [Probot documentaton](https://probot.github.io/docs/configuration/).
 

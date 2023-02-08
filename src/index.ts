@@ -42,6 +42,7 @@ export default (app: Probot) => {
   // https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#code_scanning_alert
   app.on("code_scanning_alert.closed_by_user", codeScanningAlertDismissed);
 
+  // When Probot adds direct support
   // app.on("secret_scanning_alert.revoked", secretScanningAlertDismissed);
   // app.on("dependabot_alert.dismissed", dependabotAlertDismissed);
 };
