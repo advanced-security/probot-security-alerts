@@ -20,7 +20,10 @@ default_events:
 # - commit_comment
 # - create
 # - delete
-  - dependabot_alert
+
+# Not yet supported
+# - dependabot_alert
+
 # - deployment
 # - deployment_status
 # - fork
@@ -98,7 +101,7 @@ default_permissions:
 
   # Retrieve security vulnerability alerts.
   # https://developer.github.com/v4/object/repositoryvulnerabilityalert/
-  # vulnerability_alerts: read
+  vulnerability_alerts: write
 
   # Commit statuses.
   # https://developer.github.com/v3/apps/permissions/#permission-on-statuses
@@ -142,7 +145,7 @@ default_permissions:
   members: read
 
 # The name of the GitHub App. Defaults to the name specified in package.json
-name: Code Scanning Alert Watcher
+name: Security Alert Watcher
 
 # The homepage of your GitHub App.
 # url: https://example.com/

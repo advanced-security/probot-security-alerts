@@ -194,10 +194,10 @@
     "enterprise": {
         "id": 2,
         "slug": "_enterprise",
-        "name": "Avocado Corp.",
+        "name": "MyCorp.",
         "node_id": "MDEnterpriseNodeID2==",
         "avatar_url": "https://avatars.githubusercontent.com/b/2?v=4",
-        "description": "Makers of all the best avocado-based products.",
+        "description": "Makers of all the best products.",
         "website_url": "https://github.com/enterprises/_enterprise/",
         "html_url": "https://github.com/enterprises/_enterprise",
         "created_at": "2018-04-06T02:42:55Z",

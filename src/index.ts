@@ -17,8 +17,10 @@ export default (app: Probot) => {
   // Log incoming events
   app.onAny(async (context) => {
     app.log.info(`Received event: ${context.name}`);
-    switch (context.name as string){
-      case "secret_scanning_alert.revoked": 
+    const eventName = `${context?.name}.${(context as any)?.payload?.action}`
+    app.log.info(`Received ${eventName}`)
+    switch (eventName){
+      case "secret_scanning_alert.resolved": 
         await secretScanningAlertDismissed(context as Context<"secret_scanning_alert">);
         break;
       case "dependabot_alert.dismissed":
