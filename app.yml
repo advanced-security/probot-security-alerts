@@ -13,19 +13,23 @@
 # The list of events the GitHub App subscribes to.
 # Uncomment the event names below to enable them.
 default_events:
-  # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#code_scanning_alert
+# https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#code_scanning_alert
   - code_scanning_alert
-  # - check_run
-  # - check_suite
-  # - commit_comment
-  # - create
-  # - delete
-  # - deployment
-  # - deployment_status
-  # - fork
-  # - gollum
-  # - issue_comment
-  # - issues
+# - check_run
+# - check_suite
+# - commit_comment
+# - create
+# - delete
+
+# Not yet supported
+# - dependabot_alert
+
+# - deployment
+# - deployment_status
+# - fork
+# - gollum
+# - issue_comment
+# - issues
 # - label
 # - milestone
 # - member
@@ -44,6 +48,7 @@ default_events:
 # - release
 # - repository
 # - repository_import
+  - secret_scanning_alert
 # - status
 # - team
 # - team_add
@@ -96,7 +101,7 @@ default_permissions:
 
   # Retrieve security vulnerability alerts.
   # https://developer.github.com/v4/object/repositoryvulnerabilityalert/
-  # vulnerability_alerts: read
+  vulnerability_alerts: write
 
   # Commit statuses.
   # https://developer.github.com/v3/apps/permissions/#permission-on-statuses
@@ -128,8 +133,11 @@ default_permissions:
 
   # The level of permission to grant the access token to view and manage security events like code scanning alerts
   # See https://octokit.github.io/rest.js/v18#code-scanning-get-alert
+  #     https://docs.github.com/en/rest/dependabot/alerts?apiVersion=2022-11-28#update-a-dependabot-alert
   security_events: write
-  # secret_scanning_alerts
+
+  # https://docs.github.com/en/rest/secret-scanning?apiVersion=2022-11-28#update-a-secret-scanning-alert
+  secret_scanning_alerts: write
 
   # https://octokit.github.io/rest.js/v18#secret_scanning_alerts
   # https://docs.github.com/en/rest/overview/permissions-required-for-github-apps#permission-on-members
@@ -137,7 +145,7 @@ default_permissions:
   members: read
 
 # The name of the GitHub App. Defaults to the name specified in package.json
-name: Code Scanning Alert Watcher
+name: Security Alert Watcher
 
 # The homepage of your GitHub App.
 # url: https://example.com/
