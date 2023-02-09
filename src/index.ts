@@ -1,5 +1,5 @@
 // For implementation details, see https://probot.github.io/docs/README/
-import { Probot, Context } from "probot";
+import { Probot } from "probot";
 import codeScanningAlertDismissed from "./events/codeScanningAlertDismissed"
 import { dependabotAlertDismissed } from "./events/dependabotAlertDismissed"
 import secretScanningAlertDismissed from "./events/secretScanningAlertDismissed"
@@ -16,15 +16,13 @@ export default (app: Probot) => {
 
   // Log incoming events
   app.onAny(async (context) => {
-    app.log.info(`Received event: ${context.name}`);
-    const eventName = `${context?.name}.${(context as any)?.payload?.action}`
-    app.log.info(`Received ${eventName}`)
-    switch (eventName){
-      case "secret_scanning_alert.resolved": 
-        await secretScanningAlertDismissed(context as Context<"secret_scanning_alert">);
-        break;
-      case "dependabot_alert.dismissed":
-        await dependabotAlertDismissed(context as any);
+    const untypedContext = context as any;
+    const eventName = `${context?.name}.${untypedContext?.payload?.action}`
+    app.log.info(`Received event: ${eventName}`);
+    
+    // Workaround to enable the new event type
+    if (eventName == "dependabot_alert.dismissed"){
+        await dependabotAlertDismissed(untypedContext);
     }
   });
 
@@ -42,7 +40,8 @@ export default (app: Probot) => {
   // https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#code_scanning_alert
   app.on("code_scanning_alert.closed_by_user", codeScanningAlertDismissed);
 
-  // When Probot adds direct support
-  // app.on("secret_scanning_alert.revoked", secretScanningAlertDismissed);
+  app.on("secret_scanning_alert.resolved", secretScanningAlertDismissed);
+
+  // When Probot adds support
   // app.on("dependabot_alert.dismissed", dependabotAlertDismissed);
 };

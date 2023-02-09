@@ -2,8 +2,8 @@ import { ProbotOctokit, Logger } from "probot";
 import { isUserInApproverTeam } from "./approvingTeam";
 
 /**
- * Interface to replace the missing context for dependabot
- * alerts.
+ * Interface to replace the missing context for responding
+ * to Dependabot alerts.
  */
 export interface DependabotAlertContext {
     octokit: InstanceType<typeof ProbotOctokit>;

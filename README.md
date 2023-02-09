@@ -80,12 +80,20 @@ Removing the `.env` settings for the application will re-enable the process.
 > Support for Dependabot alerts is in beta. As a result, the `dependabot_alert` event is not yet supported by manifest flow. After installing the GitHub App, you will need to edit the app's **Settings**. In **Permissions & events** > **Subscribe to events**, enable **Dependabot alert** and press **Save Changes**. If this event is not enabled, Dependabot alerts will not be monitored.
 
 ## Known Issues
+
+This sample application has the following known issues.
+
+### ECONN Error
 When running in a development container (Visual Studio Code), the Docker environment can occasionally stop correctly proxying messages. When this occurs:
 
 - The GitHub App and Smee.io will both report that payloads were delivered. The application will not show any activity.
 - The Node.js application may occasionally log an error beginning with ECONN.
 
 If this occurs, restart Docker Desktop. Visual Studio code can reload the window once Docker Desktop has restarted, and `npm start` can be used to restart the application. The connectivity issues should be resolved.
+
+### Probot Support
+
+This sample is built using [Probot](https://github.com/probot/probot) and the framework it provides. The latest version of Probot does not yet fully support the 
 
 ## Container Build
 A standalone image can be built using `docker build`, and `docker run` can be used to launch the container. The image is configured to expose port 3000. As a development environment, it will require the environment variable `GH_ORG` to enable setup to use an organization.
