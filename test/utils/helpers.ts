@@ -45,6 +45,7 @@ export function getTestableProbot() {
             retry: { enabled: false },
             throttle: { enabled: false },
         }),
+        logLevel: "warn"
     });
     // Load our app into probot
     probot.load(myProbotApp);
