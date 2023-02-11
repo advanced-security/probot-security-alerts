@@ -1,28 +1,5 @@
-import { ProbotOctokit, Logger } from "probot";
 import { isUserInApproverTeam } from "./approvingTeam";
-
-/**
- * Interface to replace the missing context for responding
- * to Dependabot alerts.
- */
-export interface DependabotAlertContext {
-    octokit: InstanceType<typeof ProbotOctokit>;
-    log: Logger;
-    payload: {
-        repository: {
-            owner: {
-                login: string
-            },
-            name: string
-        },
-        alert: {
-            dismissed_by: {
-                login: string
-            } | undefined,
-            number: number
-        }
-    };
-}
+import { DependabotAlertContext } from "./types";
 
 /**
  * Handles the code scanning alert event

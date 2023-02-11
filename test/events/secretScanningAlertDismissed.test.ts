@@ -1,7 +1,7 @@
 import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers"
-import event_wont_fix from "./../fixtures/secret_scanning_alert.resolved.wont_fix.json";
-import event_pattern_edited from "./../fixtures/secret_scanning_alert.resolved.pattern_edited.json";
-import event_pattern_deleted from "./../fixtures/secret_scanning_alert.resolved.pattern_deleted.json";
+import event_wont_fix from "./../fixtures/secret_scanning_alert/resolved.wont_fix.json";
+import event_pattern_edited from "./../fixtures/secret_scanning_alert/resolved.pattern_edited.json";
+import event_pattern_deleted from "./../fixtures/secret_scanning_alert/resolved.pattern_deleted.json";
 
 // The alerts which must be ignored
 const IGNORED_SECRET_ALERTS = [event_pattern_deleted, event_pattern_edited];
