@@ -39,7 +39,7 @@ export interface OrganizationResource extends GitHubResource {
 }
 
 /** Resource representing a repository */
-export interface RepositoryResource extends GitHubResource { 
+export interface RepositoryResource extends GitHubResource {
     /** Name of the repository */
     name: string,
 
@@ -70,7 +70,7 @@ export interface RepositoryWebhookEvent extends WebhookEvent {
 }
 
 /** An event raised by a Dependabot alert */
-export interface DependabotAlertWebhookEvent extends RepositoryWebhookEvent{
+export interface DependabotAlertWebhookEvent extends RepositoryWebhookEvent {
     alert: {
         dismissed_by?: OwnerResource,
         number: number
@@ -88,5 +88,8 @@ export interface CustomWebhookEventContext<T extends WebhookEvent = WebhookEvent
     payload: T;
 }
 
-/** Context for processing dependabot alerts */
+/**
+ * Context for processing dependabot alerts. Probot does not currently
+ * provide a Context<"dependabot_alert">. This acts as a replacement.
+ */
 export interface DependabotAlertContext extends CustomWebhookEventContext<DependabotAlertWebhookEvent> { }

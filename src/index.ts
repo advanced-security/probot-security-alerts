@@ -21,7 +21,7 @@ export default (app: Probot) => {
     const eventName = `${ctx.name}.${ctx.payload.action}`
     app.log.info(`Received event: ${eventName}`);
     
-    // Workaround to enable the new event type
+    // Workaround to enable processing the dependabot_alert event
     if (eventName == "dependabot_alert.dismissed"){
         await dependabotAlertDismissed(ctx as DependabotAlertContext);
     }
