@@ -1,5 +1,5 @@
 import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers"
-import event from "../fixtures/dependabot_alert.dismissed.json";
+import event from "../fixtures/dependabot_alert/dismissed.json";
 
 const payload = event.payload;
 

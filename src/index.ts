@@ -3,6 +3,7 @@ import { Probot } from "probot";
 import codeScanningAlertDismissed from "./events/codeScanningAlertDismissed"
 import { dependabotAlertDismissed } from "./events/dependabotAlertDismissed"
 import secretScanningAlertDismissed from "./events/secretScanningAlertDismissed"
+import { DependabotAlertContext, CustomWebhookEventContext } from "./events/types";
 
 export default (app: Probot) => {
 
@@ -16,13 +17,13 @@ export default (app: Probot) => {
 
   // Log incoming events
   app.onAny(async (context) => {
-    const untypedContext = context as any;
-    const eventName = `${context?.name}.${untypedContext?.payload?.action}`
+    const ctx = context as CustomWebhookEventContext
+    const eventName = `${ctx.name}.${ctx.payload.action}`
     app.log.info(`Received event: ${eventName}`);
     
-    // Workaround to enable the new event type
+    // Workaround to enable processing the dependabot_alert event
     if (eventName == "dependabot_alert.dismissed"){
-        await dependabotAlertDismissed(untypedContext);
+        await dependabotAlertDismissed(ctx as DependabotAlertContext);
     }
   });
 

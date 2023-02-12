@@ -10,9 +10,9 @@
         "fixed_at": null,
         "dismissed_by": {
             "login": "_magicuser",
-            "id": 1000002,
+            "id": 100000003,
             "node_id": "MDUserNodeID==",
-            "avatar_url": "https://avatars.githubusercontent.com/u/1000002?v=4",
+            "avatar_url": "https://avatars.githubusercontent.com/u/100000003?v=4",
             "gravatar_id": "",
             "url": "https://api.github.com/users/_magicuser",
             "html_url": "https://github.com/_magicuser",
@@ -205,9 +205,9 @@
     },
     "sender": {
         "login": "_magicuser",
-        "id": 1000002,
+        "id": 100000003,
         "node_id": "MDUserNodeID==",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1000002?v=4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/100000003?v=4",
         "gravatar_id": "",
         "url": "https://api.github.com/users/_magicuser",
         "html_url": "https://github.com/_magicuser",
@@ -224,7 +224,7 @@
         "site_admin": true
     },
     "installation": {
-        "id": 10000003,
+        "id": 10000004,
         "node_id": "MDInstallationNodeId=="
     }
 }

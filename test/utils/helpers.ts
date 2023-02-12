@@ -6,6 +6,19 @@ import myProbotApp from "../../src";
 import { approvingTeamName } from "../../src/events/approvingTeam";
 
 /**
+ * Constants used in the fixtures
+ */
+const IDENTIFIERS = {
+    REPOSITORY_ID: 100000001,
+    REPOSITORY_NAME: "_myrepo",
+    ORGANIZATION_ID: 100000002,
+    ORGANIZATION_NAME: "_orgname",
+    USER_ID: 100000003,
+    USER_NAME: "_magicuser",
+    APP_INSTALLATION_ID: 10000004,
+} as const
+
+/**
  * Gets the path to the fixtures
  * @param fixture the fixture to be loaded
  * @returns the path to the fixtures directory
@@ -93,7 +106,7 @@ class OctokitApiMock {
     public canRetrieveAccessToken() {
         // Test that we correctly request a token
         var mock = this.nock
-            .post("/app/installations/10000003/access_tokens")
+            .post(`/app/installations/${IDENTIFIERS.APP_INSTALLATION_ID}/access_tokens`)
             .reply(200, {
                 token: "test",
                 permissions: {
@@ -108,7 +121,7 @@ class OctokitApiMock {
      * @returns the composable scope
      */
     public isNotInApprovingTeam() {
-        var mock = this.nock.get(`/orgs/_orgname/teams/${approvingTeamName}/memberships/_magicuser`)
+        var mock = this.nock.get(`/orgs/${IDENTIFIERS.ORGANIZATION_NAME}/teams/${approvingTeamName}/memberships/${IDENTIFIERS.USER_NAME}`)
             .reply(404);
 
         return new OctokitApiMock(mock);
@@ -120,7 +133,7 @@ class OctokitApiMock {
      * @returns the composable scope
      */
     public errorRetrievingTeamMembership(status: number = 500) {
-        var mock = this.nock.get(`/orgs/_orgname/teams/${approvingTeamName}/memberships/_magicuser`)
+        var mock = this.nock.get(`/orgs/${IDENTIFIERS.ORGANIZATION_NAME}/teams/${approvingTeamName}/memberships/${IDENTIFIERS.USER_NAME}`)
             .reply(status);
 
         return new OctokitApiMock(mock);
@@ -136,7 +149,7 @@ class OctokitApiMock {
         // Test that we correctly request a token
         var mock = this.nock
             // Test that the user team membership is requested
-            .get(`/orgs/_orgname/teams/${approvingTeamName}/memberships/_magicuser`)
+            .get(`/orgs/${IDENTIFIERS.ORGANIZATION_NAME}/teams/${approvingTeamName}/memberships/${IDENTIFIERS.USER_NAME}`)
             .reply(200, {
                 role: role,
                 state: "active"
@@ -152,7 +165,7 @@ class OctokitApiMock {
      */
     public withAlertState(alert: AlertType, state: string, id: number = 1) {
         var mock = this.nock
-            .patch(`/repos/_orgname/_myrepo/${alert}/alerts/${id}`, (body: any) => {
+            .patch(`/repos/${IDENTIFIERS.ORGANIZATION_NAME}/${IDENTIFIERS.REPOSITORY_NAME}/${alert}/alerts/${id}`, (body: any) => {
                 expect(body).toMatchObject({ state: state })
                 return true;
             })

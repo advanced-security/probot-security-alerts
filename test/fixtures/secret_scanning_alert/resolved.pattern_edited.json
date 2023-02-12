@@ -9,13 +9,13 @@
             "html_url": "https://github.com/_orgname/_myrepo/security/secret-scanning/1",
             "locations_url": "https://api.github.com/repos/_orgname/_myrepo/secret-scanning/alerts/1/locations",
             "created_at": "2023-02-08T22:31:40Z",
-            "updated_at": "2023-02-08T22:32:44Z",
-            "resolution": "wont_fix",
+            "updated_at": "2023-02-08T23:53:26Z",
+            "resolution": "pattern_edited",
             "resolved_by": {
                 "login": "_magicuser",
-                "id": 1000002,
+                "id": 100000003,
                 "node_id": "MDUserNodeID==",
-                "avatar_url": "https://avatars.githubusercontent.com/u/1000002?v=4",
+                "avatar_url": "https://avatars.githubusercontent.com/u/100000003?v=4",
                 "gravatar_id": "",
                 "url": "https://api.github.com/users/_magicuser",
                 "html_url": "https://github.com/_magicuser",
@@ -31,7 +31,7 @@
                 "type": "User",
                 "site_admin": true
             },
-            "resolved_at": "2023-02-08T22:32:44Z",
+            "resolved_at": "2023-02-08T23:53:26Z",
             "resolution_comment": null,
             "push_protection_bypassed": false,
             "push_protection_bypassed_by": null,
@@ -111,7 +111,7 @@
             "clone_url": "https://github.com/_orgname/_myrepo.git",
             "svn_url": "https://github.com/_orgname/_myrepo",
             "homepage": null,
-            "size": 0,
+            "size": 12,
             "stargazers_count": 0,
             "watchers_count": 0,
             "language": null,
@@ -165,9 +165,9 @@
         },
         "sender": {
             "login": "_magicuser",
-            "id": 1000002,
+            "id": 100000003,
             "node_id": "MDUserNodeID==",
-            "avatar_url": "https://avatars.githubusercontent.com/u/1000002?v=4",
+            "avatar_url": "https://avatars.githubusercontent.com/u/100000003?v=4",
             "gravatar_id": "",
             "url": "https://api.github.com/users/_magicuser",
             "html_url": "https://github.com/_magicuser",
@@ -184,7 +184,7 @@
             "site_admin": true
         },
         "installation": {
-            "id": 10000003,
+            "id": 10000004,
             "node_id": "MDInstallationNodeId=="
         }
     }
