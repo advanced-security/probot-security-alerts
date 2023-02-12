@@ -20,11 +20,16 @@ export async function dependabotAlertDismissed(context: DependabotAlertContext) 
         const repo = context.payload.repository.name;
         const alert_number = context.payload.alert.number;
         
-        await dependabot_updateAlert(context, 
-            owner,
-            repo,
-            alert_number,
-            "open"
+        // Not yet supported
+        //context.octokit.dependabot.updateAlert({owner, repo, alert_number, state: "open "});
+
+        await updateDependabotAlert(context, 
+            {
+                owner,
+                repo,
+                alert_number,
+                state: "open"
+            }
         );
     }
 };
@@ -32,19 +37,19 @@ export async function dependabotAlertDismissed(context: DependabotAlertContext) 
 /**
  * Updates an alert status
  * @param context the message context
- * @param owner the repository owner
- * @param repo the repository name
- * @param alert_number the alert number
- * @param state the state of the alert
+ * @param parameters.owner the repository owner
+ * @param parameters.repo the repository name
+ * @param parameters.alert_number the alert number
+ * @param parameters.state the state of the alert
  * @returns the method reponse
  */
-function dependabot_updateAlert(context: DependabotAlertContext, owner: string, repo: string, alert_number: number, state: "dismissed" | "fixed" | "open"){
-    const params = { "state": state }
+function updateDependabotAlert(context: DependabotAlertContext, parameters: { owner: string, repo: string, alert_number: number, state: "dismissed" | "open"}){
+    const params = { state: parameters.state }
     return context.octokit.request({
-    method: 'PATCH',
-    headers: { accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' },
-    url: `/repos/${owner}/${repo}/dependabot/alerts/${alert_number}`,
-    ...params
+        method: 'PATCH',
+        headers: { accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' },
+        url: `/repos/${parameters.owner}/${parameters.repo}/dependabot/alerts/${parameters.alert_number}`,
+        ...params
     })
 }
 
