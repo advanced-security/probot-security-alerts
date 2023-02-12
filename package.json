@@ -1,5 +1,5 @@
 {
-  "name": "codescan-alert-watch",
+  "name": "security-alert-watcher",
   "version": "1.0.0",
   "private": true,
   "description": "Sample GH App which monitors and enforces rules for code scanning alerts",
