@@ -1,12 +1,23 @@
-# Security Alert Watcher
+# Probot Security Alert Watcher
 
-A sample GitHub App built with [Probot](https://github.com/probot/probot) that demonstrates how to monitor and respond to security alert events. The application is written in TypeScript, running on Node.js 16. A developer container is provided which creates a standalone environment for development. The application supports alerts from code scanning, secret scanning, and Dependabot.
+This repository contains a sample GitHub App built with [Probot](https://github.com/probot/probot) that demonstrates how to monitor and respond to security alert events. The application automatically re-opens any security alert which is closed by someone that is not part of a specific team. It responds to alerts from code scanning, secret scanning, and Dependabot.
 
-The application automatically re-opens any security alert which is closed by someone that is not part of the `scan-managers` team. This team name is configured in [approvingTeam.ts](./src/events/approvingTeam.ts#L4`) and can be overriden using the environment variable `SECURITY_ALERT_CLOSE_TEAM`.
+## Background
 
-## GitHub Organization Setup
+## Requirements
 
-The application expects a team called `scan-managers` (or the value in the environment variable `SECURITY_ALERT_CLOSE_TEAM`) to exist in your organization. This team contains the users that are approved to close code scanning alerts. If the team does not exist, all requests will be rejected. Alerts closed by users that are not part of this team will be automatically reopened.
+The repository contains a [development container](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/introduction-to-dev-containers) that supports Visual Studio Code or GitHub Codespaces. This container includes all of the required dependencies. The application is written in TypeScript and runs on Node.js 18. To develop the project without a development container, [Node.js 18](https://nodejs.org/en/download/) must be installed. Running `npm install` will configure the other dependencies.
+
+The application expects a team called `scan-managers` to exist in your organization. This team contains the users that are approved to close code scanning alerts. If the team does not exist, all requests will be rejected. Alerts closed by users that are not part of this team will be automatically reopened. The name can be changed by configuring the environment variable `SECURITY_ALERT_CLOSE_TEAM`.
+
+## License 
+
+This project is licensed under the terms of the MIT open source license. Please refer to [MIT](./LICENSE.md) for the full terms.
+
+## Maintainers 
+
+TODO: Enter at least one maintainer in here or point to codeowners file.
+
 
 ## GitHub Security Managers
 

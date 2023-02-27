@@ -1,9 +1,10 @@
-import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "./utils/helpers"
-import installation_repositories_event from "./fixtures/installation_repositories/added.json"
-import installation_created_event from "./fixtures/installation/created.json"
-import installation_new_permissions_accepted_event from "./fixtures/installation/new_permissions_accepted.json"
+import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "./utils/helpers";
+import installation_repositories_event from "./fixtures/installation_repositories/added.json";
+import installation_created_event from "./fixtures/installation/created.json";
+import installation_new_permissions_accepted_event from "./fixtures/installation/new_permissions_accepted.json";
 
 describe("When running the probot app", () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let probot: any;
 
   beforeEach(() => {

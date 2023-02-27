@@ -23,7 +23,7 @@ export async function isUserInApproverTeam(context: OctokitContext, owner: strin
         try {
             const memberships = await context.octokit.teams.getMembershipForUserInOrg({
                 org: owner,
-                team_slug: approvingTeamName,
+                team_slug: approvingTeamName, // eslint-disable-line @typescript-eslint/naming-convention
                 username: user
             });
 
@@ -38,7 +38,7 @@ export async function isUserInApproverTeam(context: OctokitContext, owner: strin
         catch (e) {
             // A 404 status is returned if the user is not in the team. If there's an error
             // resolving the user or a 404, default to not allowing the user to probeed
-            context.log.info(`The user ${user} is not part of the team "${approvingTeamName}".`)
+            context.log.info(`The user ${user} is not part of the team "${approvingTeamName}".`);
         }
     }
 

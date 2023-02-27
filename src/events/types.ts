@@ -14,7 +14,7 @@ export interface GitHubResource {
     id: number;
 
     /** The node identifier */
-    node_id: string;
+    node_id: string; // eslint-disable-line @typescript-eslint/naming-convention
 }
 
 /**
@@ -26,7 +26,7 @@ export interface OwnerResource extends GitHubResource {
     login: string;
 
     /** Indicates whether the owner is a site admin */
-    site_admin: boolean;
+    site_admin: boolean; // eslint-disable-line @typescript-eslint/naming-convention
 
     /** The type of user */
     type: "Bot" | "User" | "Organization";
@@ -44,7 +44,7 @@ export interface RepositoryResource extends GitHubResource {
     name: string;
 
     /** Repository owner and name */
-    full_name: string;
+    full_name: string; // eslint-disable-line @typescript-eslint/naming-convention
 
     /** The user or organization that owns the repository */
     owner: OwnerResource;
@@ -54,7 +54,7 @@ export interface RepositoryResource extends GitHubResource {
 export interface WebhookEvent {
     /** The action name  */
     action: string;
-    sender: any;
+    sender: any; // eslint-disable-line @typescript-eslint/no-explicit-any
     installation: GitHubResource;
 }
 
@@ -72,7 +72,7 @@ export interface RepositoryWebhookEvent extends WebhookEvent {
 /** An event raised by a Dependabot alert */
 export interface DependabotAlertWebhookEvent extends RepositoryWebhookEvent {
     alert: {
-        dismissed_by?: OwnerResource;
+        dismissed_by?: OwnerResource; // eslint-disable-line @typescript-eslint/naming-convention
         number: number;
     };
 }
@@ -92,4 +92,5 @@ export interface CustomWebhookEventContext<T extends WebhookEvent = WebhookEvent
  * Context for processing dependabot alerts. Probot does not currently
  * provide a Context<"dependabot_alert">. This acts as a replacement.
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DependabotAlertContext extends CustomWebhookEventContext<DependabotAlertWebhookEvent> { }

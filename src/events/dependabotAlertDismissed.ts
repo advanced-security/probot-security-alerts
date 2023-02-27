@@ -9,7 +9,7 @@ export async function dependabotAlertDismissed(context: DependabotAlertContext) 
     context.log.info("Dependabot alert event received.");
     const owner = context.payload.repository.owner.login;
     const user = context.payload.alert.dismissed_by?.login;
-    var isMemberApproved = await isUserInApproverTeam(context, owner, user);
+    const isMemberApproved = await isUserInApproverTeam(context, owner, user);
 
     if (isMemberApproved) {
         context.log.info("Alert close request approved.");
@@ -18,6 +18,7 @@ export async function dependabotAlertDismissed(context: DependabotAlertContext) 
         context.log.info("Alert close request not approved. Re-opening the alert.");
 
         const repo = context.payload.repository.name;
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const alert_number = context.payload.alert.number;
         
         // Not yet supported
@@ -27,12 +28,12 @@ export async function dependabotAlertDismissed(context: DependabotAlertContext) 
             {
                 owner,
                 repo,
-                alert_number,
+                alert_number, // eslint-disable-line @typescript-eslint/naming-convention
                 state: "open"
             }
         );
     }
-};
+}
 
 /**
  * Updates an alert status
@@ -43,13 +44,15 @@ export async function dependabotAlertDismissed(context: DependabotAlertContext) 
  * @param parameters.state the state of the alert
  * @returns the method reponse
  */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 function updateDependabotAlert(context: DependabotAlertContext, parameters: { owner: string, repo: string, alert_number: number, state: "dismissed" | "open"}){
-    const params = { state: parameters.state }
+    const params = { state: parameters.state };
     return context.octokit.request({
         method: 'PATCH',
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         headers: { accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' },
         url: `/repos/${parameters.owner}/${parameters.repo}/dependabot/alerts/${parameters.alert_number}`,
         ...params
-    })
+    });
 }
 

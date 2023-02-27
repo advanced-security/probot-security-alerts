@@ -1,8 +1,8 @@
 // For implementation details, see https://probot.github.io/docs/README/
 import { Probot } from "probot";
-import codeScanningAlertDismissed from "./events/codeScanningAlertDismissed"
-import { dependabotAlertDismissed } from "./events/dependabotAlertDismissed"
-import secretScanningAlertDismissed from "./events/secretScanningAlertDismissed"
+import codeScanningAlertDismissed from "./events/codeScanningAlertDismissed";
+import { dependabotAlertDismissed } from "./events/dependabotAlertDismissed";
+import secretScanningAlertDismissed from "./events/secretScanningAlertDismissed";
 import { DependabotAlertContext, CustomWebhookEventContext } from "./events/types";
 
 export default (app: Probot) => {
@@ -17,12 +17,12 @@ export default (app: Probot) => {
 
   // Log incoming events
   app.onAny(async (context) => {
-    const ctx = context as CustomWebhookEventContext
-    const eventName = `${ctx.name}.${ctx.payload.action}`
+    const ctx = context as CustomWebhookEventContext;
+    const eventName = `${ctx.name}.${ctx.payload.action}`;
     app.log.info(`Received event: ${eventName}`);
     
     // Workaround to enable processing the dependabot_alert event
-    if (eventName == "dependabot_alert.dismissed"){
+    if (eventName === "dependabot_alert.dismissed"){
         await dependabotAlertDismissed(ctx as DependabotAlertContext);
     }
   });
