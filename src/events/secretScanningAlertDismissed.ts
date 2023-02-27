@@ -17,14 +17,14 @@ export default async function secretScanningAlertDismissed(context: Context<"sec
     context.log.info("Secret scanning alert event received.");
     const owner = context.payload.repository.owner.login;
     const user = context.payload.alert?.resolved_by?.login;
-    const isMemberApproved =  await isUserInApproverTeam(context, owner, user);
+    const isMemberApproved = await isUserInApproverTeam(context, owner, user);
 
     const resolution = context.payload.alert?.resolution as string;
     const closedByCustomPattern = CUSTOM_PATTERN_RESOLUTIONS.includes(resolution);
 
     if (isMemberApproved || closedByCustomPattern) {
         context.log.info("Alert close request approved.");
-        if (closedByCustomPattern){
+        if (closedByCustomPattern) {
             context.log.info(`Closed by custom pattern change: ${resolution}`);
         }
     }
@@ -34,7 +34,7 @@ export default async function secretScanningAlertDismissed(context: Context<"sec
         const repo = context.payload.repository.name;
         // eslint-disable-next-line @typescript-eslint/naming-convention
         const alert_number = context.payload.alert.number;
-        
+
         await context.octokit.secretScanning.updateAlert({
             owner,
             repo,

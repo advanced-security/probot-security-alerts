@@ -108,7 +108,7 @@ The following environment variables need to be configured and provided to the co
 
 | Variable                    | Value                                                                                                            |
 | --------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `NODE_ENV`                  | `production`. This is preconfigured in the image                                                                 |
+| `NODE_ENV`                  | `production`. This is preconfigured in the image.                                                                |
 | `APP_ID`                    | The identifier for the registered app. This can be found in the App's *General* > *About*.                       |
 | `GH_ORG`                    | The name of the owning GitHub organization.                                                                      |
 | `PRIVATE_KEY`               | The text from the private key file. This can be created in *General* > *Private keys* > *Generate a private key* |

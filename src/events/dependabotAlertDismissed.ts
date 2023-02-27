@@ -20,11 +20,11 @@ export async function dependabotAlertDismissed(context: DependabotAlertContext) 
         const repo = context.payload.repository.name;
         // eslint-disable-next-line @typescript-eslint/naming-convention
         const alert_number = context.payload.alert.number;
-        
+
         // Not yet supported
         //context.octokit.dependabot.updateAlert({owner, repo, alert_number, state: "open "});
 
-        await updateDependabotAlert(context, 
+        await updateDependabotAlert(context,
             {
                 owner,
                 repo,
@@ -45,7 +45,7 @@ export async function dependabotAlertDismissed(context: DependabotAlertContext) 
  * @returns the method reponse
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
-function updateDependabotAlert(context: DependabotAlertContext, parameters: { owner: string, repo: string, alert_number: number, state: "dismissed" | "open"}){
+function updateDependabotAlert(context: DependabotAlertContext, parameters: { owner: string, repo: string, alert_number: number, state: "dismissed" | "open" }) {
     const params = { state: parameters.state };
     return context.octokit.request({
         method: 'PATCH',
