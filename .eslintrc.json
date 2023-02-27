@@ -26,6 +26,7 @@
         "dist",
         "node_modules",
         "**/*.d.ts",
+        "jest.config.js",
         "test/fixtures/**/*.json"
     ]
 }

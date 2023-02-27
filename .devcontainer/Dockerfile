@@ -14,4 +14,4 @@ RUN npm install -g npm@latest \
     fi \
     && chmod +x /usr/local/bin/hadolint
 
-USER vscode
+USER node
