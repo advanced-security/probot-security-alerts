@@ -10,4 +10,3 @@
 
 # SVG files are binary by default
 *.svg text
-*.jpg binary

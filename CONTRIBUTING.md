@@ -20,6 +20,7 @@ There are no software installations required to be able to test your changes loc
 1. Configure and install the dependencies: `npm i`
 1. Make sure the tests pass on your machine: `npm test`
 1. Make sure linter passes on your machine: `npm run lint`
+1. Lint any Dockerfile changes: `hadolint Dockerfile` or `hadolint .devcontainer/Dockerfile`
 1. Create a new branch: `git checkout -b my-branch-name`
 1. Make your change, add tests, and make sure the tests and linter still pass
 1. Push to your fork and [submit a pull request][pr]

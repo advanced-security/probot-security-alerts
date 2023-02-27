@@ -82,7 +82,7 @@ export function mockGitHubApiRequests() {
     return new OctokitApiMock();
 }
 
-/** 
+/**
  * Helper class for mocking API calls.
  */
 class OctokitApiMock {
