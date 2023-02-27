@@ -4,7 +4,7 @@
 	"name": "Probot",
 	"build": {
 		"dockerfile": "Dockerfile",
-		"args": { 
+		"args": {
 			"VARIANT": "18-bullseye"
 		}
 	},
@@ -30,6 +30,11 @@
 	"portsAttributes": {
 		"3000": {
 			"label": "Probot"
+		}
+	},
+	"features": {
+		"ghcr.io/dhoeric/features/hadolint:1": {
+			"version": "latest"
 		}
 	}
 }
