@@ -7,8 +7,8 @@ FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} as build
 WORKDIR /app
 COPY --link . .
 RUN --mount=type=cache,target=/usr/local/share/npm-global \
-    npm install -g npm@latest \
-    && npm install \
+    npm install --location=global npm@latest \
+    && npm ci \
     && npm run build \
     && npm run test
 
@@ -23,9 +23,9 @@ ENV NODE_ENV=production
 WORKDIR ${APP_ROOT}
 COPY --link package.json package-lock.json ./
 RUN --mount=type=cache,target=/usr/local/share/npm-global \
-    npm install -g npm@latest \
-    && npm i probot --location=global \
-    && npm install --omit=dev \
+    npm i --location=global npm@latest \
+    && npm i probot@latest --location=global \
+    && npm ci --omit=dev \
     && npm cache clean --force
 WORKDIR ${APP_ROOT}/app
 COPY --link --from=build /app/dist/ .

@@ -13,7 +13,8 @@
 		"vscode": {
 			"extensions": [
 				"dbaeumer.vscode-eslint",
-				"Orta.vscode-jest"
+				"Orta.vscode-jest",
+				"EditorConfig.EditorConfig"
 			]
 		}
 	},
