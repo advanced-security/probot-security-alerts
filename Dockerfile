@@ -24,10 +24,9 @@ WORKDIR ${APP_ROOT}
 COPY --link package.json package-lock.json ./
 RUN --mount=type=cache,target=/usr/local/share/npm-global \
     npm i --location=global npm@latest \
-    && npm i probot@latest --location=global \
     && npm ci --omit=dev \
     && npm cache clean --force
 WORKDIR ${APP_ROOT}/app
 COPY --link --from=build /app/dist/ .
 EXPOSE 3000
-ENTRYPOINT ["../node_modules/.bin/probot", "run", "./index.js"]
+ENTRYPOINT ["node", "main.js"]

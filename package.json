@@ -16,7 +16,9 @@
     "start": "tsc -w & nodemon  --exec \"npm run probot\"",
     "probot": "probot run ./dist/index.js",
     "test": "jest",
-    "lint": "npx eslint src --ext .ts"
+    "lint": "npx eslint src --ext .ts",
+    "lint:docker": "hadolint Dockerfile && hadolint .devcontainer/Dockerfile",
+    "lint:all": "npm run lint && npm run lint:docker"
   },
   "dependencies": {
     "got": "^12.5.3",
