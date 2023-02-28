@@ -7,6 +7,12 @@
 import { ProbotOctokit, Logger } from "probot";
 
 /**
+ * The supported signal types (see https://nodejs.org/api/process.html#signal-events)
+ * for triggering a halt.
+*/
+export type SignalType = 'SIGINT' | 'SIGTERM';
+
+/**
  * Represents a GitHub resource
  */
 export interface GitHubResource {
