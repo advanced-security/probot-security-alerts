@@ -1,4 +1,4 @@
-# Support 
+# Support
 
 ## How to file issues and get help
 
@@ -6,7 +6,7 @@ This project uses GitHub issues to track bugs and feature requests. Please searc
 
 For help or questions about using this project, please create an issue.
 
-Probot Security Alert Watcher is not actively developed but is maintained by GitHub staff **AND THE COMMUNITY**. We will do our best to respond to support and community questions in a timely manner. 
+Probot Security Alert Watcher is not actively developed but is maintained by GitHub staff **AND THE COMMUNITY**. We will do our best to respond to support and community questions in a timely manner.
 
 ## GitHub Support Policy
 

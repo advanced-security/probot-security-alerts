@@ -40,6 +40,7 @@ describe("When running the probot app", () => {
     });
 
     test("receives `onError`", async () => {
+        expect.hasAssertions();
         const mock = mockGitHubApiRequests().toNock();
         const errorlog = jest.fn().mockImplementation();
         probot.log.error = errorlog;
