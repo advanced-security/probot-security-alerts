@@ -1,9 +1,11 @@
-import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers"
+import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers";
 import event from "../fixtures/dependabot_alert/dismissed.json";
 
 const payload = event.payload;
 
 describe("When Dependabot alerts are received", () => {
+  // Use the any type to avoid issues with additional fields in the payload that Probot cannot recognize
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let probot: any;
 
   beforeEach(() => {
@@ -14,7 +16,7 @@ describe("When Dependabot alerts are received", () => {
     const mock = mockGitHubApiRequests()
       .canRetrieveAccessToken()
       .isInApprovingTeam(role)
-      .toNock()
+      .toNock();
 
     // Receive a webhook event
     await probot.receive({ name: "dependabot_alert", payload });

@@ -1,4 +1,4 @@
-import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers"
+import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers";
 import event_wont_fix from "./../fixtures/secret_scanning_alert/resolved.wont_fix.json";
 import event_pattern_edited from "./../fixtures/secret_scanning_alert/resolved.pattern_edited.json";
 import event_pattern_deleted from "./../fixtures/secret_scanning_alert/resolved.pattern_deleted.json";
@@ -7,6 +7,8 @@ import event_pattern_deleted from "./../fixtures/secret_scanning_alert/resolved.
 const IGNORED_SECRET_ALERTS = [event_pattern_deleted, event_pattern_edited];
 
 describe("When secret scanning alerts are received", () => {
+  // Use the any type to avoid issues with additional fields in the payload that Probot cannot recognize
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let probot: any;
 
   beforeEach(() => {
@@ -49,6 +51,7 @@ describe("When secret scanning alerts are received", () => {
     expect(mock.pendingMocks()).toStrictEqual([]);
   });
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   test.each(IGNORED_SECRET_ALERTS.map(t => [t.payload.alert.resolution, t.payload]))("ignores custom pattern resolution %s", async (event_type, payload) => {
     const mock = mockGitHubApiRequests().toNock();
     expect(event_type).toBeDefined();

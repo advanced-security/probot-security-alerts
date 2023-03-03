@@ -1,16 +1,22 @@
-.devcontainer
-.dockerignore
-.editorconfig
-.env
-.env.example
-.git
-.gitattributes
-.gitignore
-.vscode
-*.log
-dist
-Dockerfile*
-LICENSE
-node_modules
-README.td
-test
+# This restricts certain files from being copied into
+# the build target for the multi-stage build. The main
+# image selectively includes a subset of files.
+
+**/.devcontainer
+**/.dockerignore
+**/.editorconfig
+**/.env
+**/.env.example
+**/.git
+**/.github
+**/.gitattributes
+**/.gitignore
+**/.vscode
+**/*.log
+**/coverage
+**/dist
+**/Dockerfile*
+**/LICENSE
+**/node_modules
+**/*.md
+**/*.example

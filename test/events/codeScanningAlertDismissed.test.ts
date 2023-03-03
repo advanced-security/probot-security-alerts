@@ -1,7 +1,9 @@
-import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers"
+import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers";
 import payload from "./../fixtures/code_scanning_alert/closed_by_user.json";
 
 describe("When code scanning alerts are received", () => {
+  // Use the any type to avoid issues with additional fields in the payload that Probot cannot recognize
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let probot: any;
 
   beforeEach(() => {

@@ -1,15 +1,32 @@
-FROM node:16.15-alpine3.16 as build
+# syntax=docker/dockerfile:1.4
+
+ARG NODE_VERSION=18
+ARG ALPINE_VERSION=3.17
+
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} as build
 WORKDIR /app
-COPY . .
-RUN npm install \
+COPY --link . .
+RUN --mount=type=cache,target=/usr/local/share/npm-global \
+    npm install --location=global npm@latest \
+    && npm ci \
     && npm run build \
     && npm run test
 
-FROM node:16.15-alpine3.16
-WORKDIR /app
-COPY package.json ./
-RUN npm i probot --location=global \
-    && npm install --omit=dev
-COPY --from=build /app/dist/ .
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION}
+ARG APP_ROOT=/opt/probot
+LABEL org.opencontainers.image.title "Probot Security Alerts"
+LABEL org.opencontainers.image.description "Probot-based GitHub App which listens and responds to security alert notifications"
+LABEL org.opencontainers.image.licenses "MIT"
+LABEL org.opencontainers.image.base.name "docker.io/node:${NODE_VERSION}-alpine${ALPINE_VERSION}"
+
+ENV NODE_ENV=production
+WORKDIR ${APP_ROOT}
+COPY --link package.json package-lock.json ./
+RUN --mount=type=cache,target=/usr/local/share/npm-global \
+    npm i --location=global npm@latest \
+    && npm ci --omit=dev \
+    && npm cache clean --force
+WORKDIR ${APP_ROOT}/app
+COPY --link --from=build /app/dist/ .
 EXPOSE 3000
-CMD ["npm", "run", "probot"]
+ENTRYPOINT ["node", "main.js"]

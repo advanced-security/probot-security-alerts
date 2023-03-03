@@ -15,5 +15,9 @@ module.exports = {
       lines: 60,
       statements: 60,
     },
-  }
+  },
+  coveragePathIgnorePatterns: [
+    "node_modules",
+    "<rootDir>/src/main.ts"
+  ]
 };

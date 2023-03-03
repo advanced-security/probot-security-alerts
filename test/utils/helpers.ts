@@ -9,14 +9,14 @@ import { approvingTeamName } from "../../src/events/approvingTeam";
  * Constants used in the fixtures
  */
 const IDENTIFIERS = {
-    REPOSITORY_ID: 100000001,
-    REPOSITORY_NAME: "_myrepo",
-    ORGANIZATION_ID: 100000002,
-    ORGANIZATION_NAME: "_orgname",
-    USER_ID: 100000003,
-    USER_NAME: "_magicuser",
-    APP_INSTALLATION_ID: 10000004,
-} as const
+    repositoryId: 100000001,
+    repositoryName: "_myrepo",
+    organizationId: 100000002,
+    organizationName: "_orgname",
+    userId: 100000003,
+    userName: "_magicuser",
+    appInstallationId: 10000004,
+} as const;
 
 /**
  * Gets the path to the fixtures
@@ -54,6 +54,7 @@ export function getTestableProbot() {
         appId: 123,
         privateKey: getPrivateKey(),
         // disable request throttling and retries for testing
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         Octokit: ProbotOctokit.defaults({
             retry: { enabled: false },
             throttle: { enabled: false },
@@ -81,7 +82,7 @@ export function mockGitHubApiRequests() {
     return new OctokitApiMock();
 }
 
-/** 
+/**
  * Helper class for mocking API calls.
  */
 class OctokitApiMock {
@@ -105,11 +106,12 @@ class OctokitApiMock {
      */
     public canRetrieveAccessToken() {
         // Test that we correctly request a token
-        var mock = this.nock
-            .post(`/app/installations/${IDENTIFIERS.APP_INSTALLATION_ID}/access_tokens`)
+        const mock = this.nock
+            .post(`/app/installations/${IDENTIFIERS.appInstallationId}/access_tokens`)
             .reply(200, {
                 token: "test",
                 permissions: {
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     security_events: "read",
                 },
             });
@@ -121,7 +123,7 @@ class OctokitApiMock {
      * @returns the composable scope
      */
     public isNotInApprovingTeam() {
-        var mock = this.nock.get(`/orgs/${IDENTIFIERS.ORGANIZATION_NAME}/teams/${approvingTeamName}/memberships/${IDENTIFIERS.USER_NAME}`)
+        const mock = this.nock.get(`/orgs/${IDENTIFIERS.organizationName}/teams/${approvingTeamName}/memberships/${IDENTIFIERS.userName}`)
             .reply(404);
 
         return new OctokitApiMock(mock);
@@ -132,8 +134,8 @@ class OctokitApiMock {
      * @param status the HTTP status response
      * @returns the composable scope
      */
-    public errorRetrievingTeamMembership(status: number = 500) {
-        var mock = this.nock.get(`/orgs/${IDENTIFIERS.ORGANIZATION_NAME}/teams/${approvingTeamName}/memberships/${IDENTIFIERS.USER_NAME}`)
+    public errorRetrievingTeamMembership(status = 500) {
+        const mock = this.nock.get(`/orgs/${IDENTIFIERS.organizationName}/teams/${approvingTeamName}/memberships/${IDENTIFIERS.userName}`)
             .reply(status);
 
         return new OctokitApiMock(mock);
@@ -145,11 +147,11 @@ class OctokitApiMock {
      * @param role The role name (default: maintainer)
      * @returns the composable scope
      */
-    public isInApprovingTeam(role: string = "maintainer") {
+    public isInApprovingTeam(role = "maintainer") {
         // Test that we correctly request a token
-        var mock = this.nock
+        const mock = this.nock
             // Test that the user team membership is requested
-            .get(`/orgs/${IDENTIFIERS.ORGANIZATION_NAME}/teams/${approvingTeamName}/memberships/${IDENTIFIERS.USER_NAME}`)
+            .get(`/orgs/${IDENTIFIERS.organizationName}/teams/${approvingTeamName}/memberships/${IDENTIFIERS.userName}`)
             .reply(200, {
                 role: role,
                 state: "active"
@@ -163,10 +165,12 @@ class OctokitApiMock {
      * @param state the alert state
      * @param id the alert id (default: 1)
      */
-    public withAlertState(alert: AlertType, state: string, id: number = 1) {
-        var mock = this.nock
-            .patch(`/repos/${IDENTIFIERS.ORGANIZATION_NAME}/${IDENTIFIERS.REPOSITORY_NAME}/${alert}/alerts/${id}`, (body: any) => {
-                expect(body).toMatchObject({ state: state })
+    public withAlertState(alert: AlertType, state: string, id = 1) {
+        const mock = this.nock
+            // Use `any` to allow any body type to be received
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            .patch(`/repos/${IDENTIFIERS.organizationName}/${IDENTIFIERS.repositoryName}/${alert}/alerts/${id}`, (body: any) => {
+                expect(body).toMatchObject({ state: state });
                 return true;
             })
             .reply(200);

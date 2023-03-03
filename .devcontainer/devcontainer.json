@@ -4,37 +4,37 @@
 	"name": "Probot",
 	"build": {
 		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick a Node version: 18, 16, 14.
-		// Append -bullseye or -buster to pin to an OS version.
-		// Use -bullseye variants on local on arm64/Apple Silicon.
-		"args": { 
+		"args": {
 			"VARIANT": "18-bullseye"
 		}
 	},
 
-	// Configure tool-specific properties.
 	"customizations": {
-		// Configure properties specific to VS Code.
 		"vscode": {
-			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
 				"dbaeumer.vscode-eslint",
-				"Orta.vscode-jest"
+				"Orta.vscode-jest",
+				"EditorConfig.EditorConfig"
 			]
 		}
 	},
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"postCreateCommand": {
+		"install-dependencies": "npm install"
+	},
+	"postStartCommand": {
+		"configure-git": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+	},
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "npm install",
-
-	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "node",
 	"portsAttributes": {
 		"3000": {
 			"label": "Probot"
+		}
+	},
+	"features": {
+		"ghcr.io/dhoeric/features/hadolint:1": {
+			"version": "latest"
 		}
 	}
 }
