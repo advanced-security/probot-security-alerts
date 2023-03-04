@@ -14,7 +14,8 @@
 			"extensions": [
 				"dbaeumer.vscode-eslint",
 				"Orta.vscode-jest",
-				"EditorConfig.EditorConfig"
+				"EditorConfig.EditorConfig",
+				"redhat.vscode-yaml"
 			]
 		}
 	},
