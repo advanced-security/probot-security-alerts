@@ -26,5 +26,5 @@ jobs:
       id: hadolint
       with:
         dockerfile: Dockerfile
-    - run: echo -e "### Hadolint - ${{ steps.hadolint.outcome }}\n${process.env.HADOLINT_RESULTS}" >> $GITHUB_STEP_SUMMARY
+    - run: echo -e "### Hadolint - ${{ steps.hadolint.outcome }}\n${{ env.HADOLINT_RESULTS }|" >> $GITHUB_STEP_SUMMARY
     - uses: ArtiomTr/jest-coverage-report-action@v2
