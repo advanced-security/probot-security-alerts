@@ -21,7 +21,7 @@
     "lint:all": "npm run lint && npm run lint:docker"
   },
   "dependencies": {
-    "got": "^12.5.3",
+    "got": "^12.6.0",
     "probot": "^12.3.0"
   },
   "devDependencies": {
