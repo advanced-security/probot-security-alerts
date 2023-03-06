@@ -27,8 +27,10 @@ jobs:
       with:
         dockerfile: Dockerfile
     - run: echo -e "### Hadolint - ${{ steps.hadolint.outcome }}\n${{ env.HADOLINT_RESULTS }}" >> $GITHUB_STEP_SUMMARY
-    - run: npm test -- --coverage
+    - run: npm test -- --coverage --testLocationInResults --json --outputFile coverage/report.json
     - uses: ArtiomTr/jest-coverage-report-action@v2
       if: ${{ github.actor != 'dependabot[bot]' }}
       with:
         skip-step: all
+        coverage-file: coverage/report.json
+        base-coverage-file: coverage/report.json
