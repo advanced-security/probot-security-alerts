@@ -22,7 +22,7 @@ default_events:
 # - delete
 
 # Not yet supported
-# - dependabot_alert
+  - dependabot_alert
 
 # - deployment
 # - deployment_status
