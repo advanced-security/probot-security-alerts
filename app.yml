@@ -21,7 +21,6 @@ default_events:
 # - create
 # - delete
 
-# Not yet supported
   - dependabot_alert
 
 # - deployment
