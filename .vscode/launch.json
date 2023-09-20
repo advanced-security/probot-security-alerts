@@ -9,7 +9,9 @@
         "request": "launch",
         "preLaunchTask": "${defaultBuildTask}",
         "name": "Launch Probot",
-        "program": "./dist/main.js",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": ["run", "probot"],
+        "outputCapture": "std",
         "cwd": "${workspaceFolder}",
         "sourceMaps": true
       }

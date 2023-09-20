@@ -76,9 +76,6 @@ Opening this page in the browser will start a process of configuring and registe
 
 Removing the `.env` settings for the application will re-enable the process.
 
-> **Note**
-> Support for Dependabot alerts is in beta. As a result, the `dependabot_alert` event is not yet supported by manifest flow. After installing the GitHub App, you will need to edit the app's **Settings**. In **Permissions & events** > **Subscribe to events**, enable **Dependabot alert** and press **Save Changes**. If this event is not enabled, Dependabot alerts will not be monitored.
-
 ### Known Issues
 
 This sample application has the following known issues.
