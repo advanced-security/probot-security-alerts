@@ -1,6 +1,12 @@
 import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "./utils/helpers";
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
 import installation_repositories_event from "./fixtures/installation_repositories/added.json";
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
 import installation_created_event from "./fixtures/installation/created.json";
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
 import installation_new_permissions_accepted_event from "./fixtures/installation/new_permissions_accepted.json";
 
 describe("When running the probot app", () => {
@@ -9,6 +15,7 @@ describe("When running the probot app", () => {
 
     beforeEach(() => {
         probot = getTestableProbot();
+        jest.clearAllMocks();
     });
 
     test("receives installation_repositories message without calling additional GitHub APIs", async () => {
@@ -53,7 +60,7 @@ describe("When running the probot app", () => {
             });
         }
         catch(e) {
-            expect(errorlog).toBeCalled();
+            expect(errorlog).toHaveBeenCalled();
         }
 
         expect(mock.pendingMocks()).toStrictEqual([]);
