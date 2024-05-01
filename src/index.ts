@@ -3,7 +3,7 @@ import { Probot } from "probot";
 import codeScanningAlertDismissed from "./events/codeScanningAlertDismissed";
 import { dependabotAlertDismissed } from "./events/dependabotAlertDismissed";
 import secretScanningAlertDismissed from "./events/secretScanningAlertDismissed";
-import { DependabotAlertContext, CustomWebhookEventContext } from "./events/types";
+import { CustomWebhookEventContext } from "./events/types";
 
 export default (app: Probot) => {
 
@@ -20,11 +20,6 @@ export default (app: Probot) => {
         const ctx = context as CustomWebhookEventContext;
         const eventName = `${ctx.name}.${ctx.payload.action}`;
         app.log.info(`Received event: ${eventName}`);
-
-        // Workaround to enable processing the dependabot_alert event
-        if (eventName === "dependabot_alert.dismissed") {
-            await dependabotAlertDismissed(ctx as DependabotAlertContext);
-        }
     });
 
     app.on("code_scanning_alert", async (context) => {
@@ -43,6 +38,5 @@ export default (app: Probot) => {
 
     app.on("secret_scanning_alert.resolved", secretScanningAlertDismissed);
 
-    // When Probot adds support
-    // app.on("dependabot_alert.dismissed", dependabotAlertDismissed);
+    app.on("dependabot_alert.dismissed", dependabotAlertDismissed);
 };

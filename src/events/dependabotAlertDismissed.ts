@@ -1,11 +1,11 @@
 import { isUserInApproverTeam } from "./approvingTeam";
-import { DependabotAlertContext } from "./types";
+import { Context } from "probot";
 
 /**
  * Handles the code scanning alert event
  * @param context the event context
  */
-export async function dependabotAlertDismissed(context: DependabotAlertContext) {
+export async function dependabotAlertDismissed(context: Context<"dependabot_alert.dismissed">) {
     context.log.info("Dependabot alert event received.");
     const owner = context.payload.repository.owner.login;
     const user = context.payload.alert.dismissed_by?.login;
@@ -45,7 +45,7 @@ export async function dependabotAlertDismissed(context: DependabotAlertContext) 
  * @returns the method reponse
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
-function updateDependabotAlert(context: DependabotAlertContext, parameters: { owner: string, repo: string, alert_number: number, state: "dismissed" | "open" }) {
+function updateDependabotAlert(context: Context<"dependabot_alert.dismissed">, parameters: { owner: string, repo: string, alert_number: number, state: "dismissed" | "open" }) {
     const params = { state: parameters.state };
     return context.octokit.request({
         method: 'PATCH',
