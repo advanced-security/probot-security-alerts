@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "got": "^13.0.0",
-    "probot": "^12.3.4",
+    "probot": "^13.2.1",
     "word-wrap": "^1.2.5"
   },
   "devDependencies": {
