@@ -53,7 +53,9 @@ describe("When secret scanning alerts are received", () => {
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
   test.each(IGNORED_SECRET_ALERTS.map(t => [t.payload.alert.resolution, t.payload]))("ignores custom pattern resolution %s", async (event_type, payload) => {
-    const mock = mockGitHubApiRequests().toNock();
+    const mock = mockGitHubApiRequests()
+        .canRetrieveAccessToken()
+        .toNock();
     expect(event_type).toBeDefined();
     // Receive a webhook event
     await probot.receive({ name: "secret_scanning_alert", payload: payload });
