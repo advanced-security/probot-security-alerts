@@ -1,4 +1,4 @@
-import { isUserInApproverTeam } from "./approvingTeam";
+import { isUserInApproverTeam } from "./approvingTeam.js";
 import { Context } from "probot";
 
 /**

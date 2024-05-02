@@ -1,9 +1,9 @@
 // For implementation details, see https://probot.github.io/docs/README/
 import { Probot } from "probot";
-import codeScanningAlertDismissed from "./events/codeScanningAlertDismissed";
-import { dependabotAlertDismissed } from "./events/dependabotAlertDismissed";
-import secretScanningAlertDismissed from "./events/secretScanningAlertDismissed";
-import { CustomWebhookEventContext } from "./events/types";
+import codeScanningAlertDismissed from "./events/codeScanningAlertDismissed.js";
+import { dependabotAlertDismissed } from "./events/dependabotAlertDismissed.js";
+import secretScanningAlertDismissed from "./events/secretScanningAlertDismissed.js";
+import { CustomWebhookEventContext } from "./events/types.js";
 
 export default (app: Probot) => {
 

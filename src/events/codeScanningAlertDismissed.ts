@@ -1,5 +1,5 @@
 import { Context } from "probot";
-import { isUserInApproverTeam } from "./approvingTeam";
+import { isUserInApproverTeam } from "./approvingTeam.js";
 
 /**
  * Handles the code scanning alert event

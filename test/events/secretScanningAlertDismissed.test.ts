@@ -1,4 +1,4 @@
-import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers";
+import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers.js";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 import event_wont_fix from "./../fixtures/secret_scanning_alert/resolved.wont_fix.json";

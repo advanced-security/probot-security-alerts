@@ -16,7 +16,11 @@
 				"Orta.vscode-jest",
 				"EditorConfig.EditorConfig",
 				"redhat.vscode-yaml"
-			]
+			],
+            "settings": {
+                "typescript.tsdk": "./node_modules/typescript/lib",
+				"typescript.enablePromptUseWorkspaceTsdk": true
+            }
 		}
 	},
 

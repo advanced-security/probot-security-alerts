@@ -2,8 +2,8 @@ import nock from "nock";
 import { Probot, ProbotOctokit } from "probot";
 import fs from "fs";
 import path from "path";
-import myProbotApp from "../../src";
-import { approvingTeamName } from "../../src/events/approvingTeam";
+import myProbotApp from "../../src/index.js";
+import { approvingTeamName } from "../../src/events/approvingTeam.js";
 
 /**
  * Constants used in the fixtures

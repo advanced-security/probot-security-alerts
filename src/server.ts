@@ -2,7 +2,7 @@
  * Entrypoint for debugging.
  */
 import { run, Server } from 'probot';
-import app from './index';
+import app from './index.js';
 
 /** The supported signal types (see https://nodejs.org/api/process.html#signal-events) */
 export type SignalType = 'SIGINT' | 'SIGTERM';

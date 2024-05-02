@@ -1,6 +1,6 @@
 import { Server, Probot } from 'probot';
 import * as pb from 'probot';
-import { registerShutdown, shutdown, SignalType, startServer } from '../src/server';
+import { registerShutdown, shutdown, SignalType, startServer } from '../src/server.js';
 
 function createMockServer(){
     const server = new Server({

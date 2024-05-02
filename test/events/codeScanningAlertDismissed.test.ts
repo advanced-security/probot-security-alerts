@@ -1,4 +1,4 @@
-import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers";
+import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers.js";
 import payload from "./../fixtures/code_scanning_alert/closed_by_user.json";
 
 describe("When code scanning alerts are received", () => {

@@ -11,11 +11,11 @@
     "github",
     "probot-app"
   ],
+  "type": "module",
   "scripts": {
-    "build": "tsc",
-    "start": "tsc -w & nodemon  --exec \"npm run probot\"",
-    "probot": "probot run ./dist/index.js",
-    "test": "jest",
+    "build": "webpack --config ./webpack.config.js --mode=production",
+    "start": "node -r ts-node/register --import ./src/hooks.js --env-file=.env src/main.ts",
+    "test": "jest --config jest.config.ts",
     "lint": "npx eslint src --ext .ts",
     "lint:docker": "hadolint Dockerfile && hadolint .devcontainer/Dockerfile",
     "lint:all": "npm run lint && npm run lint:docker"
@@ -23,6 +23,7 @@
   "dependencies": {
     "got": "^14.2.1",
     "probot": "^13.2.1",
+    "ts-jest-resolver": "^2.0.1",
     "word-wrap": "^1.2.5"
   },
   "devDependencies": {
@@ -35,8 +36,14 @@
     "nock": "14.0.0-beta.6",
     "nodemon": "^3.1.0",
     "smee-client": "^2.0.1",
+    "terser-webpack-plugin": "^5.3.10",
     "ts-jest": "^29.1.2",
-    "typescript": "^5.4.5"
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
   },
   "engines": {
     "node": ">= 20.12.0"

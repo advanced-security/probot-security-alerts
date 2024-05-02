@@ -14,6 +14,17 @@
         "outputCapture": "std",
         "cwd": "${workspaceFolder}",
         "sourceMaps": true
+      },
+      {
+        "name": "start",
+        "type": "node",
+        "request": "launch",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": ["run", "start"],
+        "cwd": "${workspaceRoot}",
+        "internalConsoleOptions": "openOnSessionStart",
+        "outputCapture": "std",
+        "sourceMaps": true
       }
     ]
   }

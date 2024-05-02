@@ -1,5 +1,5 @@
 import { Context } from "probot";
-import { isUserInApproverTeam } from "./approvingTeam";
+import { isUserInApproverTeam } from "./approvingTeam.js";
 
 /**
  * These resolutions indicate changes to a custom-defined secret. These

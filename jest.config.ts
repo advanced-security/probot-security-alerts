@@ -1,4 +1,10 @@
-module.exports = {
+/* eslint-disable @typescript-eslint/naming-convention */
+import type { JestConfigWithTsJest } from 'ts-jest';
+import preset from 'ts-jest/presets/index.js';
+
+
+const config: JestConfigWithTsJest = {
+    ...preset.defaultsESM,
   roots: ["<rootDir>/src/", "<rootDir>/test/"],
   transform: {
     "^.+\\.tsx?$": "ts-jest",
@@ -19,5 +25,10 @@ module.exports = {
   coveragePathIgnorePatterns: [
     "node_modules",
     "<rootDir>/src/main.ts"
-  ]
+  ],
+  verbose: false,
+  resolver: 'ts-jest-resolver',
+  extensionsToTreatAsEsm: ['.ts']
 };
+
+export default config;
