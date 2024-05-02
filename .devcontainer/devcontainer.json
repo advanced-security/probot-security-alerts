@@ -18,6 +18,11 @@
 				"redhat.vscode-yaml"
 			],
             "settings": {
+                "jest.rootPath": "./test",
+				"jest.runMode": {
+					"type": "on-demand",
+					"deferred": true
+				},
                 "typescript.tsdk": "./node_modules/typescript/lib",
 				"typescript.enablePromptUseWorkspaceTsdk": true
             }

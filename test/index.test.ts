@@ -11,7 +11,7 @@ import installation_new_permissions_accepted_event from "./fixtures/installation
 
 describe("When running the probot app", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let probot: any;
+    let probot: any; // Must use any type to avoid strong requirements for mock
 
     beforeEach(() => {
         probot = getTestableProbot();
@@ -49,19 +49,18 @@ describe("When running the probot app", () => {
     test("receives `onError`", async () => {
         expect.hasAssertions();
         const mock = mockGitHubApiRequests().toNock();
-        const errorlog = jest.fn().mockImplementation();
-        probot.log.error = errorlog;
+        const errorlog = jest.spyOn(probot.log, 'error').mockImplementation((...args:unknown[]) => {
+            expect(args[0]).toMatch(/Error: Invalid input/);
+        });
+
         probot.webhooks.on("push", () => { throw new Error('Invalid input'); });
-        try{
-            await probot.webhooks.receive({
+        probot.webhooks.receive({
                 id: 0,
                 name: "push",
                 payload: {}
-            });
-        }
-        catch(e) {
-            expect(errorlog).toHaveBeenCalled();
-        }
+            }).catch(() => {
+                expect(errorlog).toHaveBeenCalled();
+        });
 
         expect(mock.pendingMocks()).toStrictEqual([]);
     });
@@ -70,3 +69,17 @@ describe("When running the probot app", () => {
         resetNetworkMonitoring();
     });
 });
+/*
+interface Err {
+    id: number,
+    err: {
+        type: string,
+        message: string,
+        stack: string,
+        event: {
+            id: number,
+            name: string,
+            payload: unknown
+        }
+    }
+}*/

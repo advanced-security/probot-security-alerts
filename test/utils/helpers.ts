@@ -1,5 +1,6 @@
+import Stream from "node:stream";
 import nock from "nock";
-import { Probot, ProbotOctokit } from "probot";
+import { Probot, ProbotOctokit, Options } from "probot";
 import fs from "fs";
 import path from "path";
 import myProbotApp from "../../src/index.js";
@@ -44,13 +45,28 @@ function getPrivateKey() {
  */
 export type AlertType = "dependabot" | "code-scanning" | "secret-scanning";
 
+export class ReviewableStream extends Stream.Writable {
+    private readonly _output: string[] = [];
+
+    constructor() {
+        super({ objectMode: true });
+        this._write = (object, _encoding, done) => {
+            this._output.push(JSON.parse(object));
+            done();
+        };
+    }
+
+    public get output(): string[] {
+        return this._output;
+    }
+}
+
 /**
- * Initializes the Probot app for testing with network monitoring.
- * @returns the configured probot test fixture
+ * Gets the default configuration options for the testable Probot instance
+ * @returns The default testable instance options
  */
-export function getTestableProbot() {
-    nock.disableNetConnect();
-    const probot = new Probot({
+export function getDefaultProbotOptions() : Options {
+    const options: Options = {
         appId: 123,
         privateKey: getPrivateKey(),
         // disable request throttling and retries for testing
@@ -59,8 +75,19 @@ export function getTestableProbot() {
             retry: { enabled: false },
             throttle: { enabled: false },
         }),
-        logLevel: "warn"
-    });
+        logLevel: 'fatal'
+    };
+    return options;
+}
+
+/**
+ * Initializes the Probot app for testing with network monitoring.
+ * @returns the configured probot test fixture
+ */
+export function getTestableProbot(options?: Options | undefined): Probot {
+    nock.disableNetConnect();
+    const probotOptions = options ?? getDefaultProbotOptions();
+    const probot = new Probot(probotOptions);
     // Load our app into probot
     probot.load(myProbotApp);
     return probot;
