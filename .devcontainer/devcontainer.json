@@ -43,8 +43,7 @@
 		}
 	},
 	"features": {
-		"ghcr.io/dhoeric/features/hadolint:1": {
-			"version": "latest"
-		}
+		"./features/hadolint": { },
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
 	}
 }

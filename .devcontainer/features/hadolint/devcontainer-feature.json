@@ -1,0 +1,6 @@
+{
+    "id": "local.hadolint",
+    "version": "1.0.0",
+    "name": "Hadolint",
+    "description": "Installs hadolint"
+}

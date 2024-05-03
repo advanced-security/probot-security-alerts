@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.4
 
-ARG NODE_VERSION=18
-ARG ALPINE_VERSION=3.17
+ARG NODE_VERSION=20
+ARG ALPINE_VERSION=3.18
 
 FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} as build
 WORKDIR /app
@@ -22,11 +22,7 @@ LABEL org.opencontainers.image.base.name "docker.io/node:${NODE_VERSION}-alpine$
 ENV NODE_ENV=production
 WORKDIR ${APP_ROOT}
 COPY --link package.json package-lock.json ./
-RUN --mount=type=cache,target=/usr/local/share/npm-global \
-    npm i --location=global npm@latest \
-    && npm ci --omit=dev \
-    && npm cache clean --force
 WORKDIR ${APP_ROOT}/app
 COPY --link --from=build /app/dist/ .
 EXPOSE 3000
-ENTRYPOINT ["node", "main.js"]
+ENTRYPOINT ["node", "main.mjs"]
