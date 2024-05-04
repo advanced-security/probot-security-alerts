@@ -13,7 +13,7 @@
   ],
   "type": "module",
   "scripts": {
-    "build": "webpack --config ./webpack.config.js --mode=production",
+    "build": "node esbuild.config.mjs",
     "start": "node -r ts-node/register --import ./src/hooks.js --env-file=.env src/main.ts",
     "test": "jest --config jest.config.ts",
     "lint": "npx eslint src --ext .ts",
@@ -23,7 +23,6 @@
   "dependencies": {
     "got": "^14.2.1",
     "probot": "^13.2.1",
-    "ts-jest-resolver": "^2.0.1",
     "word-wrap": "^1.2.5"
   },
   "devDependencies": {
@@ -31,19 +30,17 @@
     "@types/node": "^20.12.8",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
+    "esbuild": "^0.20.2",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "nock": "14.0.0-beta.6",
     "nodemon": "^3.1.0",
     "smee-client": "^2.0.1",
-    "terser-webpack-plugin": "^5.3.10",
     "ts-jest": "^29.1.2",
+    "ts-jest-resolver": "^2.0.1",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-node-externals": "^3.0.0"
+    "typescript": "^5.4.5"
   },
   "engines": {
     "node": ">= 20.12.0"
