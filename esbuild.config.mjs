@@ -1,7 +1,7 @@
 import esbuild from 'esbuild';
 
 await esbuild.build({
-  entryPoints: ['./src/main.ts'],
+  entryPoints: ['./src/index.ts'],
   tsconfig: 'tsconfig.json',
   bundle: true,
   minify: true,

@@ -24,7 +24,7 @@ const config: JestConfigWithTsJest = {
   },
   coveragePathIgnorePatterns: [
     "node_modules",
-    "<rootDir>/src/main.ts"
+    "<rootDir>/src/index.ts"
   ],
   verbose: false,
   resolver: 'ts-jest-resolver',
