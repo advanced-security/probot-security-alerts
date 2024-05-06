@@ -3,7 +3,7 @@ import nock from "nock";
 import { Probot, ProbotOctokit, Options } from "probot";
 import fs from "fs";
 import path from "path";
-import myProbotApp from "../../src/index.js";
+import myProbotApp from "../../src/app.js";
 import { approvingTeamName } from "../../src/events/approvingTeam.js";
 
 /**

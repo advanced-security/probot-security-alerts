@@ -24,5 +24,5 @@ WORKDIR ${APP_ROOT}
 COPY --link package.json package-lock.json ./
 WORKDIR ${APP_ROOT}/app
 COPY --link --from=build /app/dist/ .
-EXPOSE 3000
+EXPOSE 80
 ENTRYPOINT ["node", "index.js"]

@@ -15,7 +15,8 @@
 				"dbaeumer.vscode-eslint",
 				"Orta.vscode-jest",
 				"EditorConfig.EditorConfig",
-				"redhat.vscode-yaml"
+				"redhat.vscode-yaml",
+				"github.vscode-github-actions"
 			],
             "settings": {
                 "jest.rootPath": "./test",

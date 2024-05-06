@@ -1,0 +1,5 @@
+format: tty
+trustedRegistries:
+  - mcr.microsoft.com
+  - ghcr.io
+  - docker.io

@@ -14,6 +14,7 @@ const config: JestConfigWithTsJest = {
   testEnvironment: "node",
   collectCoverage: true,
   collectCoverageFrom: [ "./src/**"],
+  maxWorkers: "80%",
   coverageThreshold:{
     global: {
       branches: 60,

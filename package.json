@@ -14,8 +14,8 @@
   "type": "module",
   "scripts": {
     "build": "node esbuild.config.mjs",
-    "start": "node -r ts-node/register --import ./src/hooks.js --env-file=.env src/index.ts",
-    "test": "jest --config jest.config.ts",
+    "start": "if [ ! -f .env ]; then touch .env; fi && node -r ts-node/register --import ./src/hooks.js --env-file=.env src/index.ts",
+    "test": "NODE_OPTIONS=--max_old_space_size=4096 jest --config jest.config.ts",
     "lint": "npx eslint src --ext .ts",
     "lint:docker": "hadolint Dockerfile && hadolint .devcontainer/Dockerfile",
     "lint:all": "npm run lint && npm run lint:docker"
