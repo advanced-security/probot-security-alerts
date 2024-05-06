@@ -21,8 +21,7 @@ LABEL org.opencontainers.image.base.name "docker.io/node:${NODE_VERSION}-alpine$
 
 ENV NODE_ENV=production
 WORKDIR ${APP_ROOT}
-COPY --link package.json package-lock.json ./
-WORKDIR ${APP_ROOT}/app
+COPY --link package.json ./
 COPY --link --from=build /app/dist/ .
 EXPOSE 80
 ENTRYPOINT ["node", "index.js"]

@@ -13,9 +13,8 @@
   ],
   "type": "module",
   "scripts": {
-    "preinstall": "node -e \"const fs=require('fs'); if (!fs.existsSync('.env')){ fs.copyFileSync('.env.example', '.env');}\"",
     "build": "node esbuild.config.mjs",
-    "start": "npm run preinstall && node -r ts-node/register --import ./src/hooks.js --env-file=.env src/index.ts",
+    "start": "node -r ts-node/register --import ./src/hooks.js --env-file=.env src/index.ts",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 jest --config jest.config.ts",
     "lint": "npx eslint src --ext .ts",
     "lint:docker": "hadolint Dockerfile && hadolint .devcontainer/Dockerfile",

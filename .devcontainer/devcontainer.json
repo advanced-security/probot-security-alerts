@@ -9,6 +9,8 @@
 		}
 	},
 
+	"mounts": ["source=node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"],
+
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -30,7 +32,10 @@
 		}
 	},
 
-	"postCreateCommand": {
+	"onCreateCommand": {
+		"configure-volume": "sudo chown -R node:node ${containerWorkspaceFolder}/node_modules"
+	},
+	"updateContentCommand": {
 		"install-dependencies": "npm install"
 	},
 	"postStartCommand": {
