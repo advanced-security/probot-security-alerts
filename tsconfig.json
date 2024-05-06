@@ -67,7 +67,7 @@
     "skipLibCheck": true
   },
   "include": ["src/"],
-  "exclude": ["jest.config.ts", "src/hook.js", "node_modules", "test/**/*"],
+  "exclude": ["jest.config.ts", "src/hook.js", "node_modules", "test/**/*", "esbuild.config.mjs"],
   "compileOnSave": false,
   "ts-node": {
     "esm": true
