@@ -42,6 +42,17 @@ export function registerForSignals(server: Server){
  */
 export async function startServer(){
     const server = await run(app);
+    addHealthChecks(server);
     registerForSignals(server);
     return server;
+}
+
+/**
+ * Provides a health check endpoint.
+ * @param server the server instance
+ */
+function addHealthChecks(server: Server){
+    server.expressApp.get('/health', (_request, response) => {
+        response.status(200).send('OK');
+    });
 }

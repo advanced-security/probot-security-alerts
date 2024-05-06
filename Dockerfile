@@ -21,8 +21,11 @@ LABEL org.opencontainers.image.base.name "docker.io/node:${NODE_VERSION}-alpine$
 
 ENV NODE_ENV=production
 ENV PORT=80
+EXPOSE ${PORT}
+HEALTHCHECK CMD wget --server-response --timeout=10 --tries=3 --spider "http://localhost:${PORT}/health" || exit 1
+
 WORKDIR ${APP_ROOT}
 COPY --link package.json ./
 COPY --link --from=build /app/dist/ .
-EXPOSE 80
+
 ENTRYPOINT ["node", "index.js"]
