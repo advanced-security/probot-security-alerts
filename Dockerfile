@@ -20,6 +20,7 @@ LABEL org.opencontainers.image.licenses "MIT"
 LABEL org.opencontainers.image.base.name "docker.io/node:${NODE_VERSION}-alpine${ALPINE_VERSION}"
 
 ENV NODE_ENV=production
+ENV PORT=80
 WORKDIR ${APP_ROOT}
 COPY --link package.json ./
 COPY --link --from=build /app/dist/ .
