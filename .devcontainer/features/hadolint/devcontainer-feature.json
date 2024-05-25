@@ -2,5 +2,8 @@
     "id": "local.hadolint",
     "version": "1.0.0",
     "name": "Hadolint",
-    "description": "Installs hadolint"
+    "description": "Installs hadolint",
+    "dependsOn": {
+        "./features/common-deps": {}
+    }
 }

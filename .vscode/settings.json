@@ -1,2 +1,36 @@
 {
+  "jest.virtualFolders": [
+    {
+      "name": "app",
+      "rootPath": "./packages/app"
+    },
+    {
+      "name": "server",
+      "rootPath": "./packages/server"
+    }
+  ],
+  "jest.runMode": {
+    "type": "on-demand",
+    "deferred": true
+  },
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "eslint.nodePath": ".yarn/sdks",
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
+  "eslint.enable": true,
+  "eslint.options": {
+  },
+  "eslint.experimental.useFlatConfig": true,
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

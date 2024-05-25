@@ -1,0 +1,31 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "incremental": false,
+    "removeComments": true,
+    "sourceMap": true,
+    "sourceRoot": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist",
+    "paths": {
+      "@security-alert-watcher/app": [
+        "../app/src"
+      ],
+    }
+  },
+  "include": [
+    "src/"
+  ],
+  "exclude": [
+    "node_modules",
+    "test/**/*",
+    "esbuild.config.mjs"
+  ],
+  "compileOnSave": false,
+  "references": [
+    {
+      "path": "../app"
+    }
+  ]
+}

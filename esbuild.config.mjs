@@ -1,8 +1,10 @@
-import esbuild from 'esbuild';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-await esbuild.build({
-  entryPoints: ['./src/index.ts'],
+const currentDir = dirname(fileURLToPath(import.meta.url));
+const defaultBuildSettings = {
   tsconfig: 'tsconfig.json',
+  outExtension: { '.js': '.mjs' },
   bundle: true,
   minify: true,
   platform: 'node',
@@ -10,5 +12,8 @@ await esbuild.build({
   target: 'node20.0',
   outdir: './dist/',
   treeShaking: true,
-  inject: ['cjs-shim.ts']
-});
+  absWorkingDir: currentDir,
+  inject: [`${currentDir}/utils/cjs-shim.ts`]
+};
+
+export default defaultBuildSettings;

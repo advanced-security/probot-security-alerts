@@ -6,6 +6,14 @@ npm-debug.log
 coverage
 dist
 *.log
+.aws-sam
+*.tsbuildinfo
+.env.json
+local.settings.json
+.pnp.cjs
+.pnp.loader.mjs
+.yarn
+package.tgz
 
 #### Apple
 *.DS_Store

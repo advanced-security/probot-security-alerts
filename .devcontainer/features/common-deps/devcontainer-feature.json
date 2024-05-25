@@ -1,0 +1,6 @@
+{
+    "id": "local.common-deps",
+    "version": "1.0.0",
+    "name": "Linux Tools",
+    "description": "Installs core Linux tools"
+}

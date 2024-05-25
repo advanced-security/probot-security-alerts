@@ -9,17 +9,13 @@ updates:
     directory: "/"
     schedule:
       interval: monthly
-    ignore:
-      - dependency-name: "typescript"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@types/node"
-        update-types: ["version-update:semver-major"]
-
-      ## The lastest plugins do not support ESLint 9 yet
-      - dependency-name: "eslint"
-        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "monthly"
+
+  - package-ecosystem: "devcontainers" # See documentation for possible values
+    directory: "/"
+    schedule:
+      interval: weekly      

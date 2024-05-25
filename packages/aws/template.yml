@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Security Alert Watcher GitHub App
+
+Parameters:
+  githubAppId:
+    Description: The App ID of your GitHub app
+    Type: String
+  githubWebhookSecret:
+    Description: The webhook secret of your GitHub app
+    Type: String
+  githubPrivateKey:
+    Description: The private key of your GitHub app
+    Type: String
+  githubOrg:
+    Description: The organization where the app is registered
+    Type: String
+
+Resources:
+  SecurityWatcher:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-webhook
+      Description: Basic Auth Funtion
+      AutoPublishAlias: securitywatcher
+      DeploymentPreference:
+        Type: AllAtOnce
+      CodeUri: .
+      Handler: index.securityWatcher
+      Runtime: nodejs20.x
+      PackageType: Zip
+      MemorySize: 256
+      Timeout: 15
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Path: /
+          Method: post
+      Environment:
+        Variables:
+          APP_ID: !Ref githubAppId
+          WEBHOOK_SECRET: !Ref githubWebhookSecret
+          PRIVATE_KEY: !Ref githubPrivateKey
+          GH_ORG: !Ref githubOrg
+          NODE_ENV: production
+          LOG_LEVEL: debug
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Sourcemap: false
+        Target: "node20" # ES2022 support
+        Format: esm
+        OutExtension:
+          - .js=.mjs
+        Banner:
+          - js=import { createRequire } from 'module'; const require = createRequire(import.meta.url);
+        EntryPoints:
+          - dist/index.mjs
+Outputs:
+  WebhookUrl:
+    Description: "Webhook Endpoint URL"
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"

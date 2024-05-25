@@ -1,0 +1,65 @@
+{
+  "name": "@security-alert-watcher/server",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Sample GH App which monitors and enforces rules for code scanning alerts",
+  "author": "Ken Muse <kenmuse@users.noreply.github.com> (https://www.kenmuse.com)",
+  "license": "MIT",
+  "homepage": "https://github.com/advanced-security/probot-codescan-alerts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/advanced-security/probot-codescan-alerts.git",
+    "directory": "packages/server"
+  },
+  "bugs": "https://github.com/advanced-security/probot-codescan-alerts/issues",
+  "keywords": [
+    "probot",
+    "github",
+    "probot-app"
+  ],
+  "type": "module",
+  "main": "dist/index.mjs",
+  "scripts": {
+    "build": "yarn node esbuild.config.mjs",
+    "build:container": "docker build  -t security-alert-watcher -f Dockerfile ../..",
+    "clean": "yarn g:clean",
+    "lint": "yarn run lint:code && yarn run lint:container",
+    "test": "yarn g:test",
+    "start": "yarn tsx watch --env-file=.env src/index.ts",
+    "start:nowatch": "yarn tsx --env-file=.env src/index.ts",
+    "lint:code": "yarn eslint",
+    "lint:container": "hadolint Dockerfile"
+  },
+  "dependencies": {
+    "@security-alert-watcher/app": "file:../app",
+    "probot": "^13.2.2",
+    "smee-client": "^2.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.3.0",
+    "@types/eslint": "^8.56.10",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/supertest": "^6.0.2",
+    "@typescript-eslint/eslint-plugin": ">=8.0.0-alpha",
+    "@typescript-eslint/parser": ">=8.0.0-alpha",
+    "esbuild": "^0.21.4",
+    "eslint": "^9.3.0",
+    "express": "*",
+    "jest": "^29.7.0",
+    "nock": ">=14.0.0-beta",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.1.3",
+    "ts-jest-resolver": "^2.0.1",
+    "tslib": "^2.6.2",
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.5",
+    "typescript-eslint": ">=8.0.0-alpha"
+  },
+  "engines": {
+    "node": ">= 20.8.0"
+  },
+  "publishConfig": {
+    "provenance": true
+  }
+}

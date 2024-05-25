@@ -1,48 +1,57 @@
 {
   "name": "security-alert-watcher",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Sample GH App which monitors and enforces rules for code scanning alerts",
-  "author": "Ken Muse <kenmuse@users.noreply.github.com>",
+  "author": "Ken Muse <kenmuse@users.noreply.github.com> (https://www.kenmuse.com)",
   "license": "MIT",
+  "type": "module",
   "homepage": "https://github.com/advanced-security/probot-codescan-alerts",
+  "repository": "https://github.com/advanced-security/probot-codescan-alerts.git",
+  "bugs": "https://github.com/advanced-security/probot-codescan-alerts/issues",
   "keywords": [
     "probot",
     "github",
     "probot-app"
   ],
-  "type": "module",
   "scripts": {
-    "build": "node esbuild.config.mjs",
-    "start": "node -r ts-node/register --import ./src/hooks.js --env-file=.env src/index.ts",
-    "test": "NODE_OPTIONS=--max_old_space_size=4096 jest --config jest.config.ts",
-    "lint": "npx eslint src --ext .ts",
-    "lint:docker": "hadolint Dockerfile && hadolint .devcontainer/Dockerfile",
-    "lint:all": "npm run lint && npm run lint:docker"
-  },
-  "dependencies": {
-    "got": "^14.2.1",
-    "probot": "^13.2.1",
-    "word-wrap": "^1.2.5"
+    "build": "yarn workspaces foreach -Apt run build",
+    "test": "yarn workspaces foreach -Apt run test",
+    "clean": "yarn workspaces foreach -Apt run clean",
+    "lint": "yarn workspaces foreach -Apt run lint",
+    "start": "yarn workspace @security-alert-watcher/server run start",
+    "g:copyEnv": "yarn node scripts/copyEnv.mjs",
+    "g:test": "yarn dlx jest --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
+    "g:clean": "rm -rf ${INIT_CWD}/dist && rm -rf ${INIT_CWD}/coverage",
+    "audit": "yarn workspaces foreach -Apt npm audit",
+    "version:major": "yarn version major && yarn workspaces foreach -A version major",
+    "version:minor": "yarn version minor && yarn workspaces foreach -A version minor",
+    "sync:find": "yarn syncpack list-mismatches --filter '^(?!@security-alert-watcher).*'",
+    "sync": "yarn syncpack fix-mismatches",
+    "reset-yarn": "rm -rf .yarn && rm .pnp.cjs && rm .pnp.loader.mjs && yarn install && yarn dlx @yarnpkg/sdks base"
   },
   "devDependencies": {
+    "@eslint/js": "^9.3.0",
+    "@jest/core": "^29.7.0",
+    "@jest/globals": "^29.7.0",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.12.8",
-    "@typescript-eslint/eslint-plugin": "^7.8.0",
-    "@typescript-eslint/parser": "^7.8.0",
-    "esbuild": "^0.20.2",
-    "eslint": "^8.57.0",
-    "jest": "^29.7.0",
-    "nock": "^14.0.0-beta.6",
-    "nodemon": "^3.1.0",
-    "smee-client": "^2.0.1",
-    "ts-jest": "^29.1.2",
-    "ts-jest-resolver": "^2.0.1",
-    "ts-loader": "^9.5.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "@types/node": "^20.12.12",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.21.4",
+    "eslint": "^9.3.0",
+    "syncpack": "^12.3.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5",
+    "typescript-eslint": ">=8.0.0-alpha"
   },
   "engines": {
-    "node": ">= 20.12.0"
+    "node": ">= 20.8.0"
+  },
+  "packageManager": "yarn@4.2.2",
+  "workspaces": [
+    "packages/*"
+  ],
+  "resolutions": {
+    "esbuild": "^0.21.4"
   }
 }

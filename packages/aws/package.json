@@ -1,0 +1,59 @@
+{
+  "name": "@security-alert-watcher/aws-lambda",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Sample GH App which monitors and enforces rules for code scanning alerts",
+  "author": "Ken Muse <kenmuse@users.noreply.github.com> (https://www.kenmuse.com)",
+  "license": "MIT",
+  "homepage": "https://github.com/advanced-security/probot-codescan-alerts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/advanced-security/probot-codescan-alerts.git",
+    "directory": "packages/aws"
+  },
+  "bugs": "https://github.com/advanced-security/probot-codescan-alerts/issues",
+  "keywords": [
+    "aws",
+    "lambda",
+    "probot",
+    "github",
+    "probot-app"
+  ],
+  "type": "module",
+  "files": [
+    "dist/**"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "build": "yarn run prebuild && sam build --no-cached",
+    "build:container": "yarn run prebuild && sam build --use-container --no-cached --parallel",
+    "clean": "yarn g:clean && rm -rf .aws-sam",
+    "lint": "yarn eslint && sam validate --lint",
+    "deploy": "sam deploy --guided",
+    "start": "sam local start-lambda",
+    "copyEnv": "yarn g:copyEnv",
+    "prebuild": "yarn node esbuild.config.mjs"
+  },
+  "dependencies": {
+    "@security-alert-watcher/app": "file:../app",
+    "esbuild": "^0.21.4",
+    "probot": "^13.2.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.3.0",
+    "@types/aws-lambda": "^8.10.138",
+    "@typescript-eslint/eslint-plugin": ">=8.0.0-alpha",
+    "@typescript-eslint/parser": ">=8.0.0-alpha",
+    "eslint": "^9.3.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5",
+    "typescript-eslint": ">=8.0.0-alpha"
+  },
+  "engines": {
+    "node": ">= 20.8.0"
+  }
+}

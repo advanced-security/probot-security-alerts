@@ -1,55 +1,91 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.238.0/containers/typescript-node
 {
-	"name": "Probot",
-	"build": {
-		"dockerfile": "Dockerfile",
-		"args": {
-			"VARIANT": "20-bullseye"
-		}
-	},
-
-	"mounts": ["source=node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"],
-
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"dbaeumer.vscode-eslint",
-				"Orta.vscode-jest",
-				"EditorConfig.EditorConfig",
-				"redhat.vscode-yaml",
-				"github.vscode-github-actions"
-			],
-            "settings": {
-                "jest.rootPath": "./test",
-				"jest.runMode": {
-					"type": "on-demand",
-					"deferred": true
-				},
-                "typescript.tsdk": "./node_modules/typescript/lib",
-				"typescript.enablePromptUseWorkspaceTsdk": true
-            }
-		}
-	},
-
-	"onCreateCommand": {
-		"configure-volume": "sudo chown -R node:node ${containerWorkspaceFolder}/node_modules"
-	},
-	"updateContentCommand": {
-		"install-dependencies": "npm install"
-	},
-	"postStartCommand": {
-		"configure-git": "git config --global --add safe.directory ${containerWorkspaceFolder}"
-	},
-
-	"remoteUser": "node",
-	"portsAttributes": {
-		"3000": {
-			"label": "Probot"
-		}
-	},
-	"features": {
-		"./features/hadolint": { },
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
-	}
+  "name": "Probot",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "arcanis.vscode-zipfs",
+        "dbaeumer.vscode-eslint",
+        "Orta.vscode-jest",
+        "EditorConfig.EditorConfig",
+        "redhat.vscode-yaml",
+        "github.vscode-github-actions",
+        "ms-azuretools.vscode-azurefunctions"
+      ],
+      "settings": {
+        "jest.virtualFolders": [
+          {
+            "name": "app",
+            "rootPath": "./packages/app"
+          },
+          {
+            "name": "server",
+            "rootPath": "./packages/server"
+          }
+        ],
+        "jest.runMode": {
+          "type": "on-demand",
+          "deferred": true
+        },
+        "search.exclude": {
+          "**/.yarn": true,
+          "**/.pnp.*": true
+        },
+        "typescript.tsdk": ".yarn/sdks/typescript/lib",
+        "typescript.enablePromptUseWorkspaceTsdk": true,
+        "eslint.nodePath": ".yarn/sdks",
+        "eslint.validate": [
+          "javascript",
+          "typescript"
+        ],
+        "eslint.enable": true,
+        "eslint.options": {
+        },
+        "eslint.workingDirectories": [
+          {
+            "mode": "auto"
+          }
+        ],
+        "azureFunctions.deploySubpath": ".",
+        //"azureFunctions.postDeployTask": "",
+        "azureFunctions.projectLanguage": "TypeScript",
+        "azureFunctions.projectRuntime": "~4",
+        "debug.internalConsoleOptions": "neverOpen"
+        //"azureFunctions.preDeployTask": "Install Dependencies"
+      }
+    }
+  },
+  "onCreateCommand": {
+    "setup-yarn": "corepack enable && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn set version berry"
+  },
+  "updateContentCommand": {
+    "install-packages": "yarn install && yarn dlx @yarnpkg/sdks base"
+  },
+  "postStartCommand": {
+    "configure-git": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+  },
+  "remoteUser": "vscode",
+  "portsAttributes": {
+    "3000": {
+      "label": "Probot"
+    },
+    "10000": {
+      "label": "Azurite Storage Emulator"
+    }
+  },
+  "features": {
+    "./features/hadolint": {},
+    "./features/aws-sam": {},
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers/features/azure-cli:1": {
+      "installBicep": true
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20.12.2",
+      "nvmVersion": "latest"
+    }
+  }
 }

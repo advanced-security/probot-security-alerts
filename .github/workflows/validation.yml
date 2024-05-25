@@ -1,0 +1,40 @@
+#yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+name: Validation
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  Validate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Node.js 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+    - name: Configure Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+        cache: 'yarn'
+    - name: Install dependencies
+      run: yarn install immutable
+    - name: 
+      run: yarn run build
+    - name: Lint TypeScript
+      run: yarn run lint
+    - name: Install Hadolint
+      run: sudo ./.devcontainer/features/hadolint/install.sh
+    - name: Lint Dockerfile
+      run: ./scripts/lintDocker.sh ./server/Dockerfile
+    - run: yarn run test --coverage --testLocationInResults --json --outputFile coverage/report.json
+    - uses: ArtiomTr/jest-coverage-report-action@v2
+      if: ${{ github.actor != 'dependabot[bot]' }}
+      with:
+        skip-step: all
+        coverage-file: app/report.json
+        base-coverage-file: app/report.json
