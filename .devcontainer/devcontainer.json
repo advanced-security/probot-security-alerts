@@ -58,7 +58,7 @@
     }
   },
   "onCreateCommand": {
-    "setup-yarn": "corepack enable && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn set version berry"
+    "setup-yarn": "corepack enable && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack install --global yarn@stable"
   },
   "updateContentCommand": {
     "install-packages": "yarn install && yarn dlx @yarnpkg/sdks base"
