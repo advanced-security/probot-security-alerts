@@ -50,9 +50,9 @@ else
 fi
 
 if [ "${PLATFORM}" == "arm64" ]; then
-    FXN_BUILD_DIR=~/tmp
-	mkdir "${FXN_BUILD_DIR}"
-    cd "${FXN_BUILD_DIR}"
+    FXN_BUILD_ROOT_DIR=/tmp
+    # [ -d "${FXN_BUILD_ROOT_DIR}" ] || mkdir -p "${FXN_BUILD_ROOT_DIR}"
+    cd "${FXN_BUILD_ROOT_DIR}"
 	if [ ! -d azure-functions-core-tools ]; then
 		git clone --depth 1 https://github.com/Azure/azure-functions-core-tools
 	fi
@@ -62,7 +62,7 @@ if [ "${PLATFORM}" == "arm64" ]; then
 	${DOTNET_ROOT}/dotnet publish -r linux-arm64 -c Release -f net8.0 --self-contained=true
 	mkdir -p "${AZURE_FUNC_TOOLS_DIR}"
 	mv bin/Release/net8.0/linux-arm64/publish/* "${AZURE_FUNC_TOOLS_DIR}"
-	rm -rf "${FXN_BUILD_DIR}"
+	rm -rf "${FXN_BUILD_ROOT_DIR}/azure-functions-core-tools"
 	updaterc "export AZURE_FUNC_TOOLS_DIR=${AZURE_FUNC_TOOLS_DIR}"
 else
   # sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
