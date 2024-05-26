@@ -46,12 +46,21 @@
         "type": "func",
         "label": "func: host start",
         "options": {
-            "cwd": "${workspaceRoot}/azure"
+            "cwd": "${workspaceRoot}/packages/azure"
         },
         "command": "host start",
         "problemMatcher": "$func-node-watch",
         "isBackground": true,
-        "dependsOn": "npm install (functions)"
+        "dependsOn": ["func: build"]
+      },
+      {
+        "label": "func: build",
+        "options": {
+            "cwd": "${workspaceRoot}/packages/azure"
+        },
+        "command": "yarn",
+        "args": [ "run", "build" ],
+        "isBackground": true
       },
       {
         "label": "Run hadolint",

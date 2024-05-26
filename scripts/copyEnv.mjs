@@ -24,17 +24,18 @@ function getProjectBaseDirectory(){
  * @param {string} target The target JSON environment file
  * @param transformer Optional settings to apply to the environment
  */
-function copyServerEnv(target, transformer = (settings) => settings){
+function copyServerEnv(target, transformer = (settings) => settings, overwrite = true){
   const baseDirectory = getProjectBaseDirectory();
   const serverEnvPath = path.join(baseDirectory, SERVER_ENV_PATH);
   const targetPath = path.join(baseDirectory, target);
 
+  // eslint-disable-next-line no-undef
   console.log(`Copying environment settings from ${serverEnvPath} to ${targetPath}`);
 
   if (!fs.existsSync(serverEnvPath)){
     throw new Error(`A .env file must exist at ${SERVER_ENV_PATH} or in the project root.`);
   }
-  if (!fs.existsSync(targetPath)){
+  if (overwrite || !fs.existsSync(targetPath)){
       let settings = dotenv.parse(fs.readFileSync(serverEnvPath));
       delete settings.WEBHOOK_PROXY_URL;
       settings = transformer(settings);
