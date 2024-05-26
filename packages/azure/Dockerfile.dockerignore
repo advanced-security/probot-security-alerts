@@ -1,0 +1,8 @@
+.funcignore
+.gitignore
+Dockerfile
+Dockerfile.dockerignore
+esbuild.config.mjs
+local.settings.json
+src
+tsconfig.json

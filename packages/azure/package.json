@@ -26,24 +26,25 @@
   "main": "dist/index.mjs",
   "scripts": {
     "build": "yarn node esbuild.config.mjs",
+    "build:container": "yarn run build && docker build -t security-watcher-azfxn .",
     "clean": "yarn g:clean",
     "lint": "yarn eslint",
     "storage": "yarn azurite --inMemoryPersistence",
     "copyEnv": "yarn g:copyEnv"
   },
   "dependencies": {
-    "@security-alert-watcher/app": "file:../app",
-    "probot": "^13.2.2"
   },
   "devDependencies": {
     "@azure/functions": "^4.5.0",
     "@eslint/js": "^9.3.0",
+    "@security-alert-watcher/app": "file:../app",
     "@typescript-eslint/eslint-plugin": ">=8.0.0-alpha",
     "@typescript-eslint/parser": ">=8.0.0-alpha",
     "azure-functions-core-tools": "^4.0.5801",
     "azurite": "^3.30.0",
     "esbuild": "^0.21.4",
     "eslint": "^9.3.0",
+    "probot": "^13.2.2",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5",
     "typescript-eslint": ">=8.0.0-alpha"

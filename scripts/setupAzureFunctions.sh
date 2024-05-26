@@ -30,5 +30,5 @@ if [ "${PLATFORM}" == "arm64" ]; then
 else
   # sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
 	sudo apt-get update
-	sudo apt-get install azure-functions-core-tools-4
+	sudo apt-get install -y azure-functions-core-tools-4 dotnet-sdk-8.0
 fi

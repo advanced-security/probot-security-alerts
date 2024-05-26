@@ -5,8 +5,9 @@ import dotenv from 'dotenv';
 
 const ROOT_ENV_PATH = '.env';
 const SERVER_ENV_PATH = 'packages/server/.env';
-const AWS_ENV_PATH = 'packages/aws/.env.json';
-const AZURE_ENV_PATH = 'packages/azure/local.settings.json';
+const AWS_ENV_JSON_PATH = 'packages/aws/.env.json';
+const AZURE_ENV_PATH = 'packages/azure/.env';
+const AZURE_ENV_JSON_PATH = 'packages/azure/local.settings.json';
 
 /**
  * Gets the base directory for the project.
@@ -48,12 +49,15 @@ function copyServerEnv(target, transformer = (settings) => settings, overwrite =
  * Copies the .env file from the project root to the server folder
  * if it doesn't already exist.
  */
-function copyEnv(){
+function copyEnv(source, target){
   const baseDirectory = getProjectBaseDirectory();
-  const originalEnv = path.join(baseDirectory, ROOT_ENV_PATH);
-  const serverEnvPath = path.join(baseDirectory, SERVER_ENV_PATH);
-  if (fs.existsSync(originalEnv) && !fs.existsSync(serverEnvPath)) {
-    fs.copyFileSync(originalEnv, serverEnvPath);
+  const originalEnvPath = path.join(baseDirectory, source);
+  const targetEnvPath = path.join(baseDirectory, target);
+
+  // eslint-disable-next-line no-undef
+  console.log(`Copying ${originalEnvPath} to ${targetEnvPath}`);
+  if (fs.existsSync(originalEnvPath) && !fs.existsSync(targetEnvPath)) {
+    fs.copyFileSync(originalEnvPath, targetEnvPath);
   }
 }
 
@@ -61,10 +65,11 @@ function copyEnv(){
  * Configure environment settings for all packages based on either
  * an .env in the root folder or an .env in the server folder.
  */
-copyEnv();
-copyServerEnv(AWS_ENV_PATH);
+copyEnv(ROOT_ENV_PATH, SERVER_ENV_PATH);
+copyEnv(SERVER_ENV_PATH, AZURE_ENV_PATH);
+copyServerEnv(AWS_ENV_JSON_PATH);
 copyServerEnv(
-  AZURE_ENV_PATH,
+  AZURE_ENV_JSON_PATH,
   (settings) => {
     return {
       IsEncrypted: false,
