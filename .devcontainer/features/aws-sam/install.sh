@@ -14,7 +14,7 @@ fi
 echo " ********* Installing AWS SAM CLI ********* "
 if ! command -v sam &> /dev/null; then
     rm -rf /tmp/sam >/dev/null
-    curl -SLfo /tmp/sam-cli.zip https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-${PLATFORM}.zip
+    curl --no-progress-meter -sSLfo /tmp/sam-cli.zip https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-${PLATFORM}.zip
     unzip -qq /tmp/sam-cli.zip -d /tmp/sam
     sudo /tmp/sam/install
     rm -rf /tmp/sam-cli

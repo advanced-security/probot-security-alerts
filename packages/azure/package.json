@@ -32,8 +32,6 @@
     "storage": "yarn azurite --inMemoryPersistence",
     "copyEnv": "yarn g:copyEnv"
   },
-  "dependencies": {
-  },
   "devDependencies": {
     "@azure/functions": "^4.5.0",
     "@eslint/js": "^9.3.0",

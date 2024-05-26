@@ -78,13 +78,14 @@
   "features": {
     "./features/hadolint": {},
     "./features/aws-sam": {},
+    "./features/azure-function": {},
     "ghcr.io/devcontainers/features/aws-cli:1": {},
     "ghcr.io/devcontainers/features/azure-cli:1": {
       "installBicep": true
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "20.12.2",
+      "version": "20.13.1",
       "nvmVersion": "latest"
     }
   }
