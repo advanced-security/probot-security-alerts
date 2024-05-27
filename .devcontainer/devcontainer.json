@@ -52,8 +52,13 @@
         //"azureFunctions.postDeployTask": "",
         "azureFunctions.projectLanguage": "TypeScript",
         "azureFunctions.projectRuntime": "~4",
-        "debug.internalConsoleOptions": "neverOpen"
-        //"azureFunctions.preDeployTask": "Install Dependencies"
+        "debug.internalConsoleOptions": "neverOpen",
+        //"azureFunctions.preDeployTask": "Install Dependencies",
+        "jest.jestCommandLine": "yarn run test",
+        "typescript.tsserver.log": "verbose",
+        "typescript.tsserver.nodePath": "node",
+        "typescript.tsserver.maxTsServerMemory": 4096,
+        "js/ts.implicitProjectConfig.module": "ES2022"
       }
     }
   },

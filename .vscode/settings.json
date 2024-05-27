@@ -24,9 +24,7 @@
     "typescript"
   ],
   "eslint.enable": true,
-  "eslint.options": {
-    //"overrideConfigFile": "eslint.config.cjs"
-  },
+  "eslint.options": {},
   "eslint.experimental.useFlatConfig": true,
   "eslint.workingDirectories": [
     {
@@ -34,5 +32,9 @@
     }
   ],
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "jest.jestCommandLine": "yarn run test"
+  "jest.jestCommandLine": "yarn run test",
+  "typescript.tsserver.log": "verbose",
+  "typescript.tsserver.nodePath": "node",
+  "typescript.tsserver.maxTsServerMemory": 4096,
+  "js/ts.implicitProjectConfig.module": "ESNext",
 }

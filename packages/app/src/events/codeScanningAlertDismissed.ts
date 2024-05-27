@@ -20,7 +20,7 @@ export default async function codeScanningAlertDismissed(context: Context<"code_
     const rule = context.payload.alert.rule as CodeScanningSecurityRule;
     const alertSeverity = toSeverity(rule.security_severity_level, Severity.UNKNOWN);
     if (alertSeverity < minimumSeverity) {
-      context.log.info(`Alert close request allowed. Severity '${alertSeverity}' is below minimum severity '${minimumSeverity}'.`);
+      context.log.info(`Alert close request allowed. Severity '${Severity[alertSeverity]}' is below minimum severity '${Severity[minimumSeverity]}'.`);
       return;
     }
 

@@ -17,7 +17,7 @@ export async function dependabotAlertDismissed(context: Context<"dependabot_aler
     const alertSeverity = Math.max(toSeverity(context.payload.alert.security_advisory.severity, Severity.UNKNOWN), toSeverity(context.payload.alert.security_vulnerability.severity, Severity.UNKNOWN));
 
     if (alertSeverity < minimumSeverity) {
-      context.log.info(`Alert close request allowed. Severity '${alertSeverity}' is below minimum severity '${minimumSeverity}'.`);
+      context.log.info(`Alert close request allowed. Severity '${Severity[alertSeverity]}' is below minimum severity '${Severity[minimumSeverity]}'.`);
       return;
     }
     const isMemberApproved = await isUserInApproverTeam(context, approver, owner, user);
