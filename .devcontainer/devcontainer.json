@@ -8,11 +8,12 @@
       "extensions": [
         "arcanis.vscode-zipfs",
         "dbaeumer.vscode-eslint",
-        "Orta.vscode-jest",
         "EditorConfig.EditorConfig",
-        "redhat.vscode-yaml",
         "github.vscode-github-actions",
-        "ms-azuretools.vscode-azurefunctions"
+        "mhutchie.git-graph",
+        "ms-azuretools.vscode-azurefunctions",
+        "Orta.vscode-jest",
+        "redhat.vscode-yaml"
       ],
       "settings": {
         "jest.virtualFolders": [
