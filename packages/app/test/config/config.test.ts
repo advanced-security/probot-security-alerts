@@ -1,4 +1,4 @@
-import { Severity, toSeverity } from "../../src/config/config.js";
+import { Severity, toSeverity } from "../../src/config/types.js";
 
 describe("The severity configuration", () => {
 

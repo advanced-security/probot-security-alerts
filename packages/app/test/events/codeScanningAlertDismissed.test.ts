@@ -1,7 +1,7 @@
 import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers.js";
 import payload from "./../fixtures/code_scanning_alert/closed_by_user.json";
 import * as config from "../../src/config/index.js";
-import { Severity } from "../../src/config/config.js";
+import { Severity } from "../../src/config/types.js";
 
 describe("When code scanning alerts are received", () => {
   // Use the any type to avoid issues with additional fields in the payload that Probot cannot recognize

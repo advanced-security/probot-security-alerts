@@ -1,4 +1,4 @@
-import { type Config, toSeverity } from './config.js';
+import { type Config, toSeverity } from './types.js';
 
 export const DEFAULT_APPROVING_TEAM = 'scan-managers'
 

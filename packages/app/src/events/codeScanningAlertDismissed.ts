@@ -1,7 +1,7 @@
 import { Context } from "probot";
 import { isUserInApproverTeam } from "./approvingTeam.js";
 import { getConfiguration } from "../config/index.js";
-import { Severity, toSeverity } from "../config/config.js";
+import { Severity, toSeverity } from "../config/types.js";
 import { CodeScanningSecurityRule } from "./types.js";
 
 /**

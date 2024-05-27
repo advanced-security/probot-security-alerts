@@ -1,6 +1,6 @@
 import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers.js";
 import event from "../fixtures/dependabot_alert/dismissed.json";
-import { Severity } from "../../src/config/config.js";
+import { Severity } from "../../src/config/types.js";
 import * as config from "../../src/config/index.js";
 
 const payload = event.payload;

@@ -1,7 +1,7 @@
 import { isUserInApproverTeam } from "./approvingTeam.js";
 import { Context } from "probot";
 import { getConfiguration } from "../config/index.js";
-import { Severity, toSeverity } from "../config/config.js";
+import { Severity, toSeverity } from "../config/types.js";
 
 /**
  * Handles the code scanning alert event
