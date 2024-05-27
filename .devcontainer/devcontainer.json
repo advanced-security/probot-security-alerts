@@ -71,7 +71,7 @@
   "updateContentCommand": {
     "install-packages": "yarn install && yarn dlx @yarnpkg/sdks base"
   },
-  "postStartCommand": {
+  "postAttachCommand": {
     "configure-git": "git config --global --add safe.directory ${containerWorkspaceFolder}"
   },
   "remoteUser": "vscode",
