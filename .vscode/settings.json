@@ -35,6 +35,6 @@
   "jest.jestCommandLine": "yarn run test",
   "typescript.tsserver.log": "verbose",
   "typescript.tsserver.nodePath": "node",
-  "typescript.tsserver.maxTsServerMemory": 4096,
   "js/ts.implicitProjectConfig.module": "ESNext",
+  "typescript.tsserver.experimental.useVsCodeWatcher": false
 }
