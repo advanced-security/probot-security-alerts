@@ -1585,33 +1585,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@security-alert-watcher/app@file:../app::locator=%40security-alert-watcher%2Faws-lambda%40workspace%3Apackages%2Faws":
-  version: 2.0.0
-  resolution: "@security-alert-watcher/app@file:../app#../app::hash=90ba29&locator=%40security-alert-watcher%2Faws-lambda%40workspace%3Apackages%2Faws"
-  dependencies:
-    probot: "npm:^13.2.2"
-  checksum: 10/b1d77cefa81ec1865999bef28293fc6c649549d02a0970410f55707546905966e41faf51c8bff96600df2e53c1cf17c1a30fd5fa642753339ff67cec667c5e64
-  languageName: node
-  linkType: hard
-
-"@security-alert-watcher/app@file:../app::locator=%40security-alert-watcher%2Fazure-function%40workspace%3Apackages%2Fazure":
-  version: 2.0.0
-  resolution: "@security-alert-watcher/app@file:../app#../app::hash=90ba29&locator=%40security-alert-watcher%2Fazure-function%40workspace%3Apackages%2Fazure"
-  dependencies:
-    probot: "npm:^13.2.2"
-  checksum: 10/b1d77cefa81ec1865999bef28293fc6c649549d02a0970410f55707546905966e41faf51c8bff96600df2e53c1cf17c1a30fd5fa642753339ff67cec667c5e64
-  languageName: node
-  linkType: hard
-
-"@security-alert-watcher/app@file:../app::locator=%40security-alert-watcher%2Fserver%40workspace%3Apackages%2Fserver":
-  version: 2.0.0
-  resolution: "@security-alert-watcher/app@file:../app#../app::hash=90ba29&locator=%40security-alert-watcher%2Fserver%40workspace%3Apackages%2Fserver"
-  dependencies:
-    probot: "npm:^13.2.2"
-  checksum: 10/b1d77cefa81ec1865999bef28293fc6c649549d02a0970410f55707546905966e41faf51c8bff96600df2e53c1cf17c1a30fd5fa642753339ff67cec667c5e64
-  languageName: node
-  linkType: hard
-
 "@security-alert-watcher/app@workspace:packages/app":
   version: 0.0.0-use.local
   resolution: "@security-alert-watcher/app@workspace:packages/app"
@@ -1644,7 +1617,6 @@ __metadata:
   resolution: "@security-alert-watcher/aws-lambda@workspace:packages/aws"
   dependencies:
     "@eslint/js": "npm:^9.3.0"
-    "@security-alert-watcher/app": "file:../app"
     "@types/aws-lambda": "npm:^8.10.138"
     "@typescript-eslint/eslint-plugin": "npm:>=8.0.0-alpha"
     "@typescript-eslint/parser": "npm:>=8.0.0-alpha"
@@ -1663,7 +1635,6 @@ __metadata:
   dependencies:
     "@azure/functions": "npm:^4.5.0"
     "@eslint/js": "npm:^9.3.0"
-    "@security-alert-watcher/app": "file:../app"
     "@typescript-eslint/eslint-plugin": "npm:>=8.0.0-alpha"
     "@typescript-eslint/parser": "npm:>=8.0.0-alpha"
     azure-functions-core-tools: "npm:^4.0.5801"
@@ -1682,7 +1653,6 @@ __metadata:
   resolution: "@security-alert-watcher/server@workspace:packages/server"
   dependencies:
     "@eslint/js": "npm:^9.3.0"
-    "@security-alert-watcher/app": "file:../app"
     "@types/eslint": "npm:^8.56.10"
     "@types/express": "npm:^4.17.21"
     "@types/jest": "npm:^29.5.12"

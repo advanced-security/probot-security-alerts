@@ -31,7 +31,6 @@
     "lint:container": "hadolint Dockerfile"
   },
   "dependencies": {
-    "@security-alert-watcher/app": "file:../app",
     "probot": "^13.2.2",
     "smee-client": "^2.0.1"
   },

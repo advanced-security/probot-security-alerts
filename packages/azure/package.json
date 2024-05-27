@@ -36,7 +36,6 @@
   "devDependencies": {
     "@azure/functions": "^4.5.0",
     "@eslint/js": "^9.3.0",
-    "@security-alert-watcher/app": "file:../app",
     "@typescript-eslint/eslint-plugin": ">=8.0.0-alpha",
     "@typescript-eslint/parser": ">=8.0.0-alpha",
     "azure-functions-core-tools": "^4.0.5801",
