@@ -27,8 +27,9 @@
   "scripts": {
     "build": "yarn node esbuild.config.mjs",
     "build:container": "yarn run build && docker build -t security-watcher-azfxn .",
-    "clean": "yarn g:clean",
+    "clean": "yarn g:clean && rm -rf publish",
     "lint": "yarn eslint",
+    "package": "mkdir -p publish && ${AZURE_FUNC_TOOLS_DIR}/func pack -o publish/package",
     "storage": "yarn azurite --inMemoryPersistence",
     "copyEnv": "yarn g:copyEnv"
   },

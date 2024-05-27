@@ -24,6 +24,7 @@ local.settings.json
 
 node_modules
 dist
+publish
 
 # Local python packages
 .python_packages/

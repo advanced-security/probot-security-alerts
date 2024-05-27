@@ -58,6 +58,8 @@
         "typescript.tsserver.log": "verbose",
         "typescript.tsserver.nodePath": "node",
         "js/ts.implicitProjectConfig.module": "ES2022",
+
+        // Workaround for https://github.com/yarnpkg/berry/issues/6270
         "typescript.tsserver.experimental.useVsCodeWatcher": false
       }
     }

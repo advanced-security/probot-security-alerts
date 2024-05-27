@@ -2,10 +2,13 @@
 .vscode
 *.js.map
 *.ts
+Dockerfile
+Dockerfile.dockerignore
 esbuild.config.mjs
 getting_started.md
 local.settings.json
 node_modules
 scripts
+src
 test
 tsconfig.json
