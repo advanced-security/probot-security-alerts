@@ -33,7 +33,7 @@
   ],
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "jest.jestCommandLine": "yarn run test",
-  "typescript.tsserver.log": "verbose",
+  "typescript.tsserver.log": "off",
   "typescript.tsserver.nodePath": "node",
   "js/ts.implicitProjectConfig.module": "ESNext",
   "typescript.tsserver.experimental.useVsCodeWatcher": false

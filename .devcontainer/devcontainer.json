@@ -56,7 +56,7 @@
         "debug.internalConsoleOptions": "neverOpen",
         //"azureFunctions.preDeployTask": "Install Dependencies",
         "jest.jestCommandLine": "yarn run test",
-        "typescript.tsserver.log": "verbose",
+        "typescript.tsserver.log": "off",
         "typescript.tsserver.nodePath": "node",
         "js/ts.implicitProjectConfig.module": "ES2022",
 
