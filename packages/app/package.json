@@ -26,7 +26,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "yarn g:clean",
-    "test": "yarn g:test --runInBand",
+    "test": "yarn jest --runInBand  --config=./jest.config.mjs --rootDir=.",
     "lint": "yarn eslint"
   },
   "dependencies": {

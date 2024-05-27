@@ -1,5 +1,7 @@
 import { isUserInApproverTeam } from "./approvingTeam.js";
 import { Context } from "probot";
+import { getConfiguration } from "../config/index.js";
+import { Severity, toSeverity } from "../config/config.js";
 
 /**
  * Handles the code scanning alert event
@@ -9,7 +11,16 @@ export async function dependabotAlertDismissed(context: Context<"dependabot_aler
     context.log.info("Dependabot alert event received.");
     const owner = context.payload.repository.owner.login;
     const user = context.payload.alert.dismissed_by?.login;
-    const isMemberApproved = await isUserInApproverTeam(context, owner, user);
+    const config = getConfiguration();
+    const approver = config.dependabotApproverTeam;
+    const minimumSeverity = config.dependabotMinimumSeverity;
+    const alertSeverity = Math.max(toSeverity(context.payload.alert.security_advisory.severity, Severity.UNKNOWN), toSeverity(context.payload.alert.security_vulnerability.severity, Severity.UNKNOWN));
+
+    if (alertSeverity < minimumSeverity) {
+      context.log.info(`Alert close request allowed. Severity '${alertSeverity}' is below minimum severity '${minimumSeverity}'.`);
+      return;
+    }
+    const isMemberApproved = await isUserInApproverTeam(context, approver, owner, user);
 
     if (isMemberApproved) {
         context.log.info("Alert close request approved.");

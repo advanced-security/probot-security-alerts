@@ -1,7 +1,9 @@
 import { ProbotOctokit } from "probot";
 import pino from "pino";
 import { OctokitResponse } from "@octokit/types";
-import { isUserInApproverTeam, OctokitContext } from '../../src/events/approvingTeam';
+import { isUserInApproverTeam } from '../../src/events/approvingTeam.js';
+import { OctokitContext } from "../../src/events/types.js";
+import { DEFAULT_APPROVING_TEAM } from "../../src/config/index.js";
 
 describe('When evaluating isUserInApproverTeam', () => {
     let context: OctokitContext;
@@ -45,7 +47,7 @@ describe('When evaluating isUserInApproverTeam', () => {
                     throw Error('TEST-FAIL');
                 }
             });
-            const output = await isUserInApproverTeam(requestContext as OctokitContext, owner as string, user as string);
+            const output = await isUserInApproverTeam(requestContext as OctokitContext, DEFAULT_APPROVING_TEAM, owner as string, user as string);
             expect(output).toEqual(result);
             expect(mock).toBeCalledTimes(result ? 1 : 0);
         });

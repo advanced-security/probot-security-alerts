@@ -1,24 +1,15 @@
-import { ProbotOctokit, Logger } from "probot";
-
-// Define the team resposible for the approvals
-export const approvingTeamName = process.env.SECURITY_ALERT_CLOSE_TEAM || 'scan-managers';
-
-// Interface to avoid TS2590
-export interface OctokitContext {
-  octokit: InstanceType<typeof ProbotOctokit>;
-  log: Logger;
-}
-
+import { type OctokitContext } from "./types.js";
 /**
   * Returns a value indicating if the user is a member of the approving
   * team in the organization.
   * @param context the event context
+  * @param approvingTeamName the name of the team required to approve the request
   * @param owner the repository owner
   * @param user the user to evaluate
   * @returns true if the user is either an owner of the organization or
   * a member of the approving team; otherwise, false.
   */
-export async function isUserInApproverTeam(context: OctokitContext, owner: string, user: string | undefined): Promise<boolean> {
+export async function isUserInApproverTeam(context: OctokitContext, approvingTeamName: string, owner: string, user: string | undefined): Promise<boolean> {
   if (owner && user && context) {
     try {
       const memberships = await context.octokit.teams.getMembershipForUserInOrg({

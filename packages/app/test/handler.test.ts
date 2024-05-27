@@ -44,6 +44,33 @@ describe("The serverless handler", () => {
     });
 
     test("handler returns error if the event body is undefined", async () => {
+      const mock = mockGitHubApiRequests().toNock();
+      const handler = await ProbotHandler.create(probot, app);
+      const result = await handler.process({ body: undefined, headers: { "test": "true"} });
+      expect(result.status).toStrictEqual(400);
+      expect(mock.pendingMocks()).toStrictEqual([]);
+    });
+
+    test("handler supports undefined header values", async () => {
+      const mock = mockGitHubApiRequests().toNock();
+      const handler = await ProbotHandler.create(probot, app);
+      const result = await handler.process({ body: 'hello', headers: { "test": undefined } });
+      expect(result.status).toStrictEqual(400);
+      expect(mock.pendingMocks()).toStrictEqual([]);
+    });
+
+    test("handler catches unexpected error types and returns the string", async () => {
+      const mock = mockGitHubApiRequests().toNock();
+      const testMessage = "This is an error";
+      const handler = await ProbotHandler.create(probot, app);
+      probot.webhooks.verifyAndReceive = jest.fn().mockImplementation(() => { throw testMessage; });
+      const result = await handler.process({ body: 'hello', headers: { "test": "true" } });
+      expect(result.status).toStrictEqual(400);
+      expect(result.body).toStrictEqual(JSON.stringify({ message: testMessage }));
+      expect(mock.pendingMocks()).toStrictEqual([]);
+    });
+
+    test("handler returns error if the event body is undefined", async () => {
         const mock = mockGitHubApiRequests().toNock();
         const handler = await ProbotHandler.create(probot, app);
         const result = await handler.process({ body: undefined, headers: { "test": "true"} });

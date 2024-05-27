@@ -66,17 +66,3 @@ describe("When running the probot app", () => {
         resetNetworkMonitoring();
     });
 });
-/*
-interface Err {
-    id: number,
-    err: {
-        type: string,
-        message: string,
-        stack: string,
-        event: {
-            id: number,
-            name: string,
-            payload: unknown
-        }
-    }
-}*/

@@ -24,7 +24,7 @@ const config = {
     "node_modules",
     "<rootDir>/src/index.ts"
   ],
-  reporters: [['github-actions', {silent: false}], 'summary'],
+  //reporters: [['github-actions', {silent: false}], 'summary'],
 };
 
 export default config;

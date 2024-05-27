@@ -1,5 +1,6 @@
 import { Context } from "probot";
 import { isUserInApproverTeam } from "./approvingTeam.js";
+import { getConfiguration } from "../config/index.js";
 
 /**
  * These resolutions indicate changes to a custom-defined secret. These
@@ -17,7 +18,9 @@ export default async function secretScanningAlertDismissed(context: Context<"sec
     context.log.info("Secret scanning alert event received.");
     const owner = context.payload.repository.owner.login;
     const user = context.payload.alert?.resolved_by?.login;
-    const isMemberApproved = await isUserInApproverTeam(context, owner, user);
+    const config = getConfiguration();
+    const approver = config.secretScanningApproverTeam;
+    const isMemberApproved = await isUserInApproverTeam(context, approver, owner, user);
 
     const resolution = context.payload.alert?.resolution as string;
     const closedByCustomPattern = CUSTOM_PATTERN_RESOLUTIONS.includes(resolution);

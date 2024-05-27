@@ -1,5 +1,7 @@
 import { mockGitHubApiRequests, getTestableProbot, resetNetworkMonitoring } from "../utils/helpers.js";
 import event from "../fixtures/dependabot_alert/dismissed.json";
+import { Severity } from "../../src/config/config.js";
+import * as config from "../../src/config/index.js";
 
 const payload = event.payload;
 
@@ -35,6 +37,19 @@ describe("When Dependabot alerts are received", () => {
     await probot.receive({ name: "dependabot_alert", payload });
 
     expect(mock.pendingMocks()).toStrictEqual([]);
+  });
+
+  test('allows alerts when threshold is NONE', async () => {
+    const originalConfig = config.getConfiguration();
+    const configuration = jest.spyOn(config, 'getConfiguration')
+      .mockReturnValueOnce(
+        {...originalConfig, ...{ dependabotMinimumSeverity: Severity.NONE }}
+      );
+    const mock = mockGitHubApiRequests().toNock();
+    await probot.receive({ name: "dependabot_alert", payload });
+
+    expect(mock.pendingMocks()).toStrictEqual([]);
+    expect(configuration).toHaveBeenCalled();
   });
 
   test("opens alerts if membership request returns a 500 error", async () => {

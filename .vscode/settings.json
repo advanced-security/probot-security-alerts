@@ -25,6 +25,7 @@
   ],
   "eslint.enable": true,
   "eslint.options": {
+    //"overrideConfigFile": "eslint.config.cjs"
   },
   "eslint.experimental.useFlatConfig": true,
   "eslint.workingDirectories": [
@@ -32,5 +33,6 @@
       "mode": "auto"
     }
   ],
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "jest.jestCommandLine": "yarn run test"
 }

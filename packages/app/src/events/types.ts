@@ -13,6 +13,14 @@ import { ProbotOctokit, Logger } from "probot";
 export type SignalType = 'SIGINT' | 'SIGTERM';
 
 /**
+ * Interface to avoid TS2590 when loading the reviewing team
+ */
+export interface OctokitContext {
+  octokit: InstanceType<typeof ProbotOctokit>;
+  log: Logger;
+}
+
+/**
  * Represents a GitHub resource
  */
 export interface GitHubResource {
@@ -92,4 +100,15 @@ export interface CustomWebhookEventContext<T extends WebhookEvent = WebhookEvent
     octokit: InstanceType<typeof ProbotOctokit>;
     log: Logger;
     payload: T;
+}
+
+/**
+ * Context for code scanning alert rules
+ */
+export interface CodeScanningSecurityRule {
+  id: string;
+  severity: string;
+  description: string;
+  name: string;
+  security_severity_level: string;
 }

@@ -4,7 +4,7 @@ import { Probot, ProbotOctokit, Options, ApplicationFunction } from "probot";
 import fs from "fs";
 import path from "path";
 import { app as myProbotApp } from "../../src/index.js";
-import { approvingTeamName } from "../../src/events/approvingTeam.js";
+import { DEFAULT_APPROVING_TEAM } from "../../src/config/index.js";
 
 /**
  * Constants used in the fixtures
@@ -32,7 +32,7 @@ function getFixture(...fixture: string[]) {
  * Gets the private key fixture
  * @returns the key string
  */
-function getPrivateKey() {
+export function getPrivateKey() {
     const privateKey = fs.readFileSync(
         getFixture("mock-cert.pem"),
         "utf-8"
@@ -145,9 +145,10 @@ class OctokitApiMock {
 
     /**
      * Creates a nock for ensuring a user is not part of any team
+     * @param approvingTeamName the team name
      * @returns the composable scope
      */
-    public isNotInApprovingTeam() {
+    public isNotInApprovingTeam(approvingTeamName = DEFAULT_APPROVING_TEAM) {
         const mock = this.nock.get(`/orgs/${IDENTIFIERS.organizationName}/teams/${approvingTeamName}/memberships/${IDENTIFIERS.userName}`)
             .reply(404);
 
@@ -157,9 +158,10 @@ class OctokitApiMock {
     /**
      * Creates a nock for an error retrieving the team membership
      * @param status the HTTP status response
+     * @param approvingTeamName the approving team
      * @returns the composable scope
      */
-    public errorRetrievingTeamMembership(status = 500) {
+    public errorRetrievingTeamMembership(status = 500, approvingTeamName = DEFAULT_APPROVING_TEAM) {
         const mock = this.nock.get(`/orgs/${IDENTIFIERS.organizationName}/teams/${approvingTeamName}/memberships/${IDENTIFIERS.userName}`)
             .reply(status);
 
@@ -170,9 +172,10 @@ class OctokitApiMock {
      * Creates a nock for ensuring a user is part of the configured team.
      * Requires an access token request.
      * @param role The role name (default: maintainer)
+     * @param approvingTeamName the team name
      * @returns the composable scope
      */
-    public isInApprovingTeam(role = "maintainer") {
+    public isInApprovingTeam(role = "maintainer", approvingTeamName = DEFAULT_APPROVING_TEAM) {
         // Test that we correctly request a token
         const mock = this.nock
             // Test that the user team membership is requested

@@ -51,7 +51,7 @@ export class ProbotHandler {
                 id: headers["x-github-delivery"],
                 name: headers["x-github-event"] as WebhookEventName,
                 signature: headers["x-hub-signature-256"],
-                payload: event.body ?? '',
+                payload: event.body,
             });
         }
         catch (error: unknown) {
