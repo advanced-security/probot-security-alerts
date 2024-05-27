@@ -41,15 +41,20 @@ if [ "${PLATFORM}" == "arm64" ] || [ "${VERSION}" != "latest" ]; then
   FXN_BUILD_ROOT_DIR=`mktemp -d`
   cd "${FXN_BUILD_ROOT_DIR}"
 	
-  ## Download the source code for the requested version (branch/tag)
-  if [ ! -d azure-functions-core-tools ]; then
-		if [ "${VERSION}" == "latest" ]; then
-			BRANCH=v4.x
-		else
-		  BRANCH=${VERSION}
+  ## Identify the correct version of the code
+	if [ "${VERSION}" == "latest" ]; then
+		BRANCH=v4.x
+	else
+	  BRANCH=${VERSION}
+
+		## Older versions relied on net6.0
+		if [ "${VERSION:0:3}" == "4.0" ] && [ ${VERSION:4} -lt 5802 ]; then
+			TARGET_SDK=net6.0
 		fi
-		git clone --depth 1 --branch "${BRANCH}" https://github.com/Azure/azure-functions-core-tools
 	fi
+
+	## Download the source code for the requested version (branch/tag)
+	git clone --depth 1 --branch "${BRANCH}" https://github.com/Azure/azure-functions-core-tools
 	
   ## Build the project
   cd azure-functions-core-tools/src/Azure.Functions.Cli/
@@ -59,8 +64,8 @@ if [ "${PLATFORM}" == "arm64" ] || [ "${VERSION}" != "latest" ]; then
   ${DOTNET_ROOT}/dotnet nuget locals all --clear
 
   ## Copy the binaries for the tool
-	mkdir -p "${AZURE_FUNC_TOOLS_DIR}"
-  [ -d "${AZURE_FUNC_TOOLS_DIR}" ] || mkdir -p "${AZURE_FUNC_TOOLS_DIR}"
+	[ -d "${AZURE_FUNC_TOOLS_DIR}" ] && rm -rf "${AZURE_FUNC_TOOLS_DIR}"
+  mkdir -p "${AZURE_FUNC_TOOLS_DIR}"
 	mv bin/Release/${TARGET_SDK}/linux-${RID_PLATFORM}/publish/* "${AZURE_FUNC_TOOLS_DIR}"
 
   ## Cleanup the source code/build
