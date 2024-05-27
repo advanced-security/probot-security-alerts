@@ -3,6 +3,17 @@
   "version": "1.0.0",
   "name": "Azure Function",
   "description": "Installs Azure Function Core Tools",
+  "options": {
+    "version": {
+        "type": "string",
+        "proposals": [
+            "latest",
+            "4.0.5801"
+        ],
+        "default": "latest",
+        "description": "Select or enter the tools version."
+    }
+  },
   "dependsOn": {
       "./features/common-deps": {},
       "ghcr.io/devcontainers/features/dotnet:2": {
@@ -10,7 +21,7 @@
       }
   },
   "containerEnv": {
-    "AZURE_FUNC_TOOLS_DIR": "/usr/local/functools",
-    "PATH": "/usr/local/functools:${PATH}"
-}
+    "AZURE_FUNC_TOOLS_DIR": "/lib/azure-functions-core-tools-4",
+    "PATH": "/lib/azure-functions-core-tools-4:${PATH}"
+  }
 }
