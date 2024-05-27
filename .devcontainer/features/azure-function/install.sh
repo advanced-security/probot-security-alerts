@@ -9,6 +9,7 @@ AZURE_FUNC_TOOLS_DIR=${AZURE_FUNC_TOOLS_DIR:-"/lib/azure-functions-core-tools-4"
 USERNAME=${USERNAME:-"automatic"}
 VERSION=${VERSION:-"latest"}
 TARGET_SDK=net8.0
+BUILD_NUMBER=""
 
 updaterc() {
     if [ "${UPDATE_RC}" = "true" ]; then
@@ -50,6 +51,7 @@ if [ "${PLATFORM}" == "arm64" ] || [ "${VERSION}" != "latest" ]; then
 		## Older versions relied on net6.0
 		if [ "${VERSION:0:3}" == "4.0" ] && [ ${VERSION:4} -lt 5802 ]; then
 			TARGET_SDK=net6.0
+			BUILD_NUMBER="${VERSION:4}"
 		fi
 	fi
 
@@ -58,7 +60,7 @@ if [ "${PLATFORM}" == "arm64" ] || [ "${VERSION}" != "latest" ]; then
 	
   ## Build the project
   cd azure-functions-core-tools/src/Azure.Functions.Cli/
-	${DOTNET_ROOT}/dotnet publish -r "linux-${RID_PLATFORM}" -c Release -f "${TARGET_SDK}" --self-contained=true
+	${DOTNET_ROOT}/dotnet publish -r "linux-${RID_PLATFORM}" -c Release -f "${TARGET_SDK}" --self-contained=true /p:BuildNumber="${BUILD_NUMBER}"
     
   ## Clear the nuget caches to reduce the image size several from 17GB to 6GB
   ${DOTNET_ROOT}/dotnet nuget locals all --clear
