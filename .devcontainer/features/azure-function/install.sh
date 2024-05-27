@@ -9,7 +9,7 @@ AZURE_FUNC_TOOLS_DIR=${AZURE_FUNC_TOOLS_DIR:-"/lib/azure-functions-core-tools-4"
 USERNAME=${USERNAME:-"automatic"}
 VERSION=${VERSION:-"latest"}
 TARGET_SDK=net8.0
-BUILD_NUMBER=""
+BUILD_NUMBER="9999"
 
 updaterc() {
     if [ "${UPDATE_RC}" = "true" ]; then

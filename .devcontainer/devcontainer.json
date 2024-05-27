@@ -72,7 +72,7 @@
     "install-packages": "yarn install && yarn dlx @yarnpkg/sdks base"
   },
   "postAttachCommand": {
-    "configure-git": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+    "configure-git": "[ \"$(git config --global --get safe.directory)\" = '${containerWorkspaceFolder}' ] || git config --global --add safe.directory '${containerWorkspaceFolder}'"
   },
   "remoteUser": "vscode",
   "portsAttributes": {
