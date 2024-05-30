@@ -6,9 +6,9 @@ declare global {
     interface ProcessEnv {
       SECURITY_ALERT_CLOSE_TEAM?: string;
       DEPENDABOT_APPROVER_TEAM?: string;
-      DEPENDABOT_MIN_SEVERITY?: string;
+      DEPENDABOT_SEVERITY?: string;
       CODE_SCANNING_APPROVER_TEAM?: string;
-      CODE_SCANNING_MIN_SEVERITY?: string;
+      CODE_SCANNING_SEVERITY?: string;
       SECRET_SCANNING_APPROVER_TEAM?: string;
       PRIVATE_KEY?: string;
     }

@@ -19,9 +19,9 @@ export function getConfiguration() : Config {
   preparePrivateKey();
   const defaultApproverTeam = process.env.SECURITY_ALERT_CLOSE_TEAM || DEFAULT_APPROVING_TEAM;
   const dependabotApproverTeam = process.env.DEPENDABOT_APPROVER_TEAM || defaultApproverTeam;
-  const dependabotMinimumSeverity = toSeverity(process.env.DEPENDABOT_MIN_SEVERITY);
+  const dependabotMinimumSeverity = toSeverity(process.env.DEPENDABOT_SEVERITY);
   const codeScanningApproverTeam = process.env.CODE_SCANNING_APPROVER_TEAM || defaultApproverTeam;
-  const codeScanningMinimumSeverity = toSeverity(process.env.CODE_SCANNING_MIN_SEVERITY);
+  const codeScanningMinimumSeverity = toSeverity(process.env.CODE_SCANNING_SEVERITY);
   const secretScanningApproverTeam = process.env.SECRET_SCANNING_APPROVER_TEAM || defaultApproverTeam;
 
   return {
