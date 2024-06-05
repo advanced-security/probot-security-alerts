@@ -23,3 +23,19 @@ app.http('securityWatcher', {
     authLevel: 'anonymous',
     handler: securityWatcher
 });
+
+app.http('checkConfig', {
+  methods: ['GET'],
+  authLevel: 'anonymous',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  handler: async function (_request: HttpRequest, _context: InvocationContext): Promise<HttpResponseInit> {
+
+    const requiredEnvVars = ["APP_ID", "PRIVATE_KEY", "GITHUB_CLIENT_ID" , "GITHUB_CLIENT_SECRET", "WEBHOOK_SECRET"];
+    const missingEnvVars = requiredEnvVars.filter((envVar) => !process.env[envVar]);
+    
+    return {
+      status: 200,
+      body: missingEnvVars.length > 0 ? `NOK ${missingEnvVars.length}`  : 'OK'
+    };
+  }
+});
