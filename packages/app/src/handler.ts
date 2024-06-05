@@ -42,20 +42,14 @@ export class ProbotHandler {
     public async process(event: WebhookEventRequest): Promise<WebhookEventResponse> {
 
         if (!event || event.body === undefined || event.body === '' || !event.headers || Object.keys(event.headers).length === 0) {
-            return {
-                status: 400,
-                body: "Missing event body or headers"
-            };
+          return ProbotHandler.buildResponse(400, "Missing event body or headers")
         }
 
         const entries = Object.entries(event.headers).map(([key, value]) => [key.toLowerCase(), value ?? ""]);
         const headers: Record<string,string> = Object.fromEntries(entries);
 
         if (!requiredHeaders.every(header => headers[header])) {
-          return {
-            status: 400,
-              body: "Missing required headers"
-          };
+          return ProbotHandler.buildResponse(400, "Missing required headers")
         }
 
         try {
@@ -67,16 +61,10 @@ export class ProbotHandler {
             });
         }
         catch (error: unknown) {
-            return {
-                status: 400,
-                body: JSON.stringify({ message: ProbotHandler.getMessage(error) })
-            };
+          return ProbotHandler.buildResponse(400, ProbotHandler.getMessage(error))
         }
 
-        return {
-            status: 200,
-            body: JSON.stringify({ ok: true }),
-        };
+        return ProbotHandler.buildResponse(200, { ok: true });
     }
 
     /**
@@ -86,6 +74,22 @@ export class ProbotHandler {
     */
     private static getMessage(error: unknown) {
         return (error instanceof Error) ? error.message : String(error);
+    }
+
+    
+    /**
+     * Builds a response object with the specified status and body.
+     * If the body is an object, it will be converted to a JSON string.
+     * If the body is a string, it will be wrapped in an object with a "message" property before converting to a JSON string.
+     * @param status The status code of the response.
+     * @param body The body of the response, which can be an object or a string.
+     * @returns The response object with the specified status and body.
+     */
+    private static buildResponse(status: number, body: object | string) {
+      return {
+        status,
+        body: JSON.stringify(typeof body === 'object' ? body : { message: body })
+      };
     }
 }
 

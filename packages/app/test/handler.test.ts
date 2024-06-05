@@ -68,7 +68,7 @@ describe("The serverless handler", () => {
 
     test("handler returns error if does not receive required headers", async () => {
       const mock = mockGitHubApiRequests().toNock();
-      const errorMessage = "Missing required headers";
+      const errorMessage = JSON.stringify({message: "Missing required headers"});
       const handler = await ProbotHandler.create(probot, app);
       probot.webhooks.verifyAndReceive = jest.fn().mockImplementation(() => { throw errorMessage; });
       const result = await handler.process({ body: 'hello', headers: { "test": "true" } });
@@ -91,7 +91,7 @@ describe("The serverless handler", () => {
 
     test("handler returns error if the event body is undefined", async () => {
         const mock = mockGitHubApiRequests().toNock();
-        const errorMessage = "Missing event body or headers";
+        const errorMessage = JSON.stringify({message: "Missing event body or headers"});
         const handler = await ProbotHandler.create(probot, app);
         const result = await handler.process({ body: undefined, headers: { "test": "true"} });
         expect(result.status).toStrictEqual(400);
