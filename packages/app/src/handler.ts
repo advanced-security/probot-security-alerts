@@ -1,6 +1,11 @@
 import * as bot from 'probot';
 import { WebhookEventName } from '@octokit/webhooks-types';
 
+// Minimum required headers. We are forcing x-hub-signature-256 to be present, even though it's optional 
+// if no secret is configured. If we make this optional, then we will need to skip the signature verification below if
+// the secret is not configured.
+const requiredHeaders = ["x-github-event", "x-github-delivery", "x-hub-signature-256"];
+
 /**
  * Manages the Probot instance and Lambda function.
  */
@@ -36,7 +41,7 @@ export class ProbotHandler {
      */
     public async process(event: WebhookEventRequest): Promise<WebhookEventResponse> {
 
-        if (!event || event.body === undefined || event.body === '') {
+        if (!event || event.body === undefined || event.body === '' || !event.headers || Object.keys(event.headers).length === 0) {
             return {
                 status: 400,
                 body: "Missing event body or headers"
@@ -45,6 +50,13 @@ export class ProbotHandler {
 
         const entries = Object.entries(event.headers).map(([key, value]) => [key.toLowerCase(), value ?? ""]);
         const headers: Record<string,string> = Object.fromEntries(entries);
+
+        if (!requiredHeaders.every(header => headers[header])) {
+          return {
+            status: 400,
+              body: "Missing required headers"
+          };
+        }
 
         try {
             await this.instance.webhooks.verifyAndReceive({
