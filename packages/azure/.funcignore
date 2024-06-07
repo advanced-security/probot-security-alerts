@@ -12,3 +12,5 @@ scripts
 src
 test
 tsconfig.json
+.env
+publish
