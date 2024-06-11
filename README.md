@@ -101,9 +101,6 @@ Opening this page in the browser will start a process of configuring and registe
 
 For non-development deployments and builds, this functionality is disabled.
 
-> [!TIP]
-> To deploy the application in non-development environments, use the development process to register the application and save the settings to a `.env` file. The settings in this file can then be used to configure the deployed application. After this file is created, update the GitHub App's webhook URL to match the actual deployed environment.
-
 ### Known Issues
 
 This sample application has the following known issues.
@@ -188,6 +185,16 @@ A debug configuration is provided for launching the Azure Function locally.
 
 > [!IMPORTANT]
 > GitHub webhooks expect a response within 10 seconds. This may require a Premium Azure Function plan to ensure the Function's [cold start behavior](https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale#cold-start-behavior) will allow it to respond within the required timeframe.
+
+### Installation
+
+There are several ways you can host your application.
+
+#### Azure
+
+The application can be hosted in Microsoft Azure using [Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-overview?pivots=programming-language-csharp), we have provided scripts and infrastructure as code bicep templates to provision all necessary resources.
+
+If you want to run the application in Azure, jump to [Azure Installation](docs/Azure-Install.md) guide, all you need is an Azure Subscription.
 
 ## Using GitHub Security Managers
 
