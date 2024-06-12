@@ -38,14 +38,14 @@ EOM
 
 # get base directory and read env file
 scripts_path=$(dirname "$0")
-source "${scripts_path}/_common"
+source "${scripts_path}/_common.sh"
 base_path=$(get_base_path)
 env_file=$(get_env_file_path)
 
 # Check if SKIP_ENV_FILE is true
 if [ -z ${SKIP_ENV_FILE+x} ]; then
   if [ -f "$env_file" ]; then
-    echo -e "\nLoading .env file from $env_file"
+    echo -e "\nLoading .env file from $env_file\n"
     source "$env_file"
   else
     echo -e "Warning .env file not found at $env_file  You will have to pass all parameters GitHub App related parameters manually."	
@@ -93,28 +93,28 @@ function validateParameters()
 {
 	missing_params=false
 	if [ -z ${APP_ID+x} ]; then
-		echo "GitHub Application ID is as required parameter. Use --app-id to specify it"
+		echo "GitHub Application ID is a required parameter. Use --app-id to specify it"
 		missing_params=true
 	fi
 
 	if [ -z ${PRIVATE_KEY+x} ]; then
-		echo "Private Key is as required parameter. Use --key or -k to specify it"
+		echo "Private Key is a required parameter. Use --key or -k to specify it"
 		missing_params=true
 	fi
 
 	if [ -z ${RG+x} ]; then
-		echo "Resource Group is as required parameter. Use --resource-group or -g to specify it"
+		echo "Resource Group is a required parameter. Use --resource-group or -g to specify it"
 		missing_params=true
 	fi
 
 	if [ -z ${APP_NAME+x} ]; then
-		echo "Function App Name is as required parameter (must be globally unique). Use --function-name to specify it"
+		echo "Function App Name is a required parameter (must be globally unique). Use --function-name to specify it"
 		missing_params=true
 	fi
 
 	# fail if there are missing parameters
 	if [ "$missing_params" = true ]; then
-		echo -e "\nMissing required parameters listed above\n"
+		echo -e "\nMissing or invalid parameters (list above).\n"
 		PrintUsage
 	fi
 }

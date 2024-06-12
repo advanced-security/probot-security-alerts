@@ -85,7 +85,7 @@ With these simple call, you will be ready to go in no time, this script will:
 
 ```shell
 # location parameter is optional. The default value is eastus
-./packages/azure/setup/provision-and-deploy --resource-group <resource group> --function-name <function name> --location westus2
+./packages/azure/setup/provision-and-deploy.sh --resource-group <resource group> --function-name <function name> --location westus2
 ```
 
 > [!NOTE] if you don't specify the location, eastus is used by default. See here the list of [Azure Regions](https://azure.microsoft.com/en-us/explore/global-infrastructure/geographies/#geographies). Azure functions may not be available on all regions.
@@ -94,7 +94,7 @@ With these simple call, you will be ready to go in no time, this script will:
 
 After you execute the command, wait a few minutes and if there are no errors you are good to good, your application is now running as an Azure Function.
 
-### Parameters for provision-and-deploy
+### Parameters for provision-and-deploy.sh
 
 `resource group` and `function name` are the minimum parameters needed for provisioning and deploying the app, but the script can receive more parameters:
 
@@ -111,14 +111,14 @@ After you execute the command, wait a few minutes and if there are no errors you
 - `--
 ### Calling scripts individually
 
-The `provision-and-deploy` script configures and deploys the application in one go, but you can also call the scripts individually if you want to do it step by step, or if you later want to just perform some operations.
+The `provision-and-deploy.sh` script configures and deploys the application in one go, but you can also call the scripts individually if you want to do it step by step, or if you later want to just perform some operations.
 
-#### provision-resources
+#### provision-resources.sh
 
-The `provision-resources` script creates the necessary resources in Azure uzing the [Bicep template](../packages/azure/setup/function.bicep)
+The `provision-resources.sh` script creates the necessary resources in Azure uzing the [Bicep template](../packages/azure/setup/function.bicep)
 
 ```shell
-./packages/azure/setup/provision-resources --resource-group <resource group> --function-name <function name>
+./packages/azure/setup/provision-resources.sh --resource-group <resource group> --function-name <function name>
 ```
 
 This script has the following parameters:
@@ -133,19 +133,19 @@ This script has the following parameters:
 - `--app-insights-location <location>` The location for Application Insights (if you want to placed in a location different from other resources.)
 - `--set-ip-restrictions` Enable IP restrictions, if you want to [restrict Access](https://learn.microsoft.com/en-us/azure/azure-functions/functions-networking-options?tabs=azure-portal) to the function app only to GitHub webhooks IPs. The list of IPs dinamically read from the [GitHub Meta API](https://docs.github.com/en/rest/meta/meta?apiVersion=2022-11-28#get-github-meta-information), if this list is updated you will have to update the function configuration. This also means you cannot make direct requests to the function.
 
-#### deploy-function
+#### deploy-function.sh
 
 Builds and deploys the function to Azure, if you make changes to the code all you need to do is run this script to deploy it.
 
 ```shell
-./packages/azure/setup/deploy-function --resource-group <resource group> --function-name <function name>
+./packages/azure/setup/deploy-function.sh --resource-group <resource group> --function-name <function name>
 ```
-#### update-app-webhookurl
+#### update-app-webhookurl.sh
 
 Updates the GitHub application webhook URL to point to the Azure Function.
 
 ```shell
-./packages/azure/setup/update-app-webhookurl --resource-group <resource group> --function-name <function name> 
+./packages/azure/setup/update-app-webhookurl.sh --resource-group <resource group> --function-name <function name> 
 ```
 
 This script has the following parameters:

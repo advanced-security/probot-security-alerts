@@ -72,7 +72,7 @@ function validateParameters()
 
 	# fail if there are missing parameters
 	if [ "$missing_params" = true ]; then
-		echo -e "Missing required parameters\n"
+		echo -e "\nMissing or invalid parameters (list above).\n"
 		PrintUsage
 	fi
 }
@@ -80,7 +80,7 @@ function validateParameters()
 
 # get base directory
 scripts_path=$(dirname "$0")
-source "${scripts_path}/_common"
+source "${scripts_path}/_common.sh"
 base_path=$(get_base_path)
 
 azure_base_path="${base_path}/packages/azure"

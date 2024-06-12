@@ -7,6 +7,9 @@ PrintUsage()
   COMMAND=${COMMAND_NAME:-$(basename "$0")}
 
   cat <<EOM
+
+Provisions necessary resources and deploys a GitHub App as an Azure Function
+
 Usage: ${COMMAND} [options]
 
 Options:
@@ -26,6 +29,8 @@ Options:
     --webhook-secret              : The WebHook secret to use for the GitHub application
                                     Optional but recommended.
 
+    --skip-app-webhook-update     : After deploying the function, the app webkook url is automatically configured with the 
+                                    function url. Use this flag to skip this step.
     -g, --resource-group          : Resource group to provision the resources in (it will be created if it doesn't exist)
 
     -l --location                 : Location to provision the resources in (default: [$LOCATION])
@@ -35,10 +40,13 @@ Options:
     --set-ip-restrictions         : (flag) Set IP restrictions on the function app to only allow traffic from the GitHub hook IP addresses.
                                     Fetches the values automatically from GitHub Meta API (default: false)
 
+Note: If you have configured the GitHub application already the application id, private key and webhook secret will be automatically fetched 
+from the .env file
+
 Description:
 
 Examples:
-  ${COMMAND} -a 123 -k certificate.pem -g deployhours-gate --set-ip-restrictions
+  ${COMMAND} -a 123 -k \$KEY_CONTENT -g my-probot-security-alerts --function-name my-probot-security-alerts --set-ip-restrictions
   ${COMMAND} --app-id 123 --key \$KEY_CONTENT -g my-probot-security-alerts --function-name my-probot-security-alerts --function-short-name alerts
 
 EOM
@@ -48,24 +56,24 @@ EOM
 ####################################
 # Default Values
 # ##################################
+
 LOCATION=${LOCATION:-"eastus"}
 APPINSIGHTS_LOCATION=${APPINSIGHTS_LOCATION:-$LOCATION}
 APP_SHORT_NAME=${APP_SHORT_NAME:-"secalt"}
 SET_IP_RESTRICTION=${SET_IP_RESTRICTION:-false}
+SKIP_APP_WEBHOOK_UPDATE=${SKIP_APP_WEBHOOK_UPDATE:-false}
 
 # get base directory and read env file
 scripts_path=$(dirname "$0")
-source "${scripts_path}/_common"
+source "${scripts_path}/_common.sh"
 base_path=$(get_base_path)
 env_file=$(get_env_file_path)
 
-if [ -z ${SKIP_ENV_FILE+x} ]; then
-  if [ -f "$env_file" ]; then
-    echo -e "\nLoading .env file from $env_file"
-    source "$env_file"
-  else
-    echo -e "Warning .env file not found at $env_file  You will have to pass all parameters GitHub App related parameters manually."	
-  fi
+if [ -f "$env_file" ]; then
+	echo -e "\nLoading .env file from $env_file\n"
+	source "$env_file"
+else
+	echo -e "Warning .env file not found at $env_file  You will have to pass all parameters GitHub App related parameters manually."	
 fi
 
 PARAMS=""
@@ -110,6 +118,10 @@ while [[ $# -gt 0 ]]; do
       SET_IP_RESTRICTION=true
       shift
       ;;
+    --skip-app-webhook-update)
+      SKIP_APP_WEBHOOK_UPDATE=true
+      shift
+      ;;
     --) # end argument parsing
       shift
       break
@@ -125,37 +137,36 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-
 function validateParameters()
 {
 	missing_params=false
 	if [ -z ${APP_ID+x} ]; then
-		echo "GitHub Application ID is required"
+		echo "GitHub Application ID is a required parameter. Use --app-id to specify it"
 		missing_params=true
 	fi
-  
+
 	if [ -z ${PRIVATE_KEY+x} ]; then
-		echo "Private Key is required"
+		echo "Private Key is a required parameter. Use --key or -k to specify it"
 		missing_params=true
 	fi
 
 	if [ -z ${WEBHOOK_SECRET+x} ]; then
-		echo "WebHook Secret is required"
+		echo "WebHook Secret is a required parameter. Use --webhook-secret to specify it"
 		missing_params=true
 	fi
 
 	if [ -z ${RG+x} ]; then
-		echo "Resource Group is required"
+		echo "Resource Group is a required parameter. Use --resource-group or -g to specify it"
 		missing_params=true
 	fi
 
 	if [ -z ${LOCATION+x} ]; then
-		echo "Location is required"
+		echo "Location is a required parameter. Use --location or -l to specify it"
 		missing_params=true
 	fi
 
 	if [ -z ${APP_NAME+x} ]; then
-		echo "Function App Name is as required parameter (must be globally unique). Use --function-name to specify it"
+		echo "Function App Name is a required parameter (must be globally unique). Use --function-name to specify it"
 		missing_params=true
   else
     if ! validateFunctionName $APP_NAME ; then
@@ -165,78 +176,54 @@ function validateParameters()
 	fi
 
 	if [ -z ${APP_SHORT_NAME+x} ]; then
-		echo "Function App Short Name is required"
+		echo "Function App Short Name is a required parameter. Use --function-short-name to specify it"
 		missing_params=true
 	fi
 
 	# fail if there are missing parameters
 	if [ "$missing_params" = true ]; then
-		echo -e "\nMissing required parameters listed above\n"
+		echo -e "\nMissing or invalid parameters (list above).\n"
 		PrintUsage
 	fi
 }
 
-############# Begin
+########### BEGIN
 validateParameters
 validateRequirements
 validAzureLogin
 
-printSubscription
+FLAGS=""
+if [ "$SET_IP_RESTRICTION" = true ]; then
+  FLAGS="--set-ip-restrictions"
+fi
 
-echo -e "Checking if [$RG] resource group exists"
-if az group show --name "$RG" --query id --output tsv &> /dev/null ; then
-	echo -e "  Exists, will use it."
+# PASS secrets and env variables as env variables
+SKIP_TIPS=true SKIP_ENV_FILE=true PRIVATE_KEY=$PRIVATE_KEY WEBHOOK_SECRET=$WEBHOOK_SECRET "${scripts_path}/provision-resources.sh" \
+  --app-id "$APP_ID" \
+  --resource-group "$RG" \
+  --location "$LOCATION" \
+  --function-name "$APP_NAME" \
+  --function-short-name "$APP_SHORT_NAME" \
+  --app-insights-location "$APPINSIGHTS_LOCATION" \
+  $FLAGS
+
+"${scripts_path}/deploy-function.sh" --resource-group "$RG" --function-name "$APP_NAME"
+
+if [ "$SKIP_APP_WEBHOOK_UPDATE" != true ]; then
+  "${scripts_path}/update-app-webhookurl.sh" --resource-group "$RG" --function-name "$APP_NAME"
+fi
+
+if [ "$SET_IP_RESTRICTION" = true ]; then
+  echo "Can't check configuration as IP restrictions are set. Skipping check."
 else
-	echo -e "  Doesn't exist. Will create"
-  az group create --name "$RG" --location "$LOCATION" --only-show-errors --output none
-	echo -e "  Resource Group [$RG] created in $LOCATION"
-fi
+  echo -e "\nChecking Azure function configuration by calling check config API...."
+  checkConfigResult=$(curl -s "https://${APP_NAME}.azurewebsites.net/api/checkConfig" | jq -r '.config')
 
-echo -e "\nParameters:"
-echo -e "  Function App Name:\t\t\t $APP_NAME"
-echo -e "  Function App Short Name:\t\t $APP_SHORT_NAME"
-echo -e "  App Insights Location:\t\t $APPINSIGHTS_LOCATION"
-echo -e "  GitHub Application ID:\t\t $APP_ID"
-if [ -n "$PRIVATE_KEY" ]; then
-	echo -e "  GitHub Application Private Key:\t [redacted]"
-fi
-if [ -n "$WEBHOOK_SECRET" ]; then
-	echo -e "  WebHook Secret:\t\t\t [redacted]"
-fi
-
-echo -e "  Set IP Restrictions:\t\t $SET_IP_RESTRICTION"
-
-echo ""
-hooksIps="[]"
-if [ "$SET_IP_RESTRICTION" == true ]; then  
-  hooksIps=$(gh api meta | jq -c .hooks)
-  echo -e "  Setting IP restriction to $hooksIps"
-else 
-  echo -e "  Not setting IP restriction"
-fi
-
-echo -e "\nProvisioning Azure Resources in resource group [$RG]\n"
-deployOutput=$(az deployment group create --resource-group "$RG" \
-    --template-file "${base_path}/packages/azure/iac/function.bicep" \
-    --query properties.outputs \
-    --parameters appName="$APP_NAME" \
-        appShortName="$APP_SHORT_NAME" \
-        webHookSecret="$WEBHOOK_SECRET" \
-				githubAppId="$APP_ID" \
-				certificate="$PRIVATE_KEY" \
-        ghHooksIpAddresses="$hooksIps" \
-				appInsightsLocation="$APPINSIGHTS_LOCATION" \
-    --query 'properties.outputs')
-
-echo 'Deployment Outputs:'
-echo "$deployOutput"
-
-echo -e "\nAzure Resources provisioned successfully\n"
-
-# check if SKIP_TIPS is true
-if [ -z ${SKIP_TIPS+x} ]; then
-  echo -e "If you want to deploy the function code, run the following command:\n"
-  echo -e "  ./deploy-function.sh --resource-group \"$RG\" --function-name \"$APP_NAME\"\n"
-  echo -e "Note: Don't forget to update the GitHub Application webhook url"
-fi
-
+  if [ "$checkConfigResult" == "OK" ]; then
+    echo "  Configuration check passed."
+  else 
+    echo "  Configuration check failed. Response: $checkConfigResult."  
+    exit 1
+  fi
+fi 
+echo -e "\n\nSuccess. Provisioning and deploy complete. You are good to go!!!\n"
