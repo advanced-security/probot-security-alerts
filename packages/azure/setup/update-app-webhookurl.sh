@@ -40,17 +40,8 @@ EOM
 scripts_path=$(dirname "$0")
 source "${scripts_path}/_common.sh"
 base_path=$(get_base_path)
-env_file=$(get_env_file_path)
 
-# Check if SKIP_ENV_FILE is true
-if [ -z ${SKIP_ENV_FILE+x} ]; then
-  if [ -f "$env_file" ]; then
-    echo -e "\nLoading .env file from $env_file\n"
-    source "$env_file"
-  else
-    echo -e "Warning .env file not found at $env_file  You will have to pass all parameters GitHub App related parameters manually."	
-  fi
-fi
+loadEnvFile
 
 PARAMS=""
 while [[ $# -gt 0 ]]; do

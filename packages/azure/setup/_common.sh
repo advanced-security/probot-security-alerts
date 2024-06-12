@@ -65,3 +65,29 @@ function validateFunctionName() {
     return 1
   fi
 }
+
+function loadEnvFile() {
+
+	if [ -z ${SKIP_ENV_FILE+x} ]; then
+
+		env_file=$(get_env_file_path)
+		if [ -f "$env_file" ]; then
+			echo -e "\nLoading .env file from $env_file"
+			source "$env_file"
+			if [ -z ${APP_ID+x} ]; then
+				echo "Warning: .env file is missing APP_ID Use --app-id to override it"
+			fi
+			if [ -z ${PRIVATE_KEY+x} ]; then
+				echo "Warning: .env file is missing PRIVATE_KEY Use --key to override it"
+			fi
+			if [ -z ${WEBHOOK_SECRET+x} ]; then
+				echo "Warning: .env file is missing WEBHOOK_SECRET Use --webhook-secret to override it"
+			fi
+
+			echo ""
+		else
+			echo -e "Warning .env file not found at $env_file  You will have to pass all parameters GitHub App related parameters manually."	
+		fi
+	fi
+
+}
