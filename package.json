@@ -34,6 +34,8 @@
     "@eslint/js": "^9.3.0",
     "@jest/core": "^29.7.0",
     "@jest/globals": "^29.7.0",
+    "@octokit/auth-app": "^7.1.0",
+    "@octokit/core": "^6.1.2",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.12",
     "dotenv": "^16.4.5",
