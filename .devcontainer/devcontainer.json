@@ -69,7 +69,7 @@
     "setup-yarn": "corepack enable && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack install --global yarn@stable"
   },
   "updateContentCommand": {
-    "install-packages": "yarn install && yarn dlx @yarnpkg/sdks base"
+    "install-packages": "COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install && yarn dlx @yarnpkg/sdks base"
   },
   "postAttachCommand": {
     "configure-git": "[ \"$(git config --global --get safe.directory)\" = '${containerWorkspaceFolder}' ] || git config --global --add safe.directory '${containerWorkspaceFolder}'"
