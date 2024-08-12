@@ -10,21 +10,29 @@ on:
 jobs:
   Validate:
     runs-on: ubuntu-latest
+
+    env:
+      NODE_VERSION: '20.x'
     steps:
     - uses: actions/checkout@v4
-    - name: Install Node.js 20
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20.x
     - name: Configure Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 20.x
-        cache: 'yarn'
+        node-version: ${{ env.NODE_VERSION }}
+    - name: Enable corepack
+      run: corepack enable  && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn set version berry
+      # Insures we are using latest yarn after setting corepack (for the cache)
+    - name: Configure Node.js with cache
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'yarn'      
     - name: Install dependencies
-      run: yarn install immutable
-    - name: 
+      run: yarn install --immutable
+    - name: Build
       run: yarn run build
+      env:
+        SAM_CLI_TELEMETRY: 0 
     - name: Lint TypeScript
       run: yarn run lint
     - name: Install Hadolint
