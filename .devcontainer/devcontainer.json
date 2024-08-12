@@ -44,6 +44,7 @@
         "eslint.enable": true,
         "eslint.options": {
         },
+        "eslint.useFlatConfig": true,
         "eslint.workingDirectories": [
           {
             "mode": "auto"
