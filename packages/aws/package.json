@@ -39,18 +39,18 @@
     "prebuild": "yarn node esbuild.config.mjs"
   },
   "dependencies": {
-    "esbuild": "^0.21.4",
-    "probot": "^13.2.2"
+    "esbuild": "^0.23.0",
+    "probot": "^13.3.7"
   },
   "devDependencies": {
-    "@eslint/js": "^9.3.0",
-    "@types/aws-lambda": "^8.10.138",
-    "@typescript-eslint/eslint-plugin": ">=8.0.0-alpha",
-    "@typescript-eslint/parser": ">=8.0.0-alpha",
-    "eslint": "^9.3.0",
-    "tslib": "^2.6.2",
-    "typescript": "^5.4.5",
-    "typescript-eslint": ">=8.0.0-alpha"
+    "@eslint/js": "^9.9.0",
+    "@types/aws-lambda": "^8.10.143",
+    "@typescript-eslint/eslint-plugin": "^8.1.0",
+    "@typescript-eslint/parser": "^8.1.0",
+    "eslint": "^9.9.0",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.1.0"
   },
   "engines": {
     "node": ">= 20.8.0"

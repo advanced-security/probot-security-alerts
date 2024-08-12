@@ -1,17 +1,13 @@
-/**
- * Temporarily required to enable VS Code to use ESLint. VS Code
- * uses an older version of NodeJS in Electron that does not support
- * ESLint configuration in a module file.
- */
-const eslint = require('@eslint/js');
-const tseslint = require('typescript-eslint');
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
-module.exports = tseslint.config(
+export default tseslint.config(
   {
     ignores: [
       '**/eslint.config.cjs',
       '**/jest.config.mjs',
       '**/esbuild.config.mjs',
+      '**/.aws-sam/',
       '**/dist/',
       '**/coverage/',
       '**/.yarn/'

@@ -44,6 +44,7 @@
         "eslint.enable": true,
         "eslint.options": {
         },
+        "eslint.useFlatConfig": true,
         "eslint.workingDirectories": [
           {
             "mode": "auto"
@@ -93,7 +94,7 @@
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "20.13.1",
+      "version": "20.16.0",
       "nvmVersion": "latest"
     }
   }
