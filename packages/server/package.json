@@ -24,7 +24,7 @@
     "build:container": "docker build  -t security-alert-watcher -f Dockerfile ../..",
     "clean": "yarn g:clean",
     "lint": "yarn run lint:code && yarn run lint:container",
-    "test": "yarn g:test",
+    "test": "yarn jest --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
     "start": "yarn tsx watch --env-file=.env src/index.ts",
     "start:nowatch": "yarn tsx --env-file=.env src/index.ts",
     "lint:code": "yarn eslint",
