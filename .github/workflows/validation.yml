@@ -5,14 +5,16 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "kenmuse/vNext" ]
+
+env:
+  NODE_VERSION: '20.x'
+  SAM_CLI_TELEMETRY: 0 
 
 jobs:
   Validate:
     runs-on: ubuntu-latest
 
-    env:
-      NODE_VERSION: '20.x'
     steps:
     - uses: actions/checkout@v4
     - name: Configure Node.js
@@ -31,8 +33,6 @@ jobs:
       run: yarn install --immutable
     - name: Build
       run: yarn run build
-      env:
-        SAM_CLI_TELEMETRY: 0 
     - name: Lint TypeScript
       run: yarn run lint
     - name: Install Hadolint
