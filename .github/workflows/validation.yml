@@ -42,11 +42,11 @@ jobs:
       if: ${{ github.actor != 'dependabot[bot]' }}
       with:
         skip-step: all
-        coverage-file: app/coverage/report.json
-        base-coverage-file: app/coverage/report.json
+        coverage-file: packages/app/coverage/report.json
+        base-coverage-file: packages/app/coverage/report.json
     - uses: ArtiomTr/jest-coverage-report-action@v2
       if: ${{ github.actor != 'dependabot[bot]' }}
       with:
         skip-step: all
-        coverage-file: server/coverage/report.json
-        base-coverage-file: server/coverage/report.json
+        coverage-file: packages/server/coverage/report.json
+        base-coverage-file: packages/server/coverage/report.json
