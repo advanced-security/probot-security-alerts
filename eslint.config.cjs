@@ -12,6 +12,7 @@ module.exports = tseslint.config(
       '**/eslint.config.cjs',
       '**/jest.config.mjs',
       '**/esbuild.config.mjs',
+      '**/.aws-sam/',
       '**/dist/',
       '**/coverage/',
       '**/.yarn/'
