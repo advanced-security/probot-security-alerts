@@ -8,8 +8,8 @@ on:
     branches: [ "main", "kenmuse/vNext" ]
 
 env:
-  NODE_VERSION: '20.x'
-  SAM_CLI_TELEMETRY: 0 
+  SAM_CLI_TELEMETRY: 0
+  FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT: true
 
 jobs:
   Validate:
@@ -17,13 +17,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Install Hadolint
+      run: sudo ./.devcontainer/features/hadolint/install.sh
     - name: Configure Node.js
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
     - name: Enable corepack
       run: corepack enable  && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn set version berry
-      # Insures we are using latest yarn after setting corepack (for the cache)
+      # Ensures we are using latest yarn after setting corepack (for the cache)
     - name: Configure Node.js with cache
       uses: actions/setup-node@v4
       with:
@@ -33,12 +35,8 @@ jobs:
       run: yarn install --immutable
     - name: Build
       run: yarn run build
-    - name: Lint TypeScript
+    - name: Lint package code
       run: yarn run lint
-    - name: Install Hadolint
-      run: sudo ./.devcontainer/features/hadolint/install.sh
-    - name: Lint Dockerfile
-      run: ./scripts/lintDocker.sh ./server/Dockerfile
     - run: yarn run test --coverage --testLocationInResults --json --outputFile coverage/report.json
     - uses: ArtiomTr/jest-coverage-report-action@v2
       if: ${{ github.actor != 'dependabot[bot]' }}
