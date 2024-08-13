@@ -31,7 +31,9 @@
     "clean": "yarn g:clean && rm -rf publish",
     "lint": "yarn eslint",
     "storage": "yarn azurite --inMemoryPersistence",
-    "copyEnv": "yarn g:copyEnv"
+    "copyEnv": "yarn g:copyEnv",
+    "format": "yarn g:format",
+    "format:check": "yarn g:format-check"
   },
   "devDependencies": {
     "@azure/functions": "^4.5.0",

@@ -36,7 +36,9 @@
     "deploy": "sam deploy --guided",
     "start": "sam local start-lambda",
     "copyEnv": "yarn g:copyEnv",
-    "prebuild": "yarn node esbuild.config.mjs"
+    "prebuild": "yarn node esbuild.config.mjs",
+    "format": "yarn g:format",
+    "format:check": "yarn g:format-check"
   },
   "dependencies": {
     "esbuild": "^0.23.0",

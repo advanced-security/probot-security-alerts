@@ -20,6 +20,7 @@
     "clean": "yarn workspaces foreach -Apt run clean",
     "lint": "yarn workspaces foreach -Apt run lint",
     "format:check": "yarn prettier --no-error-on-unmatched-pattern --config ${PROJECT_CWD}/.prettierrc.yml --check \"**/*.{js,mts,ts,yml,yaml}\"",
+    "format": "yarn prettier --no-error-on-unmatched-pattern --config ${PROJECT_CWD}/.prettierrc.yml --write \"**/*.{js,mts,ts,yml,yaml}\"",
     "start": "yarn workspace @security-alert-watcher/server run start",
     "g:copyEnv": "yarn node scripts/copyEnv.mjs",
     "g:test": "yarn dlx jest --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
