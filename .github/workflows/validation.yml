@@ -10,6 +10,7 @@ on:
 env:
   SAM_CLI_TELEMETRY: 0
   FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT: true
+  NODE_VERSION: 20.x
 
 jobs:
   Validate:
