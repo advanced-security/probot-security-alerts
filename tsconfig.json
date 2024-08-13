@@ -1,12 +1,21 @@
 {
-    "files": [],
-    "compilerOptions": {
-        "disableSourceOfProjectReferenceRedirect": false
+  "extends": "tsconfig.base.json",
+  "files": [],
+  "compilerOptions": {
+    "disableSourceOfProjectReferenceRedirect": false
+  },
+  "references": [
+    {
+      "path": "./packages/app"
     },
-    "references": [
-        { "path": "./packages/app" },
-        { "path": "./packages/aws" },
-        { "path": "./packages/azure" },
-        { "path": "./packages/server" }
-    ]
+    {
+      "path": "./packages/aws"
+    },
+    {
+      "path": "./packages/azure"
+    },
+    {
+      "path": "./packages/server"
+    }
+  ]
 }

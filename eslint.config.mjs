@@ -10,16 +10,15 @@ export default tseslint.config(
       '**/.aws-sam/',
       '**/dist/',
       '**/coverage/',
-      '**/.yarn/'
+      '**/.yarn/',
+      '**/.pnp.cjs',
+      '**/.pnp.loader.mjs'
     ]
   },
   eslint.configs.recommended,
   ...tseslint.configs.stylistic,
   ...tseslint.configs.strict,
   {
-    files: [
-      'src/**/*.{ts,mts}', 
-      'test/**/*.test.{ts,mts}'
-    ]
+    files: ['src/**/*.{ts,mts}', 'test/**/*.test.{ts,mts}']
   }
 );

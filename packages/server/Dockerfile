@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.4
 
 ARG NODE_VERSION=20
-ARG OS_BASE=alpine3.18
+ARG OS_BASE=alpine3.20
 ARG APP_ROOT=/opt/probot
 
 FROM node:${NODE_VERSION}-${OS_BASE} as base
@@ -38,7 +38,7 @@ EXPOSE ${PORT}
 HEALTHCHECK CMD wget --server-response --timeout=10 --tries=3 --spider "http://localhost:${PORT}/health" || exit 1
 
 WORKDIR ${APP_ROOT}
-COPY --link --chown=node:node --from=build /app/packages/server/dist/ .
+COPY --link --chown=1000:1000 --from=build /app/packages/server/dist/ .
 
 ENTRYPOINT ["node", "index.mjs"]
 USER node

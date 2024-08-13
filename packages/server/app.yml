@@ -17,36 +17,36 @@
 # Uncomment the event names below to enable them.
 default_events:
   - code_scanning_alert
-# - check_run
-# - check_suite
-# - commit_comment
-# - create
-# - delete
+  # - check_run
+  # - check_suite
+  # - commit_comment
+  # - create
+  # - delete
   - dependabot_alert
-# - deployment
-# - deployment_status
-# - fork
-# - gollum
-# - issue_comment
-# - issues
-# - label
-# - milestone
-# - member
-# - membership
-# - org_block
-# - organization
-# - page_build
-# - project
-# - project_card
-# - project_column
-# - public
-# - pull_request
-# - pull_request_review
-# - pull_request_review_comment
-# - push
-# - release
-# - repository
-# - repository_import
+  # - deployment
+  # - deployment_status
+  # - fork
+  # - gollum
+  # - issue_comment
+  # - issues
+  # - label
+  # - milestone
+  # - member
+  # - membership
+  # - org_block
+  # - organization
+  # - page_build
+  # - project
+  # - project_card
+  # - project_column
+  # - public
+  # - pull_request
+  # - pull_request_review
+  # - pull_request_review_comment
+  # - push
+  # - release
+  # - repository
+  # - repository_import
   - secret_scanning_alert
 # - status
 # - team
