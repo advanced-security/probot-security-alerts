@@ -1,10 +1,14 @@
-import Stream from 'node:stream';
-import nock from 'nock';
-import {Probot, ProbotOctokit, Options, ApplicationFunction} from 'probot';
 import fs from 'fs';
+import nock from 'nock';
+import Stream from 'node:stream';
 import path from 'path';
+import {Probot, ProbotOctokit, Options, ApplicationFunction} from 'probot';
+import {fileURLToPath} from 'url';
 import {app as myProbotApp} from '../../src/index.js';
 import {DEFAULT_APPROVING_TEAM} from '../../src/config/index.js';
+
+const fileName = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(fileName);
 
 /**
  * Constants used in the fixtures

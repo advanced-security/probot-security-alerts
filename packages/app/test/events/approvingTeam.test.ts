@@ -1,3 +1,4 @@
+import {jest} from '@jest/globals';
 import {ProbotOctokit} from 'probot';
 import pino from 'pino';
 import {OctokitResponse} from '@octokit/types';

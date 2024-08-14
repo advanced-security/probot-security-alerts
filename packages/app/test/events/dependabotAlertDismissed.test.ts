@@ -1,47 +1,57 @@
-import {
-  mockGitHubApiRequests,
-  getTestableProbot,
-  resetNetworkMonitoring
-} from '../utils/helpers.js';
+import {jest} from '@jest/globals';
 import event from '../fixtures/dependabot_alert/dismissed.json';
 import {Severity} from '../../src/config/types.js';
-import * as config from '../../src/config/index.js';
+import {getConfigurableMockServices} from '../utils/services.js';
 
-const payload = event.payload;
+const PAYLOAD_FIXTURE = {name: 'dependabot_alert', payload: event.payload};
 
 describe('When Dependabot alerts are received', () => {
   // Use the any type to avoid issues with additional fields in the payload that Probot cannot recognize
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let config: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let api: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let probot: any;
 
-  beforeEach(() => {
-    probot = getTestableProbot();
+  beforeEach(async () => {
+    const services = await getConfigurableMockServices();
+    api = services.api;
+    config = services.config;
+    probot = services.probot;
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
   });
 
   test.each(['maintainer', 'member'])(
     `ignores alerts closed by a %s in the approving team`,
     async (role: string) => {
-      const mock = mockGitHubApiRequests()
+      const mock = api
+        .mockGitHubApiRequests()
         .canRetrieveAccessToken()
         .isInApprovingTeam(role)
         .toNock();
 
       // Receive a webhook event
-      await probot.receive({name: 'dependabot_alert', payload});
+      await probot.receive(PAYLOAD_FIXTURE);
 
       expect(mock.pendingMocks()).toStrictEqual([]);
     }
   );
 
   test(`opens alerts closed by non-member of the approving team`, async () => {
-    const mock = mockGitHubApiRequests()
+    const mock = api
+      .mockGitHubApiRequests()
       .canRetrieveAccessToken()
       .isNotInApprovingTeam()
       .withAlertState('dependabot', 'open')
       .toNock();
 
     // Receive a webhook event
-    await probot.receive({name: 'dependabot_alert', payload});
+    await probot.receive(PAYLOAD_FIXTURE);
 
     expect(mock.pendingMocks()).toStrictEqual([]);
   });
@@ -54,26 +64,27 @@ describe('When Dependabot alerts are received', () => {
         ...originalConfig,
         ...{dependabotMinimumSeverity: Severity.NONE}
       });
-    const mock = mockGitHubApiRequests().toNock();
-    await probot.receive({name: 'dependabot_alert', payload});
+    const mock = api.mockGitHubApiRequests().toNock();
+    await probot.receive(PAYLOAD_FIXTURE);
 
     expect(mock.pendingMocks()).toStrictEqual([]);
     expect(configuration).toHaveBeenCalled();
   });
 
   test('opens alerts if membership request returns a 500 error', async () => {
-    const mock = mockGitHubApiRequests()
+    const mock = api
+      .mockGitHubApiRequests()
       .canRetrieveAccessToken()
       .errorRetrievingTeamMembership(500)
       .withAlertState('dependabot', 'open')
       .toNock();
 
-    await probot.receive({name: 'dependabot_alert', payload});
+    await probot.receive(PAYLOAD_FIXTURE);
 
     expect(mock.pendingMocks()).toStrictEqual([]);
   });
 
   afterEach(() => {
-    resetNetworkMonitoring();
+    api.resetNetworkMonitoring();
   });
 });

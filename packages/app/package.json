@@ -26,7 +26,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "yarn g:clean",
-    "test": "yarn jest --runInBand  --config=./jest.config.mjs --rootDir=.",
+    "test": "NODE_OPTIONS='--experimental-vm-modules --no-warnings=ExperimentalWarning' yarn jest --config=${INIT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
     "lint": "yarn eslint",
     "format": "yarn g:format",
     "format:check": "yarn g:format-check"

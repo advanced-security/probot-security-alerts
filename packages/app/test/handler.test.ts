@@ -1,9 +1,10 @@
+import {jest} from '@jest/globals';
+import {Probot} from 'probot';
 import {
   mockGitHubApiRequests,
   getDefaultProbotOptions,
   resetNetworkMonitoring
 } from './utils/helpers.js';
-import {Probot} from 'probot';
 import {ProbotHandler, WebhookEventRequest} from '../src/handler.js';
 import {app} from '../src/index.js';
 

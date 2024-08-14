@@ -1,49 +1,53 @@
-import {
-  mockGitHubApiRequests,
-  getTestableProbot,
-  resetNetworkMonitoring
-} from '../utils/helpers.js';
+import {jest} from '@jest/globals';
 import payload from './../fixtures/code_scanning_alert/closed_by_user.json';
-import * as config from '../../src/config/index.js';
 import {Severity} from '../../src/config/types.js';
+import {getConfigurableMockServices} from '../utils/services.js';
+
+const PAYLOAD_FIXTURE = {name: 'code_scanning_alert.closed_by_user', payload};
 
 describe('When code scanning alerts are received', () => {
-  // Use the any type to avoid issues with additional fields in the payload that Probot cannot recognize
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let config: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let api: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let probot: any;
 
-  beforeEach(() => {
-    probot = getTestableProbot();
+  beforeEach(async () => {
+    const services = await getConfigurableMockServices();
+    api = services.api;
+    config = services.config;
+    probot = services.probot;
   });
 
   afterEach(() => {
+    jest.resetModules();
     jest.clearAllMocks();
   });
 
   test.each(['maintainer', 'member'])(
     `ignores alerts closed by a %s in the approving team`,
     async (role: string) => {
-      const mock = mockGitHubApiRequests()
+      const mock = api
+        .mockGitHubApiRequests()
         .canRetrieveAccessToken()
         .isInApprovingTeam(role)
         .toNock();
 
-      await probot.receive({
-        name: 'code_scanning_alert.closed_by_user',
-        payload
-      });
+      await probot.receive(PAYLOAD_FIXTURE);
       expect(mock.pendingMocks()).toStrictEqual([]);
     }
   );
 
   test('opens alerts closed by non-member of the approving team', async () => {
-    const mock = mockGitHubApiRequests()
+    const mock = api
+      .mockGitHubApiRequests()
       .canRetrieveAccessToken()
       .isNotInApprovingTeam()
       .withAlertState('code-scanning', 'open')
       .toNock();
 
-    await probot.receive({name: 'code_scanning_alert.closed_by_user', payload});
+    await probot.receive(PAYLOAD_FIXTURE);
 
     expect(mock.pendingMocks()).toStrictEqual([]);
   });
@@ -58,14 +62,15 @@ describe('When code scanning alerts are received', () => {
           ...{codeScanningMinimumSeverity: Severity.LOW}
         };
       });
-    const mock = mockGitHubApiRequests()
+    const mock = api
+      .mockGitHubApiRequests()
       .canRetrieveAccessToken()
       .isNotInApprovingTeam()
       .withAlertState('code-scanning', 'open')
       .toNock();
 
     // Payload is medium security
-    await probot.receive({name: 'code_scanning_alert.closed_by_user', payload});
+    await probot.receive(PAYLOAD_FIXTURE);
 
     expect(mock.pendingMocks()).toStrictEqual([]);
     expect(configuration).toHaveBeenCalled();
@@ -79,10 +84,11 @@ describe('When code scanning alerts are received', () => {
         ...originalConfig,
         ...{codeScanningMinimumSeverity: Severity.HIGH}
       });
-    const mock = mockGitHubApiRequests().toNock();
+
+    const mock = api.mockGitHubApiRequests().toNock();
 
     // Payload is medium security
-    await probot.receive({name: 'code_scanning_alert.closed_by_user', payload});
+    await probot.receive(PAYLOAD_FIXTURE);
 
     expect(mock.pendingMocks()).toStrictEqual([]);
     expect(configuration).toHaveBeenCalled();
@@ -96,27 +102,29 @@ describe('When code scanning alerts are received', () => {
         ...originalConfig,
         ...{codeScanningMinimumSeverity: Severity.NONE}
       });
-    const mock = mockGitHubApiRequests().toNock();
 
-    await probot.receive({name: 'code_scanning_alert.closed_by_user', payload});
+    const mock = api.mockGitHubApiRequests().toNock();
+
+    await probot.receive(PAYLOAD_FIXTURE);
 
     expect(mock.pendingMocks()).toStrictEqual([]);
     expect(configuration).toHaveBeenCalled();
   });
 
   test('opens alerts if membership request returns a 500 error', async () => {
-    const mock = mockGitHubApiRequests()
+    const mock = api
+      .mockGitHubApiRequests()
       .canRetrieveAccessToken()
       .errorRetrievingTeamMembership(500)
       .withAlertState('code-scanning', 'open')
       .toNock();
 
-    await probot.receive({name: 'code_scanning_alert.closed_by_user', payload});
+    await probot.receive(PAYLOAD_FIXTURE);
 
     expect(mock.pendingMocks()).toStrictEqual([]);
   });
 
-  afterEach(() => {
-    resetNetworkMonitoring();
+  afterEach(async () => {
+    api.resetNetworkMonitoring();
   });
 });
