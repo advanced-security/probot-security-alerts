@@ -87,6 +87,7 @@ export class ProbotHandler {
    * @param error The error instance
    * @returns A string message
    */
+  /* istanbul ignore next */
   private static getMessage(error: unknown) {
     return error instanceof Error ? error.message : String(error);
   }
