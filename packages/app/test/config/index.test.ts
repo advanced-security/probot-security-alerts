@@ -1,9 +1,9 @@
-import { preparePrivateKey, getConfiguration } from "../../src/config/index.js";
-import { getPrivateKey } from "../utils/helpers.js";
+import {preparePrivateKey, getConfiguration} from '../../src/config/index.js';
+import {getPrivateKey} from '../utils/helpers.js';
 
-describe("When a private key is provided", () => {
+describe('When a private key is provided', () => {
   const OLD_ENV = process.env;
-  let privateKey = "";
+  let privateKey = '';
 
   beforeEach(() => {
     process.env = {...OLD_ENV};
@@ -18,7 +18,7 @@ describe("When a private key is provided", () => {
     // Arrange
     const key = `"${privateKey}"`;
     process.env.PRIVATE_KEY = key;
-    
+
     // Act
     preparePrivateKey();
 
@@ -28,9 +28,9 @@ describe("When a private key is provided", () => {
 
   test(`new line escapes are removed`, async () => {
     // Arrange
-    const key = privateKey.replace('\n','\\n');
+    const key = privateKey.replace('\n', '\\n');
     process.env.PRIVATE_KEY = key;
-    
+
     // Act
     preparePrivateKey();
 
@@ -62,55 +62,61 @@ describe('The configuration settings', () => {
     expect(config.securityAlertCloseTeam).toEqual(DEFAULT_TEAM);
   });
 
-  test("No default private key is provided", () => {
-      const config = getConfiguration();
-      expect(config.privateKey).toEqual(undefined);
-    });
+  test('No default private key is provided', () => {
+    const config = getConfiguration();
+    expect(config.privateKey).toEqual(undefined);
+  });
 
   test.each`
-    defaultTeam   | configuredTeam    | result
-    ${null}       | ${null}}          | ${DEFAULT_TEAM}
-    ${undefined}  | ${undefined}      | ${DEFAULT_TEAM}
-    ${null}       | ${'super-users'}  | ${'super-users'}
-    ${'everyone'} | ${null}           | ${'everyone'}
-    ${'everyone'} | ${'super-users'}  | ${'super-users'}
-    ${'scans'}    | ${DEFAULT_TEAM}   | ${DEFAULT_TEAM}
-    `('specifying `$configuredTeam` for code scanning approvers with default team `$defaultTeam` will use $result',
-        async ({defaultTeam, configuredTeam, result }) => {
-            process.env.SECURITY_ALERT_CLOSE_TEAM = defaultTeam;
-            process.env.CODE_SCANNING_APPROVER_TEAM = configuredTeam;
-            const config = getConfiguration();
-            expect(config.codeScanningApproverTeam).toEqual(result);
-        });
+    defaultTeam   | configuredTeam   | result
+    ${null}       | ${null}          | ${DEFAULT_TEAM}
+    ${undefined}  | ${undefined}     | ${DEFAULT_TEAM}
+    ${null}       | ${'super-users'} | ${'super-users'}
+    ${'everyone'} | ${null}          | ${'everyone'}
+    ${'everyone'} | ${'super-users'} | ${'super-users'}
+    ${'scans'}    | ${DEFAULT_TEAM}  | ${DEFAULT_TEAM}
+  `(
+    'specifying `$configuredTeam` for code scanning approvers with default team `$defaultTeam` will use $result',
+    async ({defaultTeam, configuredTeam, result}) => {
+      process.env.SECURITY_ALERT_CLOSE_TEAM = defaultTeam;
+      process.env.CODE_SCANNING_APPROVER_TEAM = configuredTeam;
+      const config = getConfiguration();
+      expect(config.codeScanningApproverTeam).toEqual(result);
+    }
+  );
 
-        test.each`
-        defaultTeam   | configuredTeam    | result
-        ${null}       | ${null}}          | ${DEFAULT_TEAM}
-        ${undefined}  | ${undefined}      | ${DEFAULT_TEAM}
-        ${null}       | ${'super-users'}  | ${'super-users'}
-        ${'everyone'} | ${null}           | ${'everyone'}
-        ${'everyone'} | ${'super-users'}  | ${'super-users'}
-        ${'scans'}    | ${DEFAULT_TEAM}   | ${DEFAULT_TEAM}
-        `('specifying `$configuredTeam` for dependabot scanning approvers with default team `$defaultTeam` will match $result',
-            async ({defaultTeam, configuredTeam, result }) => {
-                process.env.SECURITY_ALERT_CLOSE_TEAM = defaultTeam;
-                process.env.DEPENDABOT_APPROVER_TEAM = configuredTeam;
-                const config = getConfiguration();
-                expect(config.dependabotApproverTeam).toEqual(result);
-            });
-    test.each`
-        defaultTeam   | configuredTeam    | result
-        ${null}       | ${null}}          | ${DEFAULT_TEAM}
-        ${undefined}  | ${undefined}      | ${DEFAULT_TEAM}
-        ${null}       | ${'super-users'}  | ${'super-users'}
-        ${'everyone'} | ${null}           | ${'everyone'}
-        ${'everyone'} | ${'super-users'}  | ${'super-users'}
-        ${'scans'}    | ${DEFAULT_TEAM}   | ${DEFAULT_TEAM}
-        `('specifying `$configuredTeam` for secret scanning approvers with default team `$defaultTeam` will use $result',
-            async ({defaultTeam, configuredTeam, result }) => {
-                process.env.SECURITY_ALERT_CLOSE_TEAM = defaultTeam;
-                process.env.SECRET_SCANNING_APPROVER_TEAM = configuredTeam;
-                const config = getConfiguration();
-                expect(config.secretScanningApproverTeam).toEqual(result);
-            });
+  test.each`
+    defaultTeam   | configuredTeam   | result
+    ${null}       | ${null}          | ${DEFAULT_TEAM}
+    ${undefined}  | ${undefined}     | ${DEFAULT_TEAM}
+    ${null}       | ${'super-users'} | ${'super-users'}
+    ${'everyone'} | ${null}          | ${'everyone'}
+    ${'everyone'} | ${'super-users'} | ${'super-users'}
+    ${'scans'}    | ${DEFAULT_TEAM}  | ${DEFAULT_TEAM}
+  `(
+    'specifying `$configuredTeam` for dependabot scanning approvers with default team `$defaultTeam` will match $result',
+    async ({defaultTeam, configuredTeam, result}) => {
+      process.env.SECURITY_ALERT_CLOSE_TEAM = defaultTeam;
+      process.env.DEPENDABOT_APPROVER_TEAM = configuredTeam;
+      const config = getConfiguration();
+      expect(config.dependabotApproverTeam).toEqual(result);
+    }
+  );
+  test.each`
+    defaultTeam   | configuredTeam   | result
+    ${null}       | ${null}          | ${DEFAULT_TEAM}
+    ${undefined}  | ${undefined}     | ${DEFAULT_TEAM}
+    ${null}       | ${'super-users'} | ${'super-users'}
+    ${'everyone'} | ${null}          | ${'everyone'}
+    ${'everyone'} | ${'super-users'} | ${'super-users'}
+    ${'scans'}    | ${DEFAULT_TEAM}  | ${DEFAULT_TEAM}
+  `(
+    'specifying `$configuredTeam` for secret scanning approvers with default team `$defaultTeam` will use $result',
+    async ({defaultTeam, configuredTeam, result}) => {
+      process.env.SECURITY_ALERT_CLOSE_TEAM = defaultTeam;
+      process.env.SECRET_SCANNING_APPROVER_TEAM = configuredTeam;
+      const config = getConfiguration();
+      expect(config.secretScanningApproverTeam).toEqual(result);
+    }
+  );
 });

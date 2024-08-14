@@ -24,11 +24,13 @@
     "build:container": "docker build  -t security-alert-watcher -f Dockerfile ../..",
     "clean": "yarn g:clean",
     "lint": "yarn run lint:code && yarn run lint:container",
-    "test": "yarn jest --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
+    "test": "NODE_OPTIONS='--experimental-vm-modules  --no-warnings=ExperimentalWarning' yarn jest --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
     "start": "yarn tsx watch --env-file=.env src/index.ts",
     "start:nowatch": "yarn tsx --env-file=.env src/index.ts",
     "lint:code": "yarn eslint",
-    "lint:container": "hadolint Dockerfile"
+    "lint:container": "hadolint Dockerfile",
+    "format": "yarn g:format",
+    "format:check": "yarn g:format-check"
   },
   "dependencies": {
     "probot": "^13.3.7",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
+    "@jest/globals": "^29.7.0",
     "@types/eslint": "^9.6.0",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
@@ -44,9 +47,11 @@
     "@typescript-eslint/parser": "^8.1.0",
     "esbuild": "^0.23.0",
     "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
     "express": "*",
     "jest": "^29.7.0",
     "nock": ">=14.0.0-beta",
+    "prettier": "^3.3.3",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.4",
     "ts-jest-resolver": "^2.0.1",

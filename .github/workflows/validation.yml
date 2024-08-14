@@ -3,52 +3,53 @@ name: Validation
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main", "kenmuse/vNext" ]
+    branches: ['main', 'kenmuse/vNext']
 
 env:
   SAM_CLI_TELEMETRY: 0
   FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT: true
+  NODE_VERSION: 20.x
 
 jobs:
   Validate:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Install Hadolint
-      run: sudo ./.devcontainer/features/hadolint/install.sh
-    - name: Configure Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-    - name: Enable corepack
-      run: corepack enable  && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn set version berry
-      # Ensures we are using latest yarn after setting corepack (for the cache)
-    - name: Configure Node.js with cache
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'yarn'      
-    - name: Install dependencies
-      run: yarn install --immutable
-    - name: Build
-      run: yarn run build
-    - name: Lint package code
-      run: yarn run lint
-    - run: yarn run test --coverage --testLocationInResults --json --outputFile coverage/report.json
-    - uses: ArtiomTr/jest-coverage-report-action@v2
-      if: ${{ github.actor != 'dependabot[bot]' }}
-      with:
-        skip-step: all
-        custom-title: "Coverage: `packages/app`"
-        coverage-file: packages/app/coverage/report.json
-        base-coverage-file: packages/app/coverage/report.json
-    - uses: ArtiomTr/jest-coverage-report-action@v2
-      if: ${{ github.actor != 'dependabot[bot]' }}
-      with:
-        skip-step: all
-        custom-title: "Coverage: `packages/server`"
-        coverage-file: packages/server/coverage/report.json
-        base-coverage-file: packages/server/coverage/report.json
+      - uses: actions/checkout@v4
+      - name: Install Hadolint
+        run: sudo ./.devcontainer/features/hadolint/install.sh
+      - name: Configure Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Enable corepack
+        run: corepack enable  && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn set version berry
+        # Ensures we are using latest yarn after setting corepack (for the cache)
+      - name: Configure Node.js with cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Build
+        run: yarn run build
+      - name: Lint package code
+        run: yarn run lint
+      - run: yarn run test --coverage --testLocationInResults --json --outputFile coverage/report.json
+      - uses: ArtiomTr/jest-coverage-report-action@v2
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        with:
+          skip-step: all
+          custom-title: 'Coverage: `packages/app`'
+          coverage-file: packages/app/coverage/report.json
+          base-coverage-file: packages/app/coverage/report.json
+      - uses: ArtiomTr/jest-coverage-report-action@v2
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        with:
+          skip-step: all
+          custom-title: 'Coverage: `packages/server`'
+          coverage-file: packages/server/coverage/report.json
+          base-coverage-file: packages/server/coverage/report.json

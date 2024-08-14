@@ -26,8 +26,10 @@
   "scripts": {
     "build": "tsc",
     "clean": "yarn g:clean",
-    "test": "yarn jest --runInBand  --config=./jest.config.mjs --rootDir=.",
-    "lint": "yarn eslint"
+    "test": "NODE_OPTIONS='--experimental-vm-modules --no-warnings=ExperimentalWarning' yarn jest --config=${INIT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
+    "lint": "yarn eslint",
+    "format": "yarn g:format",
+    "format:check": "yarn g:format-check"
   },
   "dependencies": {
     "probot": "^13.3.7"
@@ -43,10 +45,12 @@
     "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@typescript-eslint/parser": "^8.1.0",
     "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
     "jest": "^29.7.0",
     "jest-circus": "^29.7.0",
     "nock": ">=14.0.0-beta",
     "pino": "*",
+    "prettier": "^3.3.3",
     "ts-jest": "^29.2.4",
     "ts-jest-resolver": "^2.0.1",
     "tslib": "^2.6.3",

@@ -8,6 +8,7 @@
       "extensions": [
         "arcanis.vscode-zipfs",
         "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
         "EditorConfig.EditorConfig",
         "github.vscode-github-actions",
         "mhutchie.git-graph",
@@ -42,8 +43,7 @@
           "typescript"
         ],
         "eslint.enable": true,
-        "eslint.options": {
-        },
+        "eslint.options": {},
         "eslint.useFlatConfig": true,
         "eslint.workingDirectories": [
           {
@@ -59,10 +59,25 @@
         "jest.jestCommandLine": "yarn run test",
         "typescript.tsserver.log": "off",
         "typescript.tsserver.nodePath": "node",
-        "js/ts.implicitProjectConfig.module": "ES2022",
-
+        "js/ts.implicitProjectConfig.module": "ESNext",
         // Workaround for https://github.com/yarnpkg/berry/issues/6270
-        "typescript.tsserver.experimental.useVsCodeWatcher": false
+        "typescript.tsserver.experimental.useVsCodeWatcher": false,
+        "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "vscode.json-language-features"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[yaml]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        }
       }
     }
   },
