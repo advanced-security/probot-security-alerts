@@ -11,9 +11,9 @@ export const app: ApplicationFunction = probotApplicationFunction;
 // Ensure the private key (if provided) is in the proper format.
 preparePrivateKey();
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function probotApplicationFunction(
   app: Probot,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _options: ApplicationFunctionOptions
 ) {
   // Log the start

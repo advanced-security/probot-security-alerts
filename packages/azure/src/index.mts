@@ -15,9 +15,9 @@ import {
 // This ensures a single instance will be created for processing events
 const botHandler = ProbotHandler.create(bot.createProbot(), probotApp);
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function securityWatcher(
   request: HttpRequest,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _context: InvocationContext
 ): Promise<HttpResponseInit> {
   const processor = await botHandler;
@@ -39,9 +39,10 @@ app.http('securityWatcher', {
 app.http('checkConfig', {
   methods: ['GET'],
   authLevel: 'anonymous',
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handler: async function (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _request: HttpRequest,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _context: InvocationContext
   ): Promise<HttpResponseInit> {
     const requiredEnvVars = ['APP_ID', 'PRIVATE_KEY', 'WEBHOOK_SECRET'];

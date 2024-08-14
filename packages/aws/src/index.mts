@@ -10,9 +10,9 @@ import {
 // This ensures a single instance will be created for processing events
 const botHandler = ProbotHandler.create(bot.createProbot(), app);
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function process(
   event: APIGatewayProxyEventV2,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _context: Context
 ): Promise<APIGatewayProxyStructuredResultV2> {
   const processor = await botHandler;

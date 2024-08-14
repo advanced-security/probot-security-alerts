@@ -214,9 +214,10 @@ class OctokitApiMock {
   public withAlertState(alert: AlertType, state: string, id = 1) {
     const mock = this.nock
       // Use `any` to allow any body type to be received
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       .patch(
         `/repos/${IDENTIFIERS.organizationName}/${IDENTIFIERS.repositoryName}/${alert}/alerts/${id}`,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (body: any) => {
           expect(body).toMatchObject({state: state});
           return true;
