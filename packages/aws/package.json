@@ -33,6 +33,7 @@
     "build:container": "yarn run prebuild && sam build --use-container --no-cached --parallel",
     "clean": "yarn g:clean && rm -rf .aws-sam",
     "lint": "yarn eslint && sam validate --lint",
+    "test": "NODE_OPTIONS='--experimental-vm-modules  --no-warnings=ExperimentalWarning' yarn jest --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
     "deploy": "sam deploy --guided",
     "start": "sam local start-lambda",
     "copyEnv": "yarn g:copyEnv",
@@ -46,10 +47,15 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
+    "@jest/globals": "^29.7.0",
     "@types/aws-lambda": "^8.10.143",
+    "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@typescript-eslint/parser": "^8.1.0",
     "eslint": "^9.9.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.4",
+    "ts-jest-resolver": "^2.0.1",
     "tslib": "^2.6.3",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.1.0"

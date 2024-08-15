@@ -13,14 +13,15 @@ const __dirname = path.dirname(fileName);
 /**
  * Constants used in the fixtures
  */
-const IDENTIFIERS = {
+export const IDENTIFIERS = {
   repositoryId: 100000001,
   repositoryName: '_myrepo',
   organizationId: 100000002,
   organizationName: '_orgname',
   userId: 100000003,
   userName: '_magicuser',
-  appInstallationId: 10000004
+  appInstallationId: 10000004,
+  secret: 'itsASecret'
 } as const;
 
 /**
@@ -70,6 +71,7 @@ export function getDefaultProbotOptions(): Options {
   const options: Options = {
     appId: 123,
     privateKey: getPrivateKey(),
+    secret: IDENTIFIERS.secret,
     // disable request throttling and retries for testing
     Octokit: ProbotOctokit.defaults({
       retry: {enabled: false},

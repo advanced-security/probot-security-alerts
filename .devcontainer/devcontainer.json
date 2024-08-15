@@ -25,6 +25,10 @@
           {
             "name": "server",
             "rootPath": "./packages/server"
+          },
+          {
+            "name": "aws",
+            "rootPath": "./packages/aws"
           }
         ],
         "jest.runMode": {
