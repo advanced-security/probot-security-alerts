@@ -1,9 +1,6 @@
-import type {
-  APIGatewayProxyEventV2,
-  APIGatewayEventRequestContextV2,
-  Context
-} from 'aws-lambda';
+import type {APIGatewayProxyEventV2, Context} from 'aws-lambda';
 import fixture from '../../app/test/fixtures/code_scanning_alert/closed_by_user.json';
+import template from './fixtures/event-template.json';
 import {createHmac} from 'node:crypto';
 
 /**
@@ -27,6 +24,7 @@ async function createMessage(secret: string, fixture: object) {
   const sig = await sign(secret, contents);
 
   const payload = {
+    ...template,
     body: contents,
     headers: {
       'X-GitHub-Hook-ID': '123456',
@@ -40,11 +38,13 @@ async function createMessage(secret: string, fixture: object) {
     version: '2.0',
     rawPath: '/',
     rawQueryString: '',
-    routeKey: '',
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    requestContext: {} as any as APIGatewayEventRequestContextV2,
+    cookies: [],
+    queryStringParameters: {},
+    pathParameters: {},
+    stageVariables: {},
     isBase64Encoded: false
   } as APIGatewayProxyEventV2;
+  console.log(payload);
   return payload;
 }
 
