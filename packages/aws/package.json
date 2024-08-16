@@ -33,7 +33,7 @@
     "build:container": "yarn run prebuild && sam build --use-container --no-cached --parallel",
     "clean": "yarn g:clean && rm -rf .aws-sam",
     "lint": "yarn eslint && sam validate --lint",
-    "test": "NODE_OPTIONS='--experimental-vm-modules  --no-warnings=ExperimentalWarning' yarn jest --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
+    "test": "NODE_OPTIONS='--experimental-vm-modules  --no-warnings=ExperimentalWarning' yarn jest --runInBand --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
     "deploy": "sam deploy --guided",
     "start": "sam local start-lambda",
     "copyEnv": "yarn g:copyEnv",

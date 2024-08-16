@@ -1,5 +1,10 @@
 import {MockServerClient} from 'mockserver-client/mockServerClient';
-import {startProcess, stopProcess, DefaultSpawnOptions, DockerWarningMessages} from './spawn';
+import {
+  startProcess,
+  stopProcess,
+  DefaultSpawnOptions,
+  DockerWarningMessages
+} from './spawn';
 import {ChildProcessWithoutNullStreams} from 'node:child_process';
 
 /**
@@ -42,6 +47,7 @@ export async function getMockClientForFixture(
     MockServerSettings.MOCKSERVER_HOST,
     port
   );
+  // Remove any mocks that already exist
   client.reset();
   await client.mockAnyResponse({
     httpRequest: {

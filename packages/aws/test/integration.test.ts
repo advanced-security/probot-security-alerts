@@ -64,7 +64,7 @@ describe('AWS API Gateway emulator', () => {
 
   beforeAll(async () => {
     const results = await Promise.all([
-      mockserver.start(mockserver.MockServerSettings.DEFAULT_PORT + 1),
+      mockserver.start(),
       emulator.startAwsApiGatewayEmulator()
     ]);
     apiServer = results[0];
@@ -81,7 +81,7 @@ describe('AWS API Gateway emulator', () => {
   }, emulator.EmulatorTimeouts.TEST_STOP + mockserver.MockServerTimeouts.TEST_STOP);
 
   test(
-    'Can invoke Lambda',
+    'Can invoke Lambda via API Gateway',
     async () => {
       const client = await mockserver.getMockClientForFixture(apiServer.port);
 
