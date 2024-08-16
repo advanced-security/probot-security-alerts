@@ -22,6 +22,7 @@
   },
   "containerEnv": {
     "AZURE_FUNC_TOOLS_DIR": "/lib/azure-functions-core-tools-4",
-    "PATH": "/lib/azure-functions-core-tools-4:${PATH}"
+    "PATH": "/lib/azure-functions-core-tools-4:${PATH}",
+    "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT": "true"
   }
 }

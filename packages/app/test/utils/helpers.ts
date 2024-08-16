@@ -20,9 +20,13 @@ export const IDENTIFIERS = {
   organizationName: '_orgname',
   userId: 100000003,
   userName: '_magicuser',
-  appInstallationId: 10000004,
-  secret: 'itsASecret'
+  appInstallationId: 10000004
 } as const;
+
+/**
+ * The secret used for webhook signing
+ */
+export const WEBHOOK_SECRET = 'itsASecret';
 
 /**
  * Gets the path to the fixtures
@@ -71,7 +75,7 @@ export function getDefaultProbotOptions(): Options {
   const options: Options = {
     appId: 123,
     privateKey: getPrivateKey(),
-    secret: IDENTIFIERS.secret,
+    secret: WEBHOOK_SECRET,
     // disable request throttling and retries for testing
     Octokit: ProbotOctokit.defaults({
       retry: {enabled: false},

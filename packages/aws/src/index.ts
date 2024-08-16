@@ -41,10 +41,10 @@ export async function process(
   _context: Context
 ): Promise<APIGatewayProxyStructuredResultV2> {
   const processor = await getHandlerInstance();
-  const resp = await processor.process(event as WebhookEventRequest);
+  const response = await processor.process(event as WebhookEventRequest);
   return {
-    statusCode: resp.status,
-    body: resp.body
+    statusCode: response.status,
+    body: response.body
   };
 }
 
