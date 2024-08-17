@@ -25,10 +25,10 @@ export function setHandler(handler: Promise<ProbotHandler>) {
  * automatically as part of the module import.
  */
 function getHandlerInstance() {
-  if (botHandler) {
-    return botHandler;
+  /* istanbul ignore next: no integration test to confirm  */
+  if (!botHandler) {
+    botHandler = ProbotHandler.create(bot.createProbot(), app);
   }
-  botHandler = ProbotHandler.create(bot.createProbot(), app);
   return botHandler;
 }
 

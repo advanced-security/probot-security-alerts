@@ -53,3 +53,10 @@ jobs:
           custom-title: 'Coverage: `packages/server`'
           coverage-file: packages/server/coverage/report.json
           base-coverage-file: packages/server/coverage/report.json
+      - uses: ArtiomTr/jest-coverage-report-action@v2
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        with:
+          skip-step: all
+          custom-title: 'Coverage: `packages/server`'
+          coverage-file: packages/aws/coverage/report.json
+          base-coverage-file: packages/aws/coverage/report.json

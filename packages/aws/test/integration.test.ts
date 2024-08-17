@@ -12,7 +12,10 @@ import * as emulator from './utils/emulator.js';
 import * as mockserver from './utils/mockserver.js';
 import * as fixtures from './utils/fixtures.js';
 
-describe('AWS Lambda Function emulator', () => {
+/**
+ * Integration tests using Lambda emulator
+ */
+describe('Integration: AWS Lambda emulator', () => {
   let emulatorProcess: emulator.Emulator;
   let apiServer: mockserver.MockServer;
 
@@ -61,7 +64,10 @@ describe('AWS Lambda Function emulator', () => {
   }, 35000);
 });
 
-describe('AWS API Gateway emulator', () => {
+/**
+ * Integration tests using API Gateway emulator
+ */
+describe('Integration: AWS API Gateway emulator', () => {
   let emulatorProcess: emulator.Emulator;
   let apiServer: mockserver.MockServer;
 
