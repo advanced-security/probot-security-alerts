@@ -98,6 +98,8 @@ const SamIgnoredMessages = [
   'Mounting SecurityWatcher',
   'Starting the Local Lambda Service.',
   'You can now browse to the above endpoints to invoke your functions',
+  "SAM CLI now collects telemetry to better understand customer needs.",
+  "Learn more",
   ...DockerWarningMessages
 ] as const;
 
