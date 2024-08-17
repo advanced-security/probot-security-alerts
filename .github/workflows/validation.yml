@@ -57,6 +57,6 @@ jobs:
         if: ${{ github.actor != 'dependabot[bot]' }}
         with:
           skip-step: all
-          custom-title: 'Coverage: `packages/server`'
+          custom-title: 'Coverage: `packages/aws`'
           coverage-file: packages/aws/coverage/report.json
           base-coverage-file: packages/aws/coverage/report.json
