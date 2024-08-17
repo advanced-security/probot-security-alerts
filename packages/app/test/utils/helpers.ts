@@ -13,7 +13,7 @@ const __dirname = path.dirname(fileName);
 /**
  * Constants used in the fixtures
  */
-const IDENTIFIERS = {
+export const IDENTIFIERS = {
   repositoryId: 100000001,
   repositoryName: '_myrepo',
   organizationId: 100000002,
@@ -22,6 +22,11 @@ const IDENTIFIERS = {
   userName: '_magicuser',
   appInstallationId: 10000004
 } as const;
+
+/**
+ * The secret used for webhook signing
+ */
+export const WEBHOOK_SECRET = 'itsASecret';
 
 /**
  * Gets the path to the fixtures
@@ -70,6 +75,7 @@ export function getDefaultProbotOptions(): Options {
   const options: Options = {
     appId: 123,
     privateKey: getPrivateKey(),
+    secret: WEBHOOK_SECRET,
     // disable request throttling and retries for testing
     Octokit: ProbotOctokit.defaults({
       retry: {enabled: false},

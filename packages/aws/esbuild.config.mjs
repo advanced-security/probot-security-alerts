@@ -6,7 +6,7 @@ import config from '../../esbuild.config.mjs';
 const currentDir = dirname(fileURLToPath(import.meta.url));
 
 const settings = { ...config, ...{
-  entryPoints: ['./src/index.mts'],
+  entryPoints: ['./src/index.ts'],
   absWorkingDir: currentDir
 }};
 

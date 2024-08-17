@@ -12,9 +12,32 @@ Parameters:
   githubPrivateKey:
     Description: The private key of your GitHub app
     Type: String
+    NoEcho: true
+    AllowedPattern: '^-----BEGIN RSA PRIVATE KEY-----.+-----END RSA PRIVATE KEY-----'
   githubOrg:
     Description: The organization where the app is registered
     Type: String
+  githubHost:
+    Description: The GitHub host name to use (api.github.com)
+    Type: String
+    Default: api.github.com
+  githubProtocol:
+    Description: The GitHub API protocol (https)
+    Type: String
+    Default: https
+    AllowedValues:
+      - http
+      - https
+  logLevel:
+    Description: The logging level
+    Type: String
+    Default: info
+    AllowedValues:
+      - fatal
+      - error
+      - warn
+      - info
+      - debug
 
 Resources:
   SecurityWatcher:
@@ -43,7 +66,9 @@ Resources:
           PRIVATE_KEY: !Ref githubPrivateKey
           GH_ORG: !Ref githubOrg
           NODE_ENV: production
-          LOG_LEVEL: debug
+          GHE_HOST: !Ref githubHost
+          GHE_PROTOCOL: !Ref githubProtocol
+          LOG_LEVEL: !Ref logLevel
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -53,8 +78,8 @@ Resources:
         Format: esm
         OutExtension:
           - .js=.mjs
-        Banner:
-          - js=import { createRequire } from 'module'; const require = createRequire(import.meta.url);
+        #Banner:
+        #  - js=import { createRequire } from 'module'; const require = createRequire(import.meta.url);
         EntryPoints:
           - dist/index.mjs
 Outputs:

@@ -4,21 +4,14 @@
     "incremental": false /* Enable incremental compilation */,
     "outDir": "./dist",
     "paths": {
-      "@security-alert-watcher/app": [
-        "../app/src"
-      ],
+      "@security-alert-watcher/app": ["../app/src"]
     }
   },
-  "include": [
-    "src/"
-  ],
-  "exclude": [
-    "test/**/*",
-    "esbuild.config.mjs"
-  ],
+  "include": ["src/"],
+  "exclude": ["test/**/*", "esbuild.config.mjs"],
   "ts-node": {
     "transpileOnly": true,
-    "esm": true,
+    "esm": true
   },
   "references": [
     {

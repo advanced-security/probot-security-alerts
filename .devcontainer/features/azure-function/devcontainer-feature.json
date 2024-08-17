@@ -5,23 +5,21 @@
   "description": "Installs Azure Function Core Tools",
   "options": {
     "version": {
-        "type": "string",
-        "proposals": [
-            "latest",
-            "4.0.5801"
-        ],
-        "default": "latest",
-        "description": "Select or enter the tools version."
+      "type": "string",
+      "proposals": ["latest", "4.0.5801"],
+      "default": "latest",
+      "description": "Select or enter the tools version."
     }
   },
   "dependsOn": {
-      "./features/common-deps": {},
-      "ghcr.io/devcontainers/features/dotnet:2": {
-        "version" : "8.0.300"
-      }
+    "./features/common-deps": {},
+    "ghcr.io/devcontainers/features/dotnet:2": {
+      "version": "8.0.300"
+    }
   },
   "containerEnv": {
     "AZURE_FUNC_TOOLS_DIR": "/lib/azure-functions-core-tools-4",
-    "PATH": "/lib/azure-functions-core-tools-4:${PATH}"
+    "PATH": "/lib/azure-functions-core-tools-4:${PATH}",
+    "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT": "true"
   }
 }

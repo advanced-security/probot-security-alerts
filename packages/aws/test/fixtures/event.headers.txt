@@ -1,0 +1,7 @@
+X-GitHub-Hook-ID: 123456
+X-GitHub-Delivery: 72d3162e-cc78-11e3-81ab-4c9367dc0958
+X-GitHub-Event: code_scanning_alert
+X-Hub-Signature-256: sha256=562f3369788dc3700c295246e9c0095f94018d0aceb88b90c9540ab7d61dc22d
+X-GitHub-Hook-Installation-Target-ID: 79929171
+X-GitHub-Hook-Installation-Target-Type: repository
+Content-Type: application/json

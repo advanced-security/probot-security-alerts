@@ -7,6 +7,10 @@
     {
       "name": "server",
       "rootPath": "./packages/server"
+    },
+    {
+      "name": "aws",
+      "rootPath": "./packages/aws"
     }
   ],
   "jest.runMode": {
@@ -19,10 +23,7 @@
   },
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "eslint.nodePath": ".yarn/sdks",
-  "eslint.validate": [
-    "javascript",
-    "typescript"
-  ],
+  "eslint.validate": ["javascript", "typescript"],
   "eslint.enable": true,
   "eslint.options": {},
   "eslint.useFlatConfig": true,
@@ -52,5 +53,5 @@
   },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  }
 }
