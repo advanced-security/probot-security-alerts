@@ -1,6 +1,4 @@
-
-
 # Ignore these files:
-**/fixtures
+**/dist
 **/coverage
 **/.aws-sam
