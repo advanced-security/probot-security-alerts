@@ -125,7 +125,9 @@ function getAwsProcessOptions() {
       // Spawn needs access to the current path to find the CLI tools
       PATH: process.env.PATH,
       // Required for the SAM CLI to work in a dev container since it uses docker
-      REMOTE_CONTAINERS_IPC: process.env.REMOTE_CONTAINERS_IPC
+      REMOTE_CONTAINERS_IPC: process.env.REMOTE_CONTAINERS_IPC,
+      // Disable telemetry
+      AWS_SAM_CLI_TELEMETRY: '0'
     },
     // Directly invoke the command without a shell
     shell: false,
