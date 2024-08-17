@@ -1,15 +1,6 @@
-# Ignore list
-/*
 
-# Do not ignore these folders:
-!packages/
-!.github/
-!package.json
-!eslint.config.mjs
-!jest.config.mjs
-!tsconfig.json
-!tsconfig.base.json
-!esbuild.config.mjs
 
 # Ignore these files:
-packages/aws/events/*
+**/fixtures
+**/coverage
+**/.aws-sam

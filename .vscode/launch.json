@@ -1,51 +1,48 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Debug Probot Server",
-            "type": "node",
-            "request": "launch",
-            "runtimeExecutable": "yarn",
-            "runtimeArgs": [
-                "run",
-                "start"
-            ],
-            "cwd": "${workspaceRoot}/packages/server",
-            "internalConsoleOptions": "openOnSessionStart",
-            "outputCapture": "std",
-            "sourceMaps": true
-        },
-        {
-            "type": "aws-sam",
-            "request": "direct-invoke",
-            "name": "Debug AWS Lambda",
-            "invokeTarget": {
-                "target": "template",
-                "templatePath": "${workspaceRoot}/packages/aws/template.yml",
-                "logicalId": "SecurityWatcher",
-                "projectRoot": "${workspaceRoot}/packages/aws",
-            },
-            "lambda": {
-                "payload": {},
-                "environmentVariables": {}
-            },
-            "sam": {
-                "localArguments": [
-                    "--container-env-vars",
-                    "${workspaceRoot}/packages/aws/.env.json"
-                ],
-            },
-            "preLaunchTask": "Setup Lambda Env"
-        },
-        {
-            "name": "Attach to Azure Function",
-            "type": "node",
-            "request": "attach",
-            "port": 9229,
-            "preLaunchTask": "func: host start"
-          }
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Probot Server",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["run", "start"],
+      "cwd": "${workspaceRoot}/packages/server",
+      "internalConsoleOptions": "openOnSessionStart",
+      "outputCapture": "std",
+      "sourceMaps": true
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "Debug AWS Lambda",
+      "invokeTarget": {
+        "target": "template",
+        "templatePath": "${workspaceRoot}/packages/aws/template.yml",
+        "logicalId": "SecurityWatcher",
+        "projectRoot": "${workspaceRoot}/packages/aws"
+      },
+      "lambda": {
+        "payload": {},
+        "environmentVariables": {}
+      },
+      "sam": {
+        "localArguments": [
+          "--container-env-vars",
+          "${workspaceRoot}/packages/aws/.env.json"
+        ]
+      },
+      "preLaunchTask": "Setup Lambda Env"
+    },
+    {
+      "name": "Attach to Azure Function",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "preLaunchTask": "func: host start"
+    }
+  ]
 }

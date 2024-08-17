@@ -8,17 +8,11 @@
     "sourceMap": true,
     "strict": false
   },
-  "include": [
-    "src/"
-  ],
-  "exclude": [
-    "node_modules",
-    "test/**/*",
-    "esbuild.config.mjs"
-  ],
+  "include": ["src/"],
+  "exclude": ["node_modules", "test/**/*", "esbuild.config.mjs"],
   "ts-node": {
     "transpileOnly": true,
-    "esm": true,
+    "esm": true
   },
   "references": [
     {

@@ -25,7 +25,7 @@
     "g:copyEnv": "yarn node scripts/copyEnv.mjs",
     "g:test": "yarn dlx jest --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
     "g:clean": "rm -rf ${INIT_CWD}/dist && rm -rf ${INIT_CWD}/coverage",
-    "g:format": "yarn prettier --no-error-on-unmatched-pattern --config ${PROJECT_CWD}/.prettierrc.yml --write \"**/*.{js,json,mts,ts,yml,yaml}\"",
+    "g:format": "yarn prettier --no-error-on-unmatched-pattern --config ${PROJECT_CWD}/.prettierrc.yml --write \"${INIT_CWD}/**/*.{js,json,mts,ts,yml,yaml}\"",
     "g:format-check": "yarn prettier --no-error-on-unmatched-pattern --config ${PROJECT_CWD}/.prettierrc.yml --check \"${INIT_CWD}/**/*.{js,json,mts,ts,yml,yaml}\"",
     "audit": "yarn workspaces foreach -Apt npm audit",
     "version:major": "yarn version major && yarn workspaces foreach -A version major",

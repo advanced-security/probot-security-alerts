@@ -1,12 +1,12 @@
 {
-    "id": "local.aws-sam",
-    "version": "1.0.0",
-    "name": "AWS SAM",
-    "description": "Installs AWS SAM tools",
-    "dependsOn": {
-        "./features/common-deps": {}
-    },
-    "containerEnv": {
-        "AWS_SAM_CLI_TELEMETRY": "0"
-    }
+  "id": "local.aws-sam",
+  "version": "1.0.0",
+  "name": "AWS SAM",
+  "description": "Installs AWS SAM tools",
+  "dependsOn": {
+    "./features/common-deps": {}
+  },
+  "containerEnv": {
+    "AWS_SAM_CLI_TELEMETRY": "0"
+  }
 }

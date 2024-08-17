@@ -42,10 +42,7 @@
         "typescript.tsdk": ".yarn/sdks/typescript/lib",
         "typescript.enablePromptUseWorkspaceTsdk": true,
         "eslint.nodePath": ".yarn/sdks",
-        "eslint.validate": [
-          "javascript",
-          "typescript"
-        ],
+        "eslint.validate": ["javascript", "typescript"],
         "eslint.enable": true,
         "eslint.options": {},
         "eslint.useFlatConfig": true,
