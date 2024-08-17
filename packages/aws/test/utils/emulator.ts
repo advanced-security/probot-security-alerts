@@ -1,10 +1,13 @@
 import {ChildProcessWithoutNullStreams} from 'node:child_process';
 import {startProcess, stopProcess, DockerWarningMessages} from './spawn.js';
-import path from 'path';
-import {fileURLToPath} from 'url';
-
-const fileName = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(fileName);
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {
+  getDefaultProbotOptions,
+  IDENTIFIERS,
+  WEBHOOK_SECRET
+} from '../../../app/test/utils/helpers.js';
 
 export const EmulatorTimeouts = {
   /** Delay before test hook is killed if emulator has not stopped or errored. */
@@ -39,17 +42,50 @@ export const LambdaEmulatorClientSettings = {
 };
 
 /**
- * Starts the AWS Lambda emulator.
+ * Gets the settings for the emulated APIs in the AWS environment.
+ * @param host the host name to use
+ * @param port the port number
+ * @param protocol the protocol (http)
+ * @returns the settings
  */
-export async function startAwsLambdaEmulator() {
-  return await startSamProcess('start-lambda');
+export function getEmulatedAwsEnvSettings(
+  host: string,
+  port: number,
+  protocol = 'http'
+) {
+  const options = getDefaultProbotOptions();
+  return {
+    SecurityWatcher: {
+      GH_ORG: IDENTIFIERS.organizationName,
+      APP_ID: options.appId,
+      PRIVATE_KEY: options.privateKey,
+      WEBHOOK_SECRET: WEBHOOK_SECRET,
+      GHE_HOST: `${host}:${port}`,
+      GHE_PROTOCOL: protocol,
+      LOG_LEVEL: 'debug'
+    }
+  };
+}
+
+/**
+ * Starts the AWS Lambda emulator.
+ * @param apiHost the host name to use
+ * @param apiPort the port number
+ */
+export async function startAwsLambdaEmulator(apiHost: string, apiPort: number) {
+  return await startSamProcess('start-lambda', apiHost, apiPort);
 }
 
 /**
  * Starts the AWS API Gateway emulator.
+ * @param apiHost the host name to use
+ * @param apiPort the port number
  */
-export async function startAwsApiGatewayEmulator() {
-  return await startSamProcess('start-api');
+export async function startAwsApiGatewayEmulator(
+  apiHost: string,
+  apiPort: number
+) {
+  return await startSamProcess('start-api', apiHost, apiPort);
 }
 
 /**
@@ -101,17 +137,31 @@ function getAwsProcessOptions() {
 /**
  * Creates a SAM emulator process and waits for it to start.
  * @param feature the emulator to start
+ * @param apiHost the host name for the GitHub API services
+ * @param apiPort the port number for the GitHub API services
  * @returns the process instance
  */
 async function startSamProcess(
-  feature: 'start-api' | 'start-lambda'
+  feature: 'start-api' | 'start-lambda',
+  apiHost: string,
+  apiPort: number
 ): Promise<Emulator> {
   const options = getAwsProcessOptions();
+  const fsp = fs.promises;
+
+  const tempPath = await fsp.realpath(os.tmpdir());
+  const tmpDir = await fsp.mkdtemp(path.join(tempPath, path.sep));
+  const envSettings = path.join(tmpDir, 'env.emulator.json');
+  fs.writeFileSync(
+    envSettings,
+    JSON.stringify(getEmulatedAwsEnvSettings(apiHost, apiPort), null, 2)
+  );
+
   const args = [
     'local',
     feature,
     '--env-vars',
-    `${path.join(__dirname, '.env.emulator.json')}`,
+    envSettings,
     '--docker-network',
     'host',
     '--add-host',
@@ -126,7 +176,7 @@ async function startSamProcess(
     SamStartedMessages,
     SamIgnoredMessages
   );
-  return new EmulatorImpl(process);
+  return new EmulatorImpl(process, tmpDir);
 }
 
 /**
@@ -147,12 +197,17 @@ class EmulatorImpl implements Emulator {
   /** The underlying process instance. */
   private process?: ChildProcessWithoutNullStreams;
 
+  /** Temporary directory used for storing settings file */
+  private tmpDir: string;
+
   /**
    * Creates an instance of class
    * @param process the underlying process instance
+   * @param tmpDir the temporary directory used for storing settings file
    */
-  constructor(process: ChildProcessWithoutNullStreams) {
+  constructor(process: ChildProcessWithoutNullStreams, tmpDir: string) {
     this.process = process;
+    this.tmpDir = tmpDir;
   }
 
   /**
@@ -162,6 +217,7 @@ class EmulatorImpl implements Emulator {
     if (!this.process) {
       return;
     }
+    fs.promises.rmdir(this.tmpDir, {recursive: true});
     await stopProcess(this.process);
   }
 }

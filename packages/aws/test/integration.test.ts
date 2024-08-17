@@ -19,7 +19,10 @@ describe('AWS Lambda Function emulator', () => {
   beforeAll(async () => {
     const results = await Promise.all([
       mockserver.start(),
-      emulator.startAwsLambdaEmulator()
+      emulator.startAwsLambdaEmulator(
+        mockserver.MockServerSettings.CONTAINER_HOST,
+        mockserver.MockServerSettings.DEFAULT_PORT
+      )
     ]);
     apiServer = results[0];
     emulatorProcess = results[1];
@@ -63,9 +66,13 @@ describe('AWS API Gateway emulator', () => {
   let apiServer: mockserver.MockServer;
 
   beforeAll(async () => {
+    const apiPort = mockserver.MockServerSettings.DEFAULT_PORT + 1;
     const results = await Promise.all([
-      mockserver.start(),
-      emulator.startAwsApiGatewayEmulator()
+      mockserver.start(apiPort),
+      emulator.startAwsApiGatewayEmulator(
+        mockserver.MockServerSettings.CONTAINER_HOST,
+        apiPort
+      )
     ]);
     apiServer = results[0];
     emulatorProcess = results[1];

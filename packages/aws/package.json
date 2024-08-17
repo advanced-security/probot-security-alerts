@@ -32,14 +32,14 @@
     "build": "yarn run prebuild && sam build --no-cached",
     "build:container": "yarn run prebuild && sam build --use-container --no-cached --parallel",
     "clean": "yarn g:clean && rm -rf .aws-sam",
+    "format": "yarn g:format",
+    "format:check": "yarn g:format-check",
     "lint": "yarn eslint && sam validate --lint",
-    "test": "NODE_OPTIONS='--experimental-vm-modules  --no-warnings=ExperimentalWarning' yarn jest --runInBand --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
+    "test": "NODE_OPTIONS='--experimental-vm-modules  --no-warnings=ExperimentalWarning' yarn jest --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
     "deploy": "sam deploy --guided",
     "start": "sam local start-lambda",
     "copyEnv": "yarn g:copyEnv",
-    "prebuild": "yarn node esbuild.config.mjs",
-    "format": "yarn g:format",
-    "format:check": "yarn g:format-check"
+    "prebuild": "yarn node esbuild.config.mjs"
   },
   "dependencies": {
     "esbuild": "^0.23.0",
