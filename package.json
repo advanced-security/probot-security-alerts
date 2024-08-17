@@ -1,6 +1,6 @@
 {
   "name": "security-alert-watcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Sample GH App which monitors and enforces rules for code scanning alerts",
   "author": "Ken Muse <kenmuse@users.noreply.github.com>",
