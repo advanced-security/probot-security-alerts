@@ -43,6 +43,39 @@ Parameters:
       - debug
 
 ################################
+# Conditions
+################################
+
+Conditions:
+  IsGHEC: !Or [ !Equals [!Ref githubHost, "api.github.com"], !Equals [!Ref githubHost, "" ] ]
+
+################################
+# Mappings
+################################
+
+# See Ref:
+# https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-integration-lambda-extensions.html#ps-integration-lambda-extensions-add
+
+Mappings: 
+  RegionToExtensionMap: 
+    us-east-1:
+      "Arn": "arn:aws:lambda:us-east-1:177933569100:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+    us-east-2:
+      "Arn": "arn:aws:lambda:us-east-2:590474943231:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+    us-west-1:
+      "Arn": "arn:aws:lambda:us-west-1:997803712105:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+    us-west-2:
+      "Arn": "arn:aws:lambda:us-west-2:345057560386:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+    ca-central-1:
+      "Arn": "arn:aws:lambda:ca-central-1:200266452380:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+    ca-west-1:
+      "Arn": "arn:aws:lambda:ca-west-1:243964427225:layer:AWS-Parameters-and-Secrets-Lambda-Extension:1"
+    ap-southeast-4:
+      "Arn": "arn:aws:lambda:ap-southeast-4:090732460067:layer:AWS-Parameters-and-Secrets-Lambda-Extension:1"
+    sa-east-1:
+      "Arn": "arn:aws:lambda:sa-east-1:933737806257:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+
+################################
 # Global configurations
 ################################
 
@@ -51,16 +84,15 @@ Globals:
     Tracing: Active
     LoggingConfig:
       LogFormat: JSON
+    Timeout: 10
   Api:
     TracingEnabled: true
-
 
 ################################
 # Resources
 ################################
 
 Resources:
-
   SecurityWatcher:
     DependsOn:
       - SecurityWatcherLogGroup
@@ -88,11 +120,20 @@ Resources:
           APP_ID: !Ref githubAppId
           WEBHOOK_SECRET: !Ref githubWebhookSecret
           PRIVATE_KEY: !Ref githubPrivateKey
+          PRIVATE_KEY_ARN: !Ref PemSecretKey
           GH_ORG: !Ref githubOrg
           NODE_ENV: production
-          GHE_HOST: !Ref githubHost
-          GHE_PROTOCOL: !Ref githubProtocol
+          GHE_HOST: !If [ IsGHEC, "", !Ref githubHost ]
+          GHE_PROTOCOL: !If [ IsGHEC, "", !Ref githubProtocol]
           LOG_LEVEL: !Ref logLevel
+
+      Policies:
+        - AWSSecretsManagerGetSecretValuePolicy:
+            SecretArn: !Ref PemSecretKey
+
+      Layers:
+        - !FindInMap [RegionToExtensionMap, !Ref "AWS::Region", Arn]
+
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -106,6 +147,12 @@ Resources:
         #  - js=import { createRequire } from 'module'; const require = createRequire(import.meta.url);
         EntryPoints:
           - dist/index.mjs
+  PemSecretKey:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: !Sub 'PEM key for ${AWS::StackName}-webhook'
+      SecretString: !Ref githubPrivateKey
+
   SecurityWatcherLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
@@ -115,3 +162,6 @@ Outputs:
   WebhookUrl:
     Description: 'Webhook Endpoint URL'
     Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
+  LambdaUrl:
+    Description: 'Direct Lambda Endpoint URL'
+    Value: !GetAtt SecurityWatcherUrl.FunctionUrl
