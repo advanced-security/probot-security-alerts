@@ -107,15 +107,21 @@ describe('Integration: AWS API Gateway emulator', () => {
         timeout: emulator.EmulatorTimeouts.CLIENT_RESPONSE
       });
 
-      const response = await http.post('/SecurityWatcher', message.body, {
-        headers: message.headers
-      });
+      try {
+        const response = await http.post('/', message.body, {
+          headers: message.headers
+        });
 
-      // Message should be successfully accepted by the emulated gateway
-      expect(response.status).toBe(200);
+        // Message should be successfully accepted by the emulated gateway
+        expect(response.status).toBe(200);
 
-      // And expected API server calls should have been made
-      expect(await mockserver.mockedApiCallsAreInvoked(client)).toBeNull();
+        // And expected API server calls should have been made
+        expect(await mockserver.mockedApiCallsAreInvoked(client)).toBeNull();
+      }
+      catch (e) {
+        // Used to prevent circular serialization of the error until Jest 30 releases
+        throw new Error(`Error invoking Lambda via API Gateway: ${e}`);
+      }
     },
     emulator.EmulatorTimeouts.TEST_START +
       mockserver.MockServerTimeouts.TEST_START
