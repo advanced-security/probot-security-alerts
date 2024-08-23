@@ -14,6 +14,8 @@ local.settings.json
 .pnp.loader.mjs
 .yarn
 package.tgz
+package.zip
+publish
 
 #### Apple
 *.DS_Store

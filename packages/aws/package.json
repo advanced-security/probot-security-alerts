@@ -37,6 +37,7 @@
     "lint": "yarn eslint && sam validate --lint",
     "test": "NODE_OPTIONS=\"--experimental-vm-modules --no-warnings=ExperimentalWarning ${NODE_OPTIONS}\" yarn jest --config=${INIT_CWD}/jest.config.mjs --rootDir=${INIT_CWD} --detectOpenHandles",
     "deploy": "sam deploy --guided",
+    "package": "yarn run build && mkdir ${INIT_CWD}/publish && cd ${INIT_CWD}/.aws-sam/build && zip -r ${INIT_CWD}/publish/package.zip .",
     "start": "sam local start-lambda",
     "copyEnv": "yarn g:copyEnv",
     "prebuild": "yarn node esbuild.config.mjs"
