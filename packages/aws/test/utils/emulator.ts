@@ -1,5 +1,5 @@
 import {ChildProcessWithoutNullStreams} from 'node:child_process';
-import {startProcess, stopProcess, DockerWarningMessages} from './spawn.js';
+import {startProcess, stopProcess, DockerWarningMessages, ManagedProcess} from './spawn.js';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -161,12 +161,12 @@ async function startSamProcess(
   const tmpDir = await fsp.mkdtemp(path.join(tempPath, path.sep));
   
   // Setup fake AWS CLI configuration
-  fsp.mkdir(path.join(tmpDir, '.aws'));
-  fsp.mkdir(path.join(tmpDir, '.aws', 'model'));
+  await fsp.mkdir(path.join(tmpDir, '.aws'));
+  await fsp.mkdir(path.join(tmpDir, '.aws', 'model'));
   const options = getAwsProcessOptions(tmpDir);
   
   const envSettings = path.join(tmpDir, 'env.emulator.json');
-  fs.writeFileSync(
+  await fsp.writeFile(
     envSettings,
     JSON.stringify(getEmulatedAwsEnvSettings(apiHost, apiPort), null, 2)
   );
@@ -176,7 +176,7 @@ async function startSamProcess(
   // require authentication and aren't needed for the current tests.
   const srcBuildDir = path.join(path.resolve('.aws-sam', 'build'));
   const destBuildDir = path.join(path.resolve(tmpDir, 'build'));
-  fs.cpSync(srcBuildDir, destBuildDir, {recursive: true});
+  await fsp.cp(srcBuildDir, destBuildDir, {recursive: true});
   const destConfig = path.join(path.resolve(destBuildDir, 'template.yaml'));
   
   // Open the template file and remove the layers section
@@ -185,7 +185,7 @@ async function startSamProcess(
   yaml.deleteIn(['Resources', 'SecurityWatcher', 'Properties', 'Layers']);
 
   // Persist the updated settings
-  fs.writeFileSync(destConfig, yaml.toString());
+  await fsp.writeFile(destConfig, yaml.toString());
 
   const args = [
     'local',
@@ -216,7 +216,7 @@ async function startSamProcess(
  * Interface for an emulator process, used to abstract
  * the underlying process usage.
  */
-export interface Emulator {
+export interface Emulator extends ManagedProcess {
   /**
    * Stops the emulator process.
    */
@@ -252,5 +252,6 @@ class EmulatorImpl implements Emulator {
     }
     fs.promises.rmdir(this.tmpDir, {recursive: true});
     await stopProcess(this.process);
+    this.process = undefined;
   }
 }

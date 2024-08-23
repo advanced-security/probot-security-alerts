@@ -2296,7 +2296,9 @@ __metadata:
   dependencies:
     "@aws-sdk/client-lambda": "npm:^3.637.0"
     "@eslint/js": "npm:^9.9.0"
+    "@jest/environment": "npm:^29.7.0"
     "@jest/globals": "npm:^29.7.0"
+    "@jest/types": "npm:^29.6.3"
     "@types/aws-lambda": "npm:^8.10.143"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.16.1"
@@ -2307,6 +2309,8 @@ __metadata:
     esbuild: "npm:^0.23.1"
     eslint: "npm:^9.9.0"
     jest: "npm:^29.7.0"
+    jest-circus: "npm:^29.7.0"
+    jest-environment-node: "npm:^29.7.0"
     mockserver-client: "npm:^5.15.0"
     probot: "npm:^13.3.7"
     ts-jest: "npm:^29.2.4"

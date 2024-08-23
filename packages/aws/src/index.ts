@@ -48,6 +48,7 @@ export const securityWatcher = process;
  * @param message The message to log
  */
 function logDebug(message: string) {
+  /*istanbul ignore next: no need to test the logging */
   if (node_process.env.NODE_ENV !== 'test') {
     console.debug(message);
   }
@@ -58,6 +59,7 @@ function logDebug(message: string) {
  * @param message The message to log
  */
 function logError(message: string) {
+    /*istanbul ignore next: no need to test the logging */
     console.error(message);
 }
 
