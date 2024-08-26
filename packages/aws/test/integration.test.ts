@@ -117,8 +117,7 @@ describe('Integration: AWS API Gateway emulator', () => {
 
         // And expected API server calls should have been made
         expect(await mockserver.mockedApiCallsAreInvoked(client)).toBeNull();
-      }
-      catch (e) {
+      } catch (e) {
         // Used to prevent circular serialization of the error until Jest 30 releases
         throw new Error(`Error invoking Lambda via API Gateway: ${e}`);
       }

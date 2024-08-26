@@ -6,7 +6,11 @@ import {
   DockerWarningMessages,
   ManagedProcess
 } from './spawn';
-import {ChildProcessWithoutNullStreams, execSync, ExecSyncOptions} from 'node:child_process';
+import {
+  ChildProcessWithoutNullStreams,
+  execSync,
+  ExecSyncOptions
+} from 'node:child_process';
 
 /**
  * Configuration settings for the mock server
@@ -160,7 +164,7 @@ class MockServerImpl implements MockServer {
   /** The underlying process instance */
   private process?: ChildProcessWithoutNullStreams;
 
-  private readonly containerName : string;
+  private readonly containerName: string;
 
   /**
    * Creates an instance of the class
@@ -208,11 +212,8 @@ class MockServerImpl implements MockServer {
     if (!this.process) {
       return;
     }
-   
-    const args = [
-      'kill',
-      this.containerName,
-    ];
+
+    const args = ['kill', this.containerName];
     const options: ExecSyncOptions = {
       stdio: 'pipe',
       cwd: process.cwd(),

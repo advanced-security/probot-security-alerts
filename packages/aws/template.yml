@@ -47,7 +47,11 @@ Parameters:
 ################################
 
 Conditions:
-  IsGHEC: !Or [ !Equals [!Ref githubHost, "api.github.com"], !Equals [!Ref githubHost, "" ] ]
+  IsGHEC:
+    !Or [
+      !Equals [!Ref githubHost, 'api.github.com'],
+      !Equals [!Ref githubHost, '']
+    ]
 
 ################################
 # Mappings
@@ -56,24 +60,24 @@ Conditions:
 # See Ref:
 # https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-integration-lambda-extensions.html#ps-integration-lambda-extensions-add
 
-Mappings: 
-  RegionToExtensionMap: 
+Mappings:
+  RegionToExtensionMap:
     us-east-1:
-      "Arn": "arn:aws:lambda:us-east-1:177933569100:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+      'Arn': 'arn:aws:lambda:us-east-1:177933569100:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11'
     us-east-2:
-      "Arn": "arn:aws:lambda:us-east-2:590474943231:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+      'Arn': 'arn:aws:lambda:us-east-2:590474943231:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11'
     us-west-1:
-      "Arn": "arn:aws:lambda:us-west-1:997803712105:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+      'Arn': 'arn:aws:lambda:us-west-1:997803712105:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11'
     us-west-2:
-      "Arn": "arn:aws:lambda:us-west-2:345057560386:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+      'Arn': 'arn:aws:lambda:us-west-2:345057560386:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11'
     ca-central-1:
-      "Arn": "arn:aws:lambda:ca-central-1:200266452380:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+      'Arn': 'arn:aws:lambda:ca-central-1:200266452380:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11'
     ca-west-1:
-      "Arn": "arn:aws:lambda:ca-west-1:243964427225:layer:AWS-Parameters-and-Secrets-Lambda-Extension:1"
+      'Arn': 'arn:aws:lambda:ca-west-1:243964427225:layer:AWS-Parameters-and-Secrets-Lambda-Extension:1'
     ap-southeast-4:
-      "Arn": "arn:aws:lambda:ap-southeast-4:090732460067:layer:AWS-Parameters-and-Secrets-Lambda-Extension:1"
+      'Arn': 'arn:aws:lambda:ap-southeast-4:090732460067:layer:AWS-Parameters-and-Secrets-Lambda-Extension:1'
     sa-east-1:
-      "Arn": "arn:aws:lambda:sa-east-1:933737806257:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11"
+      'Arn': 'arn:aws:lambda:sa-east-1:933737806257:layer:AWS-Parameters-and-Secrets-Lambda-Extension:11'
 
 ################################
 # Global configurations
@@ -123,8 +127,8 @@ Resources:
           PRIVATE_KEY_ARN: !Ref PemSecretKey
           GH_ORG: !Ref githubOrg
           NODE_ENV: production
-          GHE_HOST: !If [ IsGHEC, "", !Ref githubHost ]
-          GHE_PROTOCOL: !If [ IsGHEC, "", !Ref githubProtocol]
+          GHE_HOST: !If [IsGHEC, '', !Ref githubHost]
+          GHE_PROTOCOL: !If [IsGHEC, '', !Ref githubProtocol]
           LOG_LEVEL: !Ref logLevel
 
       Policies:
@@ -132,7 +136,7 @@ Resources:
             SecretArn: !Ref PemSecretKey
 
       Layers:
-        - !FindInMap [RegionToExtensionMap, !Ref "AWS::Region", Arn]
+        - !FindInMap [RegionToExtensionMap, !Ref 'AWS::Region', Arn]
 
     Metadata:
       BuildMethod: esbuild

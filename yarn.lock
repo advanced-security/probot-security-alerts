@@ -2312,6 +2312,7 @@ __metadata:
     jest-circus: "npm:^29.7.0"
     jest-environment-node: "npm:^29.7.0"
     mockserver-client: "npm:^5.15.0"
+    nock: "npm:>=14.0.0-beta"
     probot: "npm:^13.3.7"
     ts-jest: "npm:^29.2.4"
     ts-jest-resolver: "npm:^2.0.1"

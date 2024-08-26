@@ -1,5 +1,10 @@
 import {ChildProcessWithoutNullStreams} from 'node:child_process';
-import {startProcess, stopProcess, DockerWarningMessages, ManagedProcess} from './spawn.js';
+import {
+  startProcess,
+  stopProcess,
+  DockerWarningMessages,
+  ManagedProcess
+} from './spawn.js';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -8,7 +13,7 @@ import {
   IDENTIFIERS,
   WEBHOOK_SECRET
 } from '../../../app/test/utils/helpers.js';
-import { parseDocument } from 'yaml';
+import {parseDocument} from 'yaml';
 
 export const EmulatorTimeouts = {
   /** Delay before test hook is killed if emulator has not stopped or errored. */
@@ -156,15 +161,15 @@ async function startSamProcess(
   apiPort: number
 ): Promise<Emulator> {
   const fsp = fs.promises;
-  
+
   const tempPath = await fsp.realpath(os.tmpdir());
   const tmpDir = await fsp.mkdtemp(path.join(tempPath, path.sep));
-  
+
   // Setup fake AWS CLI configuration
   await fsp.mkdir(path.join(tmpDir, '.aws'));
   await fsp.mkdir(path.join(tmpDir, '.aws', 'model'));
   const options = getAwsProcessOptions(tmpDir);
-  
+
   const envSettings = path.join(tmpDir, 'env.emulator.json');
   await fsp.writeFile(
     envSettings,
@@ -178,7 +183,7 @@ async function startSamProcess(
   const destBuildDir = path.join(path.resolve(tmpDir, 'build'));
   await fsp.cp(srcBuildDir, destBuildDir, {recursive: true});
   const destConfig = path.join(path.resolve(destBuildDir, 'template.yaml'));
-  
+
   // Open the template file and remove the layers section
   const config = fs.readFileSync(destConfig, 'utf8');
   const yaml = parseDocument(config);
@@ -197,7 +202,7 @@ async function startSamProcess(
     '--add-host',
     'host.docker.internal:host-gateway',
     '--template-file',
-    path.join(destBuildDir, 'template.yaml'),
+    path.join(destBuildDir, 'template.yaml')
   ];
 
   const process = await startProcess(

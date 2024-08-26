@@ -29,11 +29,11 @@ export async function process(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _context: Context
 ): Promise<APIGatewayProxyStructuredResultV2> {
-   logDebug("Acquire instance");
+  logDebug('Acquire instance');
   const processor = await getHandlerInstance();
-   logDebug("Processing request");
+  logDebug('Processing request');
   const response = await processor.process(event as WebhookEventRequest);
-   logDebug(`Returning status ${response.status}`);
+  logDebug(`Returning status ${response.status}`);
   return {
     statusCode: response.status,
     body: response.body
@@ -55,26 +55,22 @@ function logDebug(message: string) {
 }
 
 /**
- * Logs an error-level message.
+ * Logs an error-level message unless running under Jest.
  * @param message The message to log
  */
 function logError(message: string) {
-    /*istanbul ignore next: no need to test the logging */
-    console.error(message);
+  console.error(message);
 }
 
 /**
  * Retrieves the PEM file from the environment or AWS Secrets Manager.
  * @returns the PEM file contents or undefined if there is no value configured
  */
-async function retrievePemSecret() {
-   logDebug("Retrieving PEM from Secrets Manager");
-  const secret = await retrieveAwsSecret(
-    node_process.env.PRIVATE_KEY_ARN
-  );
-  
+export async function retrievePemSecret() {
+  logDebug('Retrieving PEM from Secrets Manager');
+  const secret = await retrieveAwsSecret(node_process.env.PRIVATE_KEY_ARN);
   const result = secret ?? node_process.env.PRIVATE_KEY;
-  return result
+  return result;
 }
 
 /**
@@ -88,25 +84,25 @@ async function createLocalEnv() {
     ...currentEnv,
     PRIVATE_KEY: await retrievePemSecret()
   };
-  
+
   return updatedEnv;
 }
 
 /**
  * Retrieves the PEM file secret from AWS secret manager (if available).
- * @param $arn The ARN for the secrets resource
+ * @param arn The ARN for the secrets resource
  * @returns the secret, or null if the secret could not be retrieved
  */
 async function retrieveAwsSecret(
-  $arn: string | undefined
+  arn: string | undefined
 ): Promise<string | null> {
   const PARAMETERS_SECRETS_EXTENSION_HTTP_PORT = 2773;
-   logDebug("Retrieving secret from Secrets Manager");
-  if ($arn) {
-     logDebug("ARN provided for retrieving secret");
+  logDebug('Retrieving secret from Secrets Manager');
+  if (arn) {
+    logDebug('ARN provided for retrieving secret');
     const token = node_process.env.AWS_SESSION_TOKEN;
     if (token) {
-       logDebug('Retrieving secret from cache');
+      logDebug('Retrieving secret from cache');
       const headers = {
         'X-Aws-Parameters-Secrets-Token': token
       };
@@ -117,24 +113,23 @@ async function retrieveAwsSecret(
       });
 
       try {
-        const response = await http.get(
-          `/secretsmanager/get?secretId=${$arn}`,
-          {
-            headers: headers
-          }
-        );
+        const response = await http.get(`/secretsmanager/get?secretId=${arn}`, {
+          headers: headers
+        });
 
         if (response.status == 200) {
-           logDebug('Successfully retrieved PEM from secrets');
+          logDebug('Successfully retrieved PEM from secrets');
           return response.data.SecretString;
         }
       } catch (error) {
-        logError(`Error retrieving secret: ${error instanceof Error ? error.message : String(error)}`);
+        /* istanbul ignore next: no value in testing conversion of message to string */
+        const message = error instanceof Error ? error.message : String(error);
+        logError(`Error retrieving secret: ${message}`);
       }
     }
   }
 
-   logDebug('Unable to retrieve PEM from Secrets Manager.');
+  logDebug('Unable to retrieve PEM from Secrets Manager.');
   return null;
 }
 

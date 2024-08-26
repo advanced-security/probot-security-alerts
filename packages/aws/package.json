@@ -64,6 +64,7 @@
     "jest-circus": "^29.7.0",
     "jest-environment-node": "^29.7.0",
     "mockserver-client": "^5.15.0",
+    "nock": ">=14.0.0-beta",
     "ts-jest": "^29.2.4",
     "ts-jest-resolver": "^2.0.1",
     "tslib": "^2.6.3",
