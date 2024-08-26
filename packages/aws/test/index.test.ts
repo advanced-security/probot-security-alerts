@@ -1,4 +1,6 @@
 import {createAlertClosedFixtureMessage} from './utils/fixtures.js';
+import nock from 'nock';
+import {jest} from '@jest/globals';
 
 /**
  * Verifies Lambda processing behavior using mocked handler.
@@ -20,6 +22,7 @@ describe('AWS Lambda mocked handler', () => {
 
   afterEach(async () => {
     api.resetNetworkMonitoring();
+    jest.resetAllMocks();
   });
 
   test('Can receive message', async () => {
@@ -68,6 +71,98 @@ describe('AWS Lambda default handler', () => {
     // handler was created by the code path without exporting that variable.
     expect(lambda.process(payload, payload.requestContext)).rejects.toThrow(
       '[@octokit/auth-app] appId option is required'
+    );
+  });
+});
+
+/**
+ * Verifies the process for retrieving the PEM secret
+ **/
+describe('Lambda Secret handling', () => {
+  let originalEnvironment: NodeJS.ProcessEnv;
+  let retrievePemSecret: () => Promise<string | undefined>;
+  const SECRET = '---BEGIN PRIVATE KEY---';
+  const SECRET_TOKEN = 'SECRET_TOKEN';
+  const SECRET_ARN = 'arn:test';
+
+  beforeEach(async () => {
+    originalEnvironment = {...process.env};
+    process.env = {
+      NODE_ENV: 'test'
+    };
+    const handler = await import('../src/index.js');
+    retrievePemSecret = handler.retrievePemSecret;
+    nock.disableNetConnect();
+  });
+
+  afterEach(() => {
+    process.env = originalEnvironment;
+    nock.cleanAll();
+    nock.enableNetConnect();
+  });
+
+  test('Secrets are loaded from PEM secret', async () => {
+    process.env.PRIVATE_KEY = SECRET;
+    const result = await retrievePemSecret();
+    expect(result).toEqual(SECRET);
+  });
+
+  test('No secret is returned without the env settings', async () => {
+    const result = await retrievePemSecret();
+    expect(result).toBeUndefined();
+  });
+
+  test('Secrets are loaded from the parameter cache service', async () => {
+    process.env.PRIVATE_KEY_ARN = SECRET_ARN;
+    process.env.AWS_SESSION_TOKEN = SECRET_TOKEN;
+
+    const api = nock('http://localhost:2773', {
+      reqheaders: {
+        'X-Aws-Parameters-Secrets-Token': (value: string) =>
+          value === SECRET_TOKEN
+      }
+    });
+    const scope = api
+      .get('/secretsmanager/get?secretId=arn:test')
+      .reply(200, {SecretString: SECRET});
+
+    const result = await retrievePemSecret();
+    expect(result).toEqual(SECRET);
+    expect(scope.isDone()).toBe(true);
+  });
+
+  test('Service error returns empty string', async () => {
+    process.env.PRIVATE_KEY_ARN = SECRET_ARN;
+    process.env.AWS_SESSION_TOKEN = SECRET_TOKEN;
+
+    const api = nock('http://localhost:2773', {
+      reqheaders: {
+        'X-Aws-Parameters-Secrets-Token': (value: string) =>
+          value === SECRET_TOKEN
+      }
+    });
+
+    const scope = api
+      .get('/secretsmanager/get?secretId=arn:test')
+      .reply(400, {message: 'Something went wrong'});
+    const result = await retrievePemSecret();
+    expect(result).toBeUndefined();
+    expect(scope.isDone()).toBe(true);
+  });
+
+  test('Errors calling parameter cache service are logged', async () => {
+    process.env.PRIVATE_KEY_ARN = SECRET_ARN;
+    process.env.AWS_SESSION_TOKEN = SECRET_TOKEN;
+
+    // No nocks are set up, so the request will fail
+    // because of nock disconnecting the network in beforeEach
+    const errorLog = jest.spyOn(console, 'error').mockImplementation(() => {
+      /* Do nothing */
+    });
+    const result = await retrievePemSecret();
+    expect(result).toBeUndefined();
+    expect(errorLog.mock.calls[0][0]).toContain(
+      'Nock: Disallowed net connect for "localhost:2773'
     );
   });
 });

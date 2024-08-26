@@ -12,7 +12,7 @@
       "@security-alert-watcher/app": ["../app/src"]
     }
   },
-  "include": ["src/"],
+  "include": ["src", "test"],
   "exclude": ["node_modules", "test/**/*", "esbuild.config.mjs"],
   "compileOnSave": false,
   "references": [

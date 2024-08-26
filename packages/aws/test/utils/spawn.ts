@@ -178,7 +178,7 @@ export async function startProcess(
     });
 
     app.on('close', function (code) {
-      rejectWithError(`Process cosed: ${code}`);
+      rejectWithError(`Process closed with code: ${code}`);
     });
 
     app.on('error', function (code) {
@@ -191,4 +191,12 @@ export async function startProcess(
   });
 
   return result;
+}
+
+/** General definition for managing a spawned process */
+export interface ManagedProcess {
+  /**
+   * Stops the process.
+   */
+  stop(): Promise<void>;
 }

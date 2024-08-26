@@ -1,5 +1,10 @@
 import {ChildProcessWithoutNullStreams} from 'node:child_process';
-import {startProcess, stopProcess, DockerWarningMessages} from './spawn.js';
+import {
+  startProcess,
+  stopProcess,
+  DockerWarningMessages,
+  ManagedProcess
+} from './spawn.js';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -8,6 +13,7 @@ import {
   IDENTIFIERS,
   WEBHOOK_SECRET
 } from '../../../app/test/utils/helpers.js';
+import {parseDocument} from 'yaml';
 
 export const EmulatorTimeouts = {
   /** Delay before test hook is killed if emulator has not stopped or errored. */
@@ -116,12 +122,16 @@ const SamStartedMessages = [
  * Gets the process options for starting an AWS emulator process.
  * @returns the options for the process
  */
-function getAwsProcessOptions() {
+function getAwsProcessOptions(tmpDir: string) {
   return {
     env: {
       // Required AWS credential variables (not used, but process requires)
       AWS_ACCESS_KEY: 'any',
       AWS_SECRET_ACCESS: 'any',
+      AWS_CONFIG_FILE: path.join(tmpDir, '.aws', 'config'),
+      AWS_DATA_PATH: path.join(tmpDir, '.aws', 'model'),
+      AWS_SHARED_CREDENTIALS_FILE: path.join(tmpDir, '.aws', 'credentials'),
+      AWS_DEFAULT_REGION: 'us-east-2',
       // Spawn needs access to the current path to find the CLI tools
       PATH: process.env.PATH,
       // Required for the SAM CLI to work in a dev container since it uses docker
@@ -150,16 +160,37 @@ async function startSamProcess(
   apiHost: string,
   apiPort: number
 ): Promise<Emulator> {
-  const options = getAwsProcessOptions();
   const fsp = fs.promises;
 
   const tempPath = await fsp.realpath(os.tmpdir());
   const tmpDir = await fsp.mkdtemp(path.join(tempPath, path.sep));
+
+  // Setup fake AWS CLI configuration
+  await fsp.mkdir(path.join(tmpDir, '.aws'));
+  await fsp.mkdir(path.join(tmpDir, '.aws', 'model'));
+  const options = getAwsProcessOptions(tmpDir);
+
   const envSettings = path.join(tmpDir, 'env.emulator.json');
-  fs.writeFileSync(
+  await fsp.writeFile(
     envSettings,
     JSON.stringify(getEmulatedAwsEnvSettings(apiHost, apiPort), null, 2)
   );
+
+  // Copy the build directory to the temp path to allow modifying the template
+  // The emulator expects everything to be in the same location. The Layers
+  // require authentication and aren't needed for the current tests.
+  const srcBuildDir = path.join(path.resolve('.aws-sam', 'build'));
+  const destBuildDir = path.join(path.resolve(tmpDir, 'build'));
+  await fsp.cp(srcBuildDir, destBuildDir, {recursive: true});
+  const destConfig = path.join(path.resolve(destBuildDir, 'template.yaml'));
+
+  // Open the template file and remove the layers section
+  const config = fs.readFileSync(destConfig, 'utf8');
+  const yaml = parseDocument(config);
+  yaml.deleteIn(['Resources', 'SecurityWatcher', 'Properties', 'Layers']);
+
+  // Persist the updated settings
+  await fsp.writeFile(destConfig, yaml.toString());
 
   const args = [
     'local',
@@ -169,8 +200,11 @@ async function startSamProcess(
     '--docker-network',
     'host',
     '--add-host',
-    'host.docker.internal:host-gateway'
+    'host.docker.internal:host-gateway',
+    '--template-file',
+    path.join(destBuildDir, 'template.yaml')
   ];
+
   const process = await startProcess(
     'sam',
     args,
@@ -187,7 +221,7 @@ async function startSamProcess(
  * Interface for an emulator process, used to abstract
  * the underlying process usage.
  */
-export interface Emulator {
+export interface Emulator extends ManagedProcess {
   /**
    * Stops the emulator process.
    */
@@ -223,5 +257,6 @@ class EmulatorImpl implements Emulator {
     }
     fs.promises.rmdir(this.tmpDir, {recursive: true});
     await stopProcess(this.process);
+    this.process = undefined;
   }
 }
