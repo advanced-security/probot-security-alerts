@@ -124,7 +124,7 @@
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "20.16.0",
+      "version": "20.17.0",
       "nvmVersion": "latest"
     }
   },
