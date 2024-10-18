@@ -41,15 +41,15 @@
     "@octokit/auth-app": "^7.1.0",
     "@octokit/core": "^6.1.2",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.14.15",
+    "@types/node": "^20.16.1",
     "dotenv": "^16.4.5",
-    "esbuild": "^0.23.0",
+    "esbuild": "^0.23.1",
     "eslint": "^9.9.0",
     "prettier": "^3.3.3",
     "syncpack": "^12.4.0",
     "tslib": "^2.6.3",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.1.0"
+    "typescript-eslint": "^8.2.0"
   },
   "engines": {
     "node": ">= 20.8.0"

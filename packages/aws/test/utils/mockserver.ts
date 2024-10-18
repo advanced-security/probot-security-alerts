@@ -3,9 +3,14 @@ import {
   startProcess,
   stopProcess,
   DefaultSpawnOptions,
-  DockerWarningMessages
+  DockerWarningMessages,
+  ManagedProcess
 } from './spawn';
-import {ChildProcessWithoutNullStreams} from 'node:child_process';
+import {
+  ChildProcessWithoutNullStreams,
+  execSync,
+  ExecSyncOptions
+} from 'node:child_process';
 
 /**
  * Configuration settings for the mock server
@@ -127,7 +132,7 @@ export async function start(
 /**
  * Interface for interacting with the mock server.
  */
-export interface MockServer {
+export interface MockServer extends ManagedProcess {
   /** The port the server is running on */
   port: number;
   /** Stops the server */
@@ -159,12 +164,15 @@ class MockServerImpl implements MockServer {
   /** The underlying process instance */
   private process?: ChildProcessWithoutNullStreams;
 
+  private readonly containerName: string;
+
   /**
    * Creates an instance of the class
    * @param port the port to use for the server
    */
   constructor(port = MockServerSettings.DEFAULT_PORT) {
     this.port = port;
+    this.containerName = `mockserver${this.port}`;
   }
 
   /**
@@ -180,6 +188,8 @@ class MockServerImpl implements MockServer {
       '--rm',
       '-p',
       `${this.port}:1080`,
+      '--name',
+      this.containerName,
       'mockserver/mockserver'
     ];
 
@@ -202,6 +212,15 @@ class MockServerImpl implements MockServer {
     if (!this.process) {
       return;
     }
+
+    const args = ['kill', this.containerName];
+    const options: ExecSyncOptions = {
+      stdio: 'pipe',
+      cwd: process.cwd(),
+      env: process.env,
+      timeout: 30000
+    };
+    execSync(`docker ${args.join(' ')}`, options);
     await stopProcess(this.process);
     this.process = undefined;
   }

@@ -1,4 +1,6 @@
 import {type OctokitContext} from './types.js';
+import {RequestError} from '@octokit/request-error';
+
 /**
  * Returns a value indicating if the user is a member of the approving
  * team in the organization.
@@ -36,12 +38,21 @@ export async function isUserInApproverTeam(
       // if the user is explicitly included in the team. If the code has reached this
       // step, the user is in one of these two roles in the team.
       return true;
-    } catch {
+    } catch (e) {
       // A 404 status is returned if the user is not in the team. If there's an error
       // resolving the user or a 404, default to not allowing the user to probeed
-      context.log.info(
-        `The user ${user} is not part of the team "${approvingTeamName}".`
-      );
+      if (e instanceof RequestError && e.status === 404) {
+        context.log.info(
+          `The user ${user} is not part of the team "${approvingTeamName}"`
+        );
+      } else {
+        context.log.error(
+          e,
+          `Unexpected error checking if user ${user} is in the team "${approvingTeamName}"`
+        );
+      }
+
+      return false;
     }
   }
 
