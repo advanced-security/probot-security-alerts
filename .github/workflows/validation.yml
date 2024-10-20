@@ -16,13 +16,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get target Node version
+      - uses: actions/checkout@v4
+      - name: Get target runtime versions
         run: |
           NODE_VERSION=$(cat .devcontainer/devcontainer.json | sed 's/^ *\/\/.*//' | jq -r '.features["ghcr.io/devcontainers/features/node:1"].version')
           echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_ENV
           PYTHON_VERSION=$(cat .devcontainer/devcontainer.json | sed 's/^ *\/\/.*//' | jq -r '.features["./features/python-binary"].version')
           echo "PYTHON_VERSION=$PYTHON_VERSION" >> $GITHUB_ENV
-      - uses: actions/checkout@v4
       - name: Install Hadolint
         run: sudo ./.devcontainer/features/hadolint/install.sh
       - name: Configure Node.js
