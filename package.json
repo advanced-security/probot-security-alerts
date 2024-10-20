@@ -21,22 +21,27 @@
     "lint:all": "npm run lint && npm run lint:docker"
   },
   "dependencies": {
+    "express": "^4.21.1",
     "got": "^13.0.0",
-    "probot": "^12.3.4",
+    "probot": "^12.4.0",
     "word-wrap": "^1.2.5"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.12",
-    "@types/node": "^18.19.31",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^18.19.57",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
-    "eslint": "^8.57.0",
+    "eslint": "^8.57.1",
     "jest": "^29.7.0",
-    "nock": "^13.5.4",
-    "nodemon": "^3.1.0",
+    "nock": "^13.5.5",
+    "nodemon": "^3.1.7",
     "smee-client": "^1.2.5",
-    "ts-jest": "^29.1.2",
-    "typescript": "^5.4.5"
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.6.3"
+  },
+  "overrides": {
+    "cookie": "^0.7.2",
+    "micromatch": "^4.0.8"
   },
   "engines": {
     "node": ">= 18.19.1"

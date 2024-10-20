@@ -11,6 +11,12 @@ describe("When running the probot app", () => {
         probot = getTestableProbot();
     });
 
+    afterEach(() => {
+        resetNetworkMonitoring();
+        jest.resetAllMocks();
+        jest.resetModules();
+    });
+
     test("receives installation_repositories message without calling additional GitHub APIs", async () => {
         const mock = mockGitHubApiRequests().toNock();
         await probot.receive({ name: "installation_repositories", payload: installation_repositories_event.payload });
@@ -42,9 +48,9 @@ describe("When running the probot app", () => {
     test("receives `onError`", async () => {
         expect.hasAssertions();
         const mock = mockGitHubApiRequests().toNock();
-        const errorlog = jest.fn().mockImplementation();
+        const errorlog = jest.fn().mockImplementation(() => {});
         probot.log.error = errorlog;
-        probot.webhooks.on("push", () => { throw new Error('Invalid input'); });
+        probot.webhooks.on("push", () => { throw new Error('Invalid input (expected console output from test)'); });
         try{
             await probot.webhooks.receive({
                 id: 0,
@@ -53,13 +59,9 @@ describe("When running the probot app", () => {
             });
         }
         catch(e) {
-            expect(errorlog).toBeCalled();
+            expect(errorlog).toHaveBeenCalled();
         }
 
         expect(mock.pendingMocks()).toStrictEqual([]);
-    });
-
-    afterEach(() => {
-        resetNetworkMonitoring();
     });
 });
