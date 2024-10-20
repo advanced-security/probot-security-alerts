@@ -62,7 +62,7 @@
     "esbuild": "^0.24.0"
   },
   "dependenciesMeta": {
-    "probot@*": {
+    "probot@13.3.8": {
       "unplugged": true
     }
   }

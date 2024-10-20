@@ -9,27 +9,28 @@ import {
 import axios from 'axios';
 import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import * as emulator from './utils/emulator.js';
 import * as mockserver from './utils/mockserver.js';
 import * as fixtures from './utils/fixtures.js';
 
-const scriptPath = dirname(import.meta.url);
+const packageRootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 function samBuildExists() {
-  const file = resolve(scriptPath, '.aws-sam', 'build.toml');
+  const file = resolve(packageRootDir, '.aws-sam', 'build.toml');
   return existsSync(file);
 }
 
 function distBuildExists() {
-  const file = resolve(scriptPath, 'dist', 'index.mjs');
+  const file = resolve(packageRootDir, 'dist', 'index.mjs');
   return existsSync(file);
 }
 
 function ensureBuildExists() {
   if (!samBuildExists() || !distBuildExists()) {
     throw new Error(
-      'AWS builds do not exist. Run `yarn build` before running the integration tests.'
+     `AWS builds do not exist in ${packageRootDir}. Run "yarn build" before running the integration tests.`
     );
   }
 }
