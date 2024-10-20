@@ -17,16 +17,32 @@ import * as fixtures from './utils/fixtures.js';
 
 const packageRootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
+/**
+ * Ensures the SAM build outputs have been created. These
+ * are required for the emulator to run.
+ * @returns true if the build output exists
+ */
 function samBuildExists() {
   const file = resolve(packageRootDir, '.aws-sam', 'build.toml');
   return existsSync(file);
 }
 
+/**
+ * Ensures the dist directory build outputs have been created.
+ * @returns true if the build output exists
+ */
 function distBuildExists() {
   const file = resolve(packageRootDir, 'dist', 'index.mjs');
   return existsSync(file);
 }
 
+/**
+ * Stops the integration tests by throwing an error if
+ * the build outputs do not exist. The builds are not created
+ * with each run to minimize the time it takes to run the tests.
+ * This leaves some responsibility on the developer to ensure
+ * the builds are up to date when testing locally.
+ */
 function ensureBuildExists() {
   if (!samBuildExists() || !distBuildExists()) {
     throw new Error(
@@ -35,9 +51,8 @@ function ensureBuildExists() {
   }
 }
 
-
 /**
- * Integration tests using Lambda emulator
+ * Integration tests using Lambda emulator.
  */
 describe('Integration: AWS Lambda emulator', () => {
   let emulatorProcess: emulator.Emulator;
