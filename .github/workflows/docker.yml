@@ -98,7 +98,8 @@ jobs:
         with:
           context: .
           sbom: true
-          build-args: NODE_VERSION=${{ env.NODE_VERSION }}
+          build-args: |
+            NODE_VERSION=${{ env.NODE_VERSION }}
           provenance: mode=max
           platforms: linux/amd64,linux/arm64
           annotations: ${{ steps.meta.outputs.annotations }}

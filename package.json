@@ -35,18 +35,18 @@
     "reset-yarn": "rm -rf .yarn && rm .pnp.cjs && rm .pnp.loader.mjs && yarn install && yarn dlx @yarnpkg/sdks base"
   },
   "devDependencies": {
-    "@eslint/js": "^9.12.0",
+    "@eslint/js": "^9.13.0",
     "@jest/core": "^29.7.0",
     "@jest/globals": "^29.7.0",
     "@octokit/auth-app": "^7.1.1",
     "@octokit/core": "^6.1.2",
     "@types/jest": "^29.5.13",
-    "@types/node": "^20.16.12",
+    "@types/node": "^22.7.7",
     "dotenv": "^16.4.5",
     "esbuild": "^0.24.0",
-    "eslint": "^9.12.0",
+    "eslint": "^9.13.0",
     "prettier": "^3.3.3",
-    "syncpack": "^12.4.0",
+    "syncpack": "^13.0.0",
     "tslib": "^2.8.0",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.10.0"
@@ -59,6 +59,11 @@
     "packages/*"
   ],
   "resolutions": {
-    "esbuild": "^0.21.4"
+    "esbuild": "^0.24.0"
+  },
+  "dependenciesMeta": {
+    "probot@*": {
+      "unplugged": true
+    }
   }
 }

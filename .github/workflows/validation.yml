@@ -10,13 +10,16 @@ on:
 env:
   SAM_CLI_TELEMETRY: 0
   FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT: true
-  NODE_VERSION: 20.x
 
 jobs:
   Validate:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Get target Node version
+        run: |
+          NODE_VERSION=$(cat .devcontainer/devcontainer.json | sed 's/^ *\/\/.*//' | jq -r '.features["ghcr.io/devcontainers/features/node:1"].version')
+          echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_ENV
       - uses: actions/checkout@v4
       - name: Install Hadolint
         run: sudo ./.devcontainer/features/hadolint/install.sh

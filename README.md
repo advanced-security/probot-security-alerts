@@ -4,10 +4,10 @@ This repository contains a sample GitHub App built with [Probot](https://github.
 
 ## Requirements
 
-The repository contains a [development container](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/introduction-to-dev-containers) that supports Visual Studio Code and GitHub Codespaces. This container includes all of the required dependencies. The application is written in TypeScript, runs on Node.js 20, and uses Yarn for package management. Opening the project in a development container will automatically install the required components and configure VS Code.   
+The repository contains a [development container](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/introduction-to-dev-containers) that supports Visual Studio Code and GitHub Codespaces. This container includes all of the required dependencies. The application is written in TypeScript, runs on Node.js 22, and uses Yarn for package management. Opening the project in a development container will automatically install the required components and configure VS Code.   
 
 > [!NOTE]
-> To develop the project without a development container, [Node.js 20](https://nodejs.org/en/download/) must be installed. Running `yarn install` will install the required dependencies. Developing without the provided development container is **NOT RECOMMENDED** and will require additional configuration, including the settings and extensions listed in the [devcontainer.json](./.devcontainer/devcontainer.json).
+> To develop the project without a development container, [Node.js 22](https://nodejs.org/en/download/) must be installed. Running `yarn install` will install the required dependencies. Developing without the provided development container is **NOT RECOMMENDED** and will require additional configuration, including the settings and extensions listed in the [devcontainer.json](./.devcontainer/devcontainer.json).
 
 The application expects a team called `scan-managers` to exist in your GitHub organization. This team contains the users that are approved to close code scanning alerts. If the team does not exist, all requests will be rejected. Alerts closed by users that are not part of this team will be automatically reopened. The name can be changed by configuring the environment variable `SECURITY_ALERT_CLOSE_TEAM`.
 
@@ -21,9 +21,9 @@ The current project maintainers can be found in [CODEOWNERS](./.github/CODEOWNER
 
 ## Node versions
 
-The application and its development environment are currently tested and maintained using the Active LTS, Node 20. The code is compatible with Node 22 and will transition to that being the primary platform after Node 22 moves to Active LTS in October 2024.
+The application and its development environment are currently tested and maintained using the upcoming LTS, Node 22.
 
-Because Node 18 is no longer in Active Support, it is not recommended and is no longer supported. The original version of this project. That said, the code produced by `yarn run build` and `yarn run build:container` in `packages/server` *should* work when run using Node 18. Your mileage may vary.
+Because Node 18 is no longer in Active Support, it is not recommended and is no longer supported. The original version of this project. That said, the code produced by `yarn run build` and `yarn run build:container` in `packages/server` *should* work when run using Node 18 and Node 20. Your mileage may vary.
 
 ## Setup and Local Development
 

@@ -7,10 +7,33 @@ import {
 } from '@aws-sdk/client-lambda';
 
 import axios from 'axios';
+import { existsSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
 
 import * as emulator from './utils/emulator.js';
 import * as mockserver from './utils/mockserver.js';
 import * as fixtures from './utils/fixtures.js';
+
+const scriptPath = dirname(import.meta.url);
+
+function samBuildExists() {
+  const file = resolve(scriptPath, '.aws-sam', 'build.toml');
+  return existsSync(file);
+}
+
+function distBuildExists() {
+  const file = resolve(scriptPath, 'dist', 'index.mjs');
+  return existsSync(file);
+}
+
+function ensureBuildExists() {
+  if (!samBuildExists() || !distBuildExists()) {
+    throw new Error(
+      'AWS builds do not exist. Run `yarn build` before running the integration tests.'
+    );
+  }
+}
+
 
 /**
  * Integration tests using Lambda emulator
@@ -20,6 +43,7 @@ describe('Integration: AWS Lambda emulator', () => {
   let apiServer: mockserver.MockServer;
 
   beforeAll(async () => {
+    ensureBuildExists();
     const results = await Promise.all([
       mockserver.start(),
       emulator.startAwsLambdaEmulator(
@@ -72,6 +96,7 @@ describe('Integration: AWS API Gateway emulator', () => {
   let apiServer: mockserver.MockServer;
 
   beforeAll(async () => {
+    ensureBuildExists();
     const apiPort = mockserver.MockServerSettings.DEFAULT_PORT + 1;
     const results = await Promise.all([
       mockserver.start(apiPort),
