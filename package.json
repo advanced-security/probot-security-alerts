@@ -23,7 +23,7 @@
   "dependencies": {
     "express": "^4.21.1",
     "got": "^13.0.0",
-    "probot": "^12.4.0",
+    "probot": "^13.3.9",
     "word-wrap": "^1.2.5"
   },
   "devDependencies": {
