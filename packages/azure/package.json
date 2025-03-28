@@ -33,6 +33,7 @@
     "storage": "yarn azurite --inMemoryPersistence",
     "copyEnv": "yarn g:copyEnv",
     "format": "yarn g:format",
+    "start": "func start",
     "format:check": "yarn g:format-check"
   },
   "devDependencies": {
