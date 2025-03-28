@@ -36,17 +36,18 @@
     "format:check": "yarn g:format-check"
   },
   "devDependencies": {
-    "@azure/functions": "^4.5.0",
-    "@eslint/js": "^9.9.0",
-    "@typescript-eslint/eslint-plugin": "^8.2.0",
-    "@typescript-eslint/parser": "^8.2.0",
-    "azure-functions-core-tools": "^4.0.5907",
+    "@azure/functions": "^4.5.1",
+    "@eslint/js": "^9.13.0",
+    "@types/node": "^22.7.7",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
+    "azure-functions-core-tools": "^4.0.6280",
     "azurite": "^3.32.0",
-    "esbuild": "^0.23.1",
-    "eslint": "^9.9.0",
-    "probot": "^13.3.7",
-    "tslib": "^2.6.3",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.2.0"
+    "esbuild": "^0.24.0",
+    "eslint": "^9.13.0",
+    "probot": "^13.3.8",
+    "tslib": "^2.8.0",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.10.0"
   }
 }

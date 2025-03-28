@@ -32,9 +32,11 @@ export const EmulatorTimeouts = {
   CLIENT_RESPONSE: 20000
 } as const;
 
+const EMULATOR_HOST='127.0.0.1';
+
 export const AwsEmulatorSettings = {
-  AWS_API_EMULATOR: 'http://localhost:3000',
-  AWS_LAMBDA_EMULATOR: 'http://localhost:3001'
+  AWS_API_EMULATOR: `http://${EMULATOR_HOST}:3000`,
+  AWS_LAMBDA_EMULATOR: `http://${EMULATOR_HOST}:3001`
 } as const;
 
 export const LambdaEmulatorClientSettings = {
@@ -114,7 +116,7 @@ const SamIgnoredMessages = [
  */
 const SamStartedMessages = [
   'Running on http://127.0.0.1:',
-  'Running on http://localhost:',
+  `Running on http://${EMULATOR_HOST}:`,
   'Press CTRL+C to quit'
 ] as const;
 

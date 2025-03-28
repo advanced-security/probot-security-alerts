@@ -33,32 +33,33 @@
     "format:check": "yarn g:format-check"
   },
   "dependencies": {
-    "probot": "^13.3.7",
-    "smee-client": "^2.0.3"
+    "probot": "^13.3.8",
+    "smee-client": "^2.0.4"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
+    "@eslint/js": "^9.13.0",
     "@jest/globals": "^29.7.0",
-    "@types/eslint": "^9.6.0",
+    "@types/eslint": "^9.6.1",
     "@types/express": "^4.17.21",
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.7.7",
     "@types/supertest": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^8.2.0",
-    "@typescript-eslint/parser": "^8.2.0",
-    "esbuild": "^0.23.1",
-    "eslint": "^9.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "express": "*",
     "jest": "^29.7.0",
     "nock": ">=14.0.0-beta",
     "prettier": "^3.3.3",
     "supertest": "^7.0.0",
-    "ts-jest": "^29.2.4",
+    "ts-jest": "^29.2.5",
     "ts-jest-resolver": "^2.0.1",
-    "tslib": "^2.6.3",
-    "tsx": "^4.17.0",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.2.0"
+    "tslib": "^2.8.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.10.0"
   },
   "engines": {
     "node": ">= 20.8.0"

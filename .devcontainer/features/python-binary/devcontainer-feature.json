@@ -1,0 +1,17 @@
+{
+  "id": "local.python-binary",
+  "version": "1.0.0",
+  "name": "Python Binary Update (Deadsnakes PPA)",
+  "description": "Installs prebuilt Python version from the deadsnakes PPA",
+  "options": {
+    "version": {
+      "type": "string",
+      "proposals": ["3.12", "3.13", "3.14"],
+      "default": "3.13",
+      "description": "Select or enter the Python version."
+    }
+  },
+  "dependsOn": {
+    "./features/common-deps": {}
+  }
+}

@@ -113,6 +113,9 @@ async function retrieveAwsSecret(
       });
 
       try {
+        // Avoid leaking handles by allowing time for axios to prepare calls
+        await Promise.resolve(node_process.nextTick(() => { /* Do nothing */ }));
+
         const response = await http.get(`/secretsmanager/get?secretId=${arn}`, {
           headers: headers
         });
@@ -128,6 +131,9 @@ async function retrieveAwsSecret(
       }
     }
   }
+
+  // Avoid leaking handles by allowing axios to do error handling cleanup
+  await Promise.resolve(node_process.nextTick(() => { /* Do nothing */ }));
 
   logDebug('Unable to retrieve PEM from Secrets Manager.');
   return null;

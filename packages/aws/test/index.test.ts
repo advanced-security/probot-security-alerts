@@ -99,6 +99,8 @@ describe('Lambda Secret handling', () => {
     process.env = originalEnvironment;
     nock.cleanAll();
     nock.enableNetConnect();
+    jest.resetAllMocks();
+    jest.resetModules();
   });
 
   test('Secrets are loaded from PEM secret', async () => {
@@ -134,7 +136,9 @@ describe('Lambda Secret handling', () => {
   test('Service error returns empty string', async () => {
     process.env.PRIVATE_KEY_ARN = SECRET_ARN;
     process.env.AWS_SESSION_TOKEN = SECRET_TOKEN;
-
+    const errorLog = jest.spyOn(console, 'error').mockImplementation(() => {
+      /* Do nothing */
+    });
     const api = nock('http://localhost:2773', {
       reqheaders: {
         'X-Aws-Parameters-Secrets-Token': (value: string) =>
@@ -145,9 +149,13 @@ describe('Lambda Secret handling', () => {
     const scope = api
       .get('/secretsmanager/get?secretId=arn:test')
       .reply(400, {message: 'Something went wrong'});
+
     const result = await retrievePemSecret();
     expect(result).toBeUndefined();
     expect(scope.isDone()).toBe(true);
+    expect(errorLog.mock.calls[0][0]).toContain(
+      'status code 400'
+    );
   });
 
   test('Errors calling parameter cache service are logged', async () => {

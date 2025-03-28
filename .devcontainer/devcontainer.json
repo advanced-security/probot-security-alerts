@@ -2,7 +2,11 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.238.0/containers/typescript-node
 {
   "name": "Probot",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "remoteEnv": {
+    "SAM_CLI_TELEMETRY": "0",
+    "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT": "true"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
@@ -124,8 +128,11 @@
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "20.17.0",
+      "version": "22.10.0",
       "nvmVersion": "latest"
+    },
+    "./features/python-binary": {
+      "version": "3.13"
     }
   },
   "otherPortsAttributes": {

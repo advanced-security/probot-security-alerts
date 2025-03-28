@@ -34,7 +34,7 @@ export const WEBHOOK_SECRET = 'itsASecret';
  * @returns the path to the fixtures directory
  */
 function getFixture(...fixture: string[]) {
-  return path.join(...[__dirname, '..', 'fixtures', ...fixture]);
+  return path.join(__dirname, '..', 'fixtures', ...fixture);
 }
 
 /**
