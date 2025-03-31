@@ -2,6 +2,13 @@
 
 This repository contains a sample GitHub App built with [Probot](https://github.com/probot/probot) that demonstrates how to monitor and respond to security alert events. The application automatically re-opens any security alert which is closed by someone that is not part of a specific team. It responds to alerts from code scanning, secret scanning, and Dependabot.
 
+> [!CAUTION]
+> This repository is no longer supported or updated, and the repository has been archived. If you wish to continue to
+> develop this code yourself, we recommend you fork it.
+> GitHub [announced](https://github.blog/changelog/2025-03-05-delegated-alert-dismissal-for-code-scanning-and-secret-scanning-now-available-in-public-preview/)
+> a native feature that provides similar functionality, and we recommend adopting that if you need
+> to support delegated alert dismissal.
+
 ## Requirements
 
 The repository contains a [development container](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/introduction-to-dev-containers) that supports Visual Studio Code and GitHub Codespaces. This container includes all of the required dependencies. The application is written in TypeScript, runs on Node.js 22, and uses Yarn for package management. Opening the project in a development container will automatically install the required components and configure VS Code.   
@@ -21,9 +28,9 @@ The current project maintainers can be found in [CODEOWNERS](./.github/CODEOWNER
 
 ## Node versions
 
-The application and its development environment are currently tested and maintained using the upcoming LTS, Node 22.
+The application and its development environment are currently tested and maintained using Node 22.
 
-Because Node 18 is no longer in Active Support, it is not recommended and is no longer supported. The original version of this project. That said, the code produced by `yarn run build` and `yarn run build:container` in `packages/server` *should* work when run using Node 18 and Node 20. Your mileage may vary.
+Because Node 18 is no longer in Active Support, it is not recommended and is no longer supported. The code produced by `yarn run build` and `yarn run build:container` in `packages/server` *should* work when run using Node 18 and Node 20. Your mileage may vary.
 
 ## Setup and Local Development
 
@@ -175,7 +182,8 @@ The following commands can be used for configuration and deployment.
 A debug configuration is provided for launching the AWS Lambda locally. The configurtion currently does not fully support debugging.
 
 > [!IMPORTANT]
-> GitHub webhooks expect a response within 10 seconds. Be sure to validate that your Lambda configuration will allow the function to respond within the required timeframe.
+> GitHub webhooks expect a response within 10 seconds. Be sure to validate that your Lambda configuration will
+> allow the function to respond within the required timeframe.
 
 #### Azure Functions
 
@@ -184,7 +192,9 @@ The `packages/azure` folder contains the code and configuration for deploying th
 A debug configuration is provided for launching the Azure Function locally.
 
 > [!IMPORTANT]
-> GitHub webhooks expect a response within 10 seconds. This may require a Premium Azure Function plan to ensure the Function's [cold start behavior](https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale#cold-start-behavior) will allow it to respond within the required timeframe.
+> GitHub webhooks expect a response within 10 seconds. This may require a Premium Azure Function
+> plan to ensure the Function's [cold start behavior](https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale#cold-start-behavior)
+> will allow it to respond within the required timeframe.
 
 ### Installation
 
