@@ -40,7 +40,7 @@ function getString(data: Buffer | string): string {
   if (data instanceof Buffer) {
     return new TextDecoder().decode(data);
   }
-  return data;
+  return data.toString();
 }
 
 /** Warnings present in stderr from Docker pulls */

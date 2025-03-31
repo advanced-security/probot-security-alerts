@@ -35,26 +35,26 @@
     "reset-yarn": "rm -rf .yarn && rm .pnp.cjs && rm .pnp.loader.mjs && yarn install && yarn dlx @yarnpkg/sdks base"
   },
   "devDependencies": {
-    "@eslint/js": "^9.13.0",
+    "@eslint/js": "^9.23.0",
     "@jest/core": "^29.7.0",
     "@jest/globals": "^29.7.0",
-    "@octokit/auth-app": "^7.1.1",
-    "@octokit/core": "^6.1.2",
-    "@types/jest": "^29.5.13",
-    "@types/node": "^22.7.7",
-    "dotenv": "^16.4.5",
-    "esbuild": "^0.25.1",
-    "eslint": "^9.13.0",
-    "prettier": "^3.3.3",
+    "@octokit/auth-app": "^7.1.5",
+    "@octokit/core": "^6.1.4",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.14",
+    "dotenv": "^16.4.7",
+    "esbuild": "^0.25.2",
+    "eslint": "^9.23.0",
+    "prettier": "^3.5.3",
     "syncpack": "^13.0.3",
-    "tslib": "^2.8.0",
-    "typescript": "^5.6.3",
-    "typescript-eslint": "^8.10.0"
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.28.0"
   },
   "engines": {
     "node": ">= 22.10.0"
   },
-  "packageManager": "yarn@4.5.0",
+  "packageManager": "yarn@4.8.1",
   "workspaces": [
     "packages/*"
   ],

@@ -128,7 +128,7 @@
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "22.10.0",
+      "version": "22.14.0",
       "nvmVersion": "latest"
     },
     "./features/python-binary": {
