@@ -9,11 +9,35 @@ updates:
     directory: '/'
     schedule:
       interval: monthly
+    ignore:
+      - dependency-name: '@types/express'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
+    groups:
+      dev-dependencies:
+        dependency-type: development
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
+      prod-dependencies:
+        dependency-type: production
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch        
 
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
       interval: 'monthly'
+    groups:
+      actions-all:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
 
   - package-ecosystem: 'devcontainers' # See documentation for possible values
     directory: '/'
