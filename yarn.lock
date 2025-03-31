@@ -3069,7 +3069,7 @@ __metadata:
     nock: "npm:^14.0.2"
     prettier: "npm:^3.5.3"
     probot: "npm:^13.4.4"
-    smee-client: "npm:^2.0.4"
+    smee-client: "npm:^3.1.1"
     supertest: "npm:^7.1.0"
     ts-jest: "npm:^29.3.0"
     ts-jest-resolver: "npm:^2.0.1"
@@ -6461,10 +6461,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eventsource-parser@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "eventsource-parser@npm:3.0.1"
+  checksum: 10/2730c54c3cb47d55d2967f2ece843f9fc95d8a11c2fef6fece8d17d9080193cbe3cd9ac7b04a325977f63cbf8c1664fdd0512dec1aec601666a5c5bd8564b61f
+  languageName: node
+  linkType: hard
+
 "eventsource@npm:^2.0.2":
   version: 2.0.2
   resolution: "eventsource@npm:2.0.2"
   checksum: 10/e1c4c3664cebf9efdd55c90818ef847099f298bf521768d479cf22d8a681e666b3042de85327711ba6a8414ac6a04c70d2aeb4f405bba8239a8c36e06a019374
+  languageName: node
+  linkType: hard
+
+"eventsource@npm:^3.0.5":
+  version: 3.0.6
+  resolution: "eventsource@npm:3.0.6"
+  dependencies:
+    eventsource-parser: "npm:^3.0.1"
+  checksum: 10/ac08c7d1b21e454c7685693fe4ace53fc0b84f3cf752699a556876f2a7f33b7a12972ae33d1c407fb920d6d4aed10de52fdf0dd01902ccdf45cd5da8d55e7f88
   languageName: node
   linkType: hard
 
@@ -11117,7 +11133,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"smee-client@npm:*, smee-client@npm:^2.0.4":
+"smee-client@npm:*":
   version: 2.0.4
   resolution: "smee-client@npm:2.0.4"
   dependencies:
@@ -11127,6 +11143,20 @@ __metadata:
   bin:
     smee: bin/smee.js
   checksum: 10/a283eb2881520646187fcef55bc4974c9f5da79279fff4d99065798bef3a5cfeb5c6445298a8694513bc6095d4236b683f1d3d8be22b9491b78f303e5bf9baf4
+  languageName: node
+  linkType: hard
+
+"smee-client@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "smee-client@npm:3.1.1"
+  dependencies:
+    commander: "npm:^12.0.0"
+    eventsource: "npm:^3.0.5"
+    undici: "npm:^6.19.8"
+    validator: "npm:^13.11.0"
+  bin:
+    smee: bin/smee.js
+  checksum: 10/22118f7fd6795acd2e4015fc59863ab71704858f19a8a0b3f79dc79253d15ca77dca03af4d3f8566323cf1e1dbbc27ddab472dfa0cd8acd709dee9d0bf8221f1
   languageName: node
   linkType: hard
 
@@ -11995,6 +12025,13 @@ __metadata:
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
   checksum: 10/a666a9f5ac4270c659fafc33d78b6b5039a0adbae3e28f934774c85dcc66ea91da907896f12b414bd6f578508b44d5dc206fa636afa0e49a4e1c9e99831ff065
+  languageName: node
+  linkType: hard
+
+"undici@npm:^6.19.8":
+  version: 6.21.2
+  resolution: "undici@npm:6.21.2"
+  checksum: 10/9cd9ead22599c23aa2a7dfa5b80fa1491bebb294bf1dc64c9c0f90ea4ec8e272a4db2810e2565d65b952249f105523d2929d7cc951f88cf0a1f082143bae8d75
   languageName: node
   linkType: hard
 

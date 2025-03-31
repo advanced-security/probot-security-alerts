@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "probot": "^13.4.4",
-    "smee-client": "^2.0.4"
+    "smee-client": "^3.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
