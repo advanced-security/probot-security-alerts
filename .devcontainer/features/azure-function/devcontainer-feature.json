@@ -6,7 +6,7 @@
   "options": {
     "version": {
       "type": "string",
-      "proposals": ["latest", "4.0.5801"],
+      "proposals": ["latest", "4.0.7030"],
       "default": "latest",
       "description": "Select or enter the tools version."
     }
