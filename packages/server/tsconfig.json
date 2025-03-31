@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "incremental": false /* Enable incremental compilation */,
+    "outDir": "./dist",
+    "paths": {
+      "@security-alert-watcher/app": ["../app/src"]
+    }
+  },
+  "include": ["src/"],
+  "exclude": ["test/**/*", "esbuild.config.mjs"],
+  "ts-node": {
+    "transpileOnly": true,
+    "esm": true
+  },
+  "references": [
+    {
+      "path": "../app"
+    }
+  ]
+}

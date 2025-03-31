@@ -1,0 +1,9 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "security-watcher"
+resolve_s3 = true
+s3_prefix = "security-watcher"
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = ""
+image_repositories = []
+disable_rollback = false

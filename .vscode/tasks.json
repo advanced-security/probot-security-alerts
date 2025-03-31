@@ -1,27 +1,83 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "type": "typescript",
-            "tsconfig": "tsconfig.json",
-            "problemMatcher": [
-                "$tsc"
-            ],
-            "group": "build",
-            "label": "tsc: build"
-        },
-        {
-            "type": "typescript",
-            "tsconfig": "tsconfig.json",
-            "option": "watch",
-            "problemMatcher": [
-                "$tsc-watch"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "label": "tsc: watch"
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Install Dependencies",
+      "command": "yarn",
+      "args": ["install"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "Build",
+      "command": "yarn",
+      "args": ["run", "build"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "dependsOn": ["Install Dependencies"]
+    },
+    {
+      "label": "Setup Lambda Env",
+      "options": {
+        "cwd": "${workspaceRoot}/packages/aws"
+      },
+      "command": "yarn",
+      "args": ["run", "copyEnv"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "Test",
+      "command": "yarn",
+      "args": ["run", "test"],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "dependsOn": ["Build"]
+    },
+    {
+      "type": "func",
+      "label": "func: host start",
+      "options": {
+        "cwd": "${workspaceRoot}/packages/azure"
+      },
+      "command": "host start",
+      "problemMatcher": "$func-node-watch",
+      "isBackground": true,
+      "dependsOn": ["func: build"]
+    },
+    {
+      "label": "func: build",
+      "options": {
+        "cwd": "${workspaceRoot}/packages/azure"
+      },
+      "command": "yarn",
+      "args": ["run", "build"],
+      "isBackground": true
+    },
+    {
+      "label": "Run hadolint",
+      "command": "hadolint",
+      "args": ["--no-fail", "${workspaceFolder}/server/Dockerfile"],
+      "problemMatcher": {
+        "owner": "dockerfile",
+        "fileLocation": ["absolute"],
+        "pattern": {
+          "regexp": "^([^:]+)\\:(\\d+) ((?:DL|SC)\\d{4}) ([^:]+): (.*)$",
+          "file": 1,
+          "line": 2,
+          "code": 3,
+          "severity": 4,
+          "message": 5
         }
-    ]
+      }
+    }
+  ]
 }

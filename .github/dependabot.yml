@@ -6,15 +6,16 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    directory: "/"
+    directory: '/'
     schedule:
       interval: monthly
-    ignore:
-      - dependency-name: "typescript"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@types/node"
-        update-types: ["version-update:semver-major"]
-  - package-ecosystem: "github-actions"
-    directory: "/"
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "monthly"
+      interval: 'monthly'
+
+  - package-ecosystem: 'devcontainers' # See documentation for possible values
+    directory: '/'
+    schedule:
+      interval: weekly

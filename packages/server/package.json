@@ -1,0 +1,70 @@
+{
+  "name": "@security-alert-watcher/server",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Sample GH App which monitors and enforces rules for code scanning alerts",
+  "author": "Ken Muse <kenmuse@users.noreply.github.com> (https://www.kenmuse.com)",
+  "license": "MIT",
+  "homepage": "https://github.com/advanced-security/probot-codescan-alerts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/advanced-security/probot-codescan-alerts.git",
+    "directory": "packages/server"
+  },
+  "bugs": "https://github.com/advanced-security/probot-codescan-alerts/issues",
+  "keywords": [
+    "probot",
+    "github",
+    "probot-app"
+  ],
+  "type": "module",
+  "main": "dist/index.mjs",
+  "scripts": {
+    "build": "yarn node esbuild.config.mjs",
+    "build:container": "docker build  -t security-alert-watcher -f Dockerfile ../..",
+    "clean": "yarn g:clean",
+    "lint": "yarn run lint:code && yarn run lint:container",
+    "test": "NODE_OPTIONS='--experimental-vm-modules  --no-warnings=ExperimentalWarning' yarn jest --config=${PROJECT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
+    "start": "yarn tsx watch --env-file=.env src/index.ts",
+    "start:nowatch": "yarn tsx --env-file=.env src/index.ts",
+    "lint:code": "yarn eslint",
+    "lint:container": "hadolint Dockerfile",
+    "format": "yarn g:format",
+    "format:check": "yarn g:format-check"
+  },
+  "dependencies": {
+    "probot": "^13.4.4",
+    "smee-client": "^2.0.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@jest/globals": "^29.7.0",
+    "@types/eslint": "^9.6.1",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.7.7",
+    "@types/supertest": "^6.0.2",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
+    "esbuild": "^0.25.1",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "express": "*",
+    "jest": "^29.7.0",
+    "nock": ">=14.0.0-beta",
+    "prettier": "^3.3.3",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-jest-resolver": "^2.0.1",
+    "tslib": "^2.8.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.10.0"
+  },
+  "engines": {
+    "node": ">= 22.10.0"
+  },
+  "publishConfig": {
+    "provenance": true
+  }
+}

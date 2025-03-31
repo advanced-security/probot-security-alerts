@@ -1,2 +1,57 @@
 {
+  "jest.virtualFolders": [
+    {
+      "name": "app",
+      "rootPath": "./packages/app"
+    },
+    {
+      "name": "server",
+      "rootPath": "./packages/server"
+    },
+    {
+      "name": "aws",
+      "rootPath": "./packages/aws"
+    }
+  ],
+  "jest.runMode": {
+    "type": "on-demand",
+    "deferred": true
+  },
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "eslint.nodePath": ".yarn/sdks",
+  "eslint.validate": ["javascript", "typescript"],
+  "eslint.enable": true,
+  "eslint.options": {},
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "jest.jestCommandLine": "yarn run test",
+  "typescript.tsserver.log": "off",
+  "typescript.tsserver.nodePath": "node",
+  "js/ts.implicitProjectConfig.module": "ESNext",
+  "typescript.tsserver.experimental.useVsCodeWatcher": false,
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

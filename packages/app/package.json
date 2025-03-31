@@ -1,0 +1,67 @@
+{
+  "name": "@security-alert-watcher/app",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Sample GH App which monitors and enforces rules for code scanning alerts",
+  "author": "Ken Muse <kenmuse@users.noreply.github.com> (https://www.kenmuse.com)",
+  "license": "MIT",
+  "homepage": "https://github.com/advanced-security/probot-codescan-alerts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/advanced-security/probot-codescan-alerts.git",
+    "directory": "packages/app"
+  },
+  "bugs": "https://github.com/advanced-security/probot-codescan-alerts/issues",
+  "keywords": [
+    "probot",
+    "github",
+    "probot-app"
+  ],
+  "type": "module",
+  "files": [
+    "dist/src/**"
+  ],
+  "exports": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "yarn g:clean",
+    "test": "NODE_OPTIONS='--experimental-vm-modules --no-warnings=ExperimentalWarning' yarn jest --config=${INIT_CWD}/jest.config.mjs --rootDir=${INIT_CWD}",
+    "lint": "yarn eslint",
+    "format": "yarn g:format",
+    "format:check": "yarn g:format-check"
+  },
+  "dependencies": {
+    "probot": "^13.4.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@jest/core": "^29.7.0",
+    "@jest/globals": "^29.7.0",
+    "@octokit/request-error": "*",
+    "@octokit/types": "*",
+    "@octokit/webhooks-types": "*",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.7.7",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "jest": "^29.7.0",
+    "jest-circus": "^29.7.0",
+    "nock": ">=14.0.0-beta",
+    "pino": "*",
+    "prettier": "^3.3.3",
+    "ts-jest": "^29.2.5",
+    "ts-jest-resolver": "^2.0.1",
+    "tslib": "^2.8.0",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.10.0"
+  },
+  "engines": {
+    "node": ">= 22.10.0"
+  },
+  "publishConfig": {
+    "provenance": true
+  }
+}

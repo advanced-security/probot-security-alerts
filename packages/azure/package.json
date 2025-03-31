@@ -1,0 +1,54 @@
+{
+  "name": "@security-alert-watcher/azure-function",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Sample GH App which monitors and enforces rules for code scanning alerts",
+  "author": "Ken Muse <kenmuse@users.noreply.github.com> (https://www.kenmuse.com)",
+  "license": "MIT",
+  "homepage": "https://github.com/advanced-security/probot-codescan-alerts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/advanced-security/probot-codescan-alerts.git",
+    "directory": "packages/azure"
+  },
+  "bugs": "https://github.com/advanced-security/probot-codescan-alerts/issues",
+  "keywords": [
+    "azure",
+    "functions",
+    "probot",
+    "github",
+    "probot-app"
+  ],
+  "type": "module",
+  "files": [
+    "dist/**"
+  ],
+  "main": "dist/index.mjs",
+  "scripts": {
+    "build": "yarn node esbuild.config.mjs",
+    "build:container": "yarn run build && docker build -t security-watcher-azfxn .",
+    "build:package": "yarn run build && mkdir -p publish && ${AZURE_FUNC_TOOLS_DIR}/func pack -o publish/package",
+    "clean": "yarn g:clean && rm -rf publish",
+    "lint": "yarn eslint",
+    "storage": "yarn azurite --inMemoryPersistence",
+    "copyEnv": "yarn g:copyEnv",
+    "format": "yarn g:format",
+    "start": "func start",
+    "format:check": "yarn g:format-check"
+  },
+  "devDependencies": {
+    "@azure/functions": "^4.5.1",
+    "@eslint/js": "^9.13.0",
+    "@types/node": "^22.7.7",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
+    "azure-functions-core-tools": "^4.0.6280",
+    "azurite": "^3.32.0",
+    "esbuild": "^0.25.1",
+    "eslint": "^9.13.0",
+    "probot": "^13.4.4",
+    "tslib": "^2.8.0",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.10.0"
+  }
+}

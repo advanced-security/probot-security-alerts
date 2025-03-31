@@ -1,0 +1,384 @@
+{
+  "event": "dependabot_alert",
+  "payload": {
+    "action": "fixed",
+    "alert": {
+      "number": 1,
+      "state": "fixed",
+      "dependency": {
+        "package": {
+          "ecosystem": "maven",
+          "name": "org.springframework:spring-beans"
+        },
+        "manifest_path": "pom.xml",
+        "scope": "runtime"
+      },
+      "security_advisory": {
+        "ghsa_id": "GHSA-36p3-wjmg-h94x",
+        "cve_id": "CVE-2022-22965",
+        "summary": "Remote Code Execution in Spring Framework",
+        "description": "Spring Framework prior to versions 5.2.20 and 5.3.18 contains a remote code execution vulnerability known as `Spring4Shell`. \n\n## Impact\n\nA Spring MVC or Spring WebFlux application running on JDK 9+ may be vulnerable to remote code execution (RCE) via data binding. The specific exploit requires the application to run on Tomcat as a WAR deployment. If the application is deployed as a Spring Boot executable jar, i.e. the default, it is not vulnerable to the exploit. However, the nature of the vulnerability is more general, and there may be other ways to exploit it.\n\nThese are the prerequisites for the exploit:\n- JDK 9 or higher\n- Apache Tomcat as the Servlet container\n- Packaged as WAR\n- `spring-webmvc` or `spring-webflux` dependency\n\n## Patches\n\n- Spring Framework [5.3.18](https://github.com/spring-projects/spring-framework/releases/tag/v5.3.18) and [5.2.20](https://github.com/spring-projects/spring-framework/releases/tag/v5.2.20.RELEASE)\n- Spring Boot [2.6.6](https://github.com/spring-projects/spring-boot/releases/tag/v2.6.6) and [2.5.12](https://github.com/spring-projects/spring-boot/releases/tag/v2.5.12)\n\n## Workarounds\n\nFor those who are unable to upgrade, leaked reports recommend setting `disallowedFields` on `WebDataBinder` through an `@ControllerAdvice`. This works generally, but as a centrally applied workaround fix, may leave some loopholes, in particular if a controller sets `disallowedFields` locally through its own `@InitBinder` method, which overrides the global setting.\n\nTo apply the workaround in a more fail-safe way, applications could extend `RequestMappingHandlerAdapter` to update the `WebDataBinder` at the end after all other initialization. In order to do that, a Spring Boot application can declare a `WebMvcRegistrations` bean (Spring MVC) or a `WebFluxRegistrations` bean (Spring WebFlux).",
+        "severity": "critical",
+        "identifiers": [
+          {
+            "value": "GHSA-36p3-wjmg-h94x",
+            "type": "GHSA"
+          },
+          {
+            "value": "CVE-2022-22965",
+            "type": "CVE"
+          }
+        ],
+        "references": [
+          {
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-22965"
+          },
+          {
+            "url": "https://github.com/spring-projects/spring-framework/commit/002546b3e4b8d791ea6acccb81eb3168f51abb15"
+          },
+          {
+            "url": "https://github.com/spring-projects/spring-boot/releases/tag/v2.5.12"
+          },
+          {
+            "url": "https://github.com/spring-projects/spring-boot/releases/tag/v2.6.6"
+          },
+          {
+            "url": "https://github.com/spring-projects/spring-framework/releases/tag/v5.2.20.RELEASE"
+          },
+          {
+            "url": "https://github.com/spring-projects/spring-framework/releases/tag/v5.3.18"
+          },
+          {
+            "url": "https://spring.io/blog/2022/03/31/spring-framework-rce-early-announcement"
+          },
+          {
+            "url": "https://tanzu.vmware.com/security/cve-2022-22965"
+          },
+          {
+            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-254054.pdf"
+          },
+          {
+            "url": "https://psirt.global.sonicwall.com/vuln-detail/SNWLID-2022-0005"
+          },
+          {
+            "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-java-spring-rce-Zx9GUc67"
+          },
+          {
+            "url": "https://www.oracle.com/security-alerts/cpuapr2022.html"
+          },
+          {
+            "url": "http://packetstormsecurity.com/files/166713/Spring4Shell-Code-Execution.html"
+          },
+          {
+            "url": "http://packetstormsecurity.com/files/167011/Spring4Shell-Spring-Framework-Class-Property-Remote-Code-Execution.html"
+          },
+          {
+            "url": "https://www.oracle.com/security-alerts/cpujul2022.html"
+          },
+          {
+            "url": "https://github.com/advisories/GHSA-36p3-wjmg-h94x"
+          }
+        ],
+        "published_at": "2022-03-31T18:30:50Z",
+        "updated_at": "2023-01-31T05:04:23Z",
+        "withdrawn_at": null,
+        "vulnerabilities": [
+          {
+            "package": {
+              "ecosystem": "maven",
+              "name": "org.springframework:spring-beans"
+            },
+            "severity": "critical",
+            "vulnerable_version_range": ">= 5.3.0, < 5.3.18",
+            "first_patched_version": {
+              "identifier": "5.3.18"
+            }
+          },
+          {
+            "package": {
+              "ecosystem": "maven",
+              "name": "org.springframework:spring-webmvc"
+            },
+            "severity": "critical",
+            "vulnerable_version_range": ">= 5.3.0, < 5.3.18",
+            "first_patched_version": {
+              "identifier": "5.3.18"
+            }
+          },
+          {
+            "package": {
+              "ecosystem": "maven",
+              "name": "org.springframework.boot:spring-boot-starter-web"
+            },
+            "severity": "critical",
+            "vulnerable_version_range": "< 2.5.12",
+            "first_patched_version": {
+              "identifier": "2.5.12"
+            }
+          },
+          {
+            "package": {
+              "ecosystem": "maven",
+              "name": "org.springframework.boot:spring-boot-starter-web"
+            },
+            "severity": "critical",
+            "vulnerable_version_range": ">= 2.6.0, < 2.6.6",
+            "first_patched_version": {
+              "identifier": "2.6.6"
+            }
+          },
+          {
+            "package": {
+              "ecosystem": "maven",
+              "name": "org.springframework:spring-webflux"
+            },
+            "severity": "critical",
+            "vulnerable_version_range": ">= 5.3.0, < 5.3.18",
+            "first_patched_version": {
+              "identifier": "5.3.18"
+            }
+          },
+          {
+            "package": {
+              "ecosystem": "maven",
+              "name": "org.springframework.boot:spring-boot-starter-webflux"
+            },
+            "severity": "critical",
+            "vulnerable_version_range": "< 2.5.12",
+            "first_patched_version": {
+              "identifier": "2.5.12"
+            }
+          },
+          {
+            "package": {
+              "ecosystem": "maven",
+              "name": "org.springframework.boot:spring-boot-starter-webflux"
+            },
+            "severity": "critical",
+            "vulnerable_version_range": ">= 2.6.0, < 2.6.6",
+            "first_patched_version": {
+              "identifier": "2.6.6"
+            }
+          },
+          {
+            "package": {
+              "ecosystem": "maven",
+              "name": "org.springframework:spring-beans"
+            },
+            "severity": "critical",
+            "vulnerable_version_range": "< 5.2.20.RELEASE",
+            "first_patched_version": {
+              "identifier": "5.2.20.RELEASE"
+            }
+          },
+          {
+            "package": {
+              "ecosystem": "maven",
+              "name": "org.springframework:spring-webmvc"
+            },
+            "severity": "critical",
+            "vulnerable_version_range": "< 5.2.20.RELEASE",
+            "first_patched_version": {
+              "identifier": "5.2.20.RELEASE"
+            }
+          },
+          {
+            "package": {
+              "ecosystem": "maven",
+              "name": "org.springframework:spring-webflux"
+            },
+            "severity": "critical",
+            "vulnerable_version_range": "< 5.2.20.RELEASE",
+            "first_patched_version": {
+              "identifier": "5.2.20.RELEASE"
+            }
+          }
+        ],
+        "cvss": {
+          "vector_string": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "score": 9.8
+        },
+        "cwes": [
+          {
+            "cwe_id": "CWE-74",
+            "name": "Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+          },
+          {
+            "cwe_id": "CWE-94",
+            "name": "Improper Control of Generation of Code ('Code Injection')"
+          }
+        ]
+      },
+      "security_vulnerability": {
+        "package": {
+          "ecosystem": "maven",
+          "name": "org.springframework:spring-beans"
+        },
+        "severity": "critical",
+        "vulnerable_version_range": "< 5.2.20.RELEASE",
+        "first_patched_version": {
+          "identifier": "5.2.20.RELEASE"
+        }
+      },
+      "url": "https://api.github.com/repos/_orgname/_myrepo/dependabot/alerts/1",
+      "html_url": "https://github.com/_orgname/_myrepo/security/dependabot/1",
+      "created_at": "2023-02-08T22:11:56Z",
+      "updated_at": "2023-02-09T00:11:31Z",
+      "dismissed_at": null,
+      "dismissed_by": null,
+      "dismissed_reason": null,
+      "dismissed_comment": null,
+      "fixed_at": "2023-02-09T00:11:31Z"
+    },
+    "repository": {
+      "id": 100000001,
+      "node_id": "R_RepoNodeId==",
+      "name": "_myrepo",
+      "full_name": "_orgname/_myrepo",
+      "private": true,
+      "owner": {
+        "login": "_orgname",
+        "id": 100000002,
+        "node_id": "O_OrgNodeId==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/100000002?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/_orgname",
+        "html_url": "https://github.com/_orgname",
+        "followers_url": "https://api.github.com/users/_orgname/followers",
+        "following_url": "https://api.github.com/users/_orgname/following{/other_user}",
+        "gists_url": "https://api.github.com/users/_orgname/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/_orgname/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/_orgname/subscriptions",
+        "organizations_url": "https://api.github.com/users/_orgname/orgs",
+        "repos_url": "https://api.github.com/users/_orgname/repos",
+        "events_url": "https://api.github.com/users/_orgname/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/_orgname/received_events",
+        "type": "Organization",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/_orgname/_myrepo",
+      "description": "Really insecure",
+      "fork": false,
+      "url": "https://api.github.com/repos/_orgname/_myrepo",
+      "forks_url": "https://api.github.com/repos/_orgname/_myrepo/forks",
+      "keys_url": "https://api.github.com/repos/_orgname/_myrepo/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/_orgname/_myrepo/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/_orgname/_myrepo/teams",
+      "hooks_url": "https://api.github.com/repos/_orgname/_myrepo/hooks",
+      "issue_events_url": "https://api.github.com/repos/_orgname/_myrepo/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/_orgname/_myrepo/events",
+      "assignees_url": "https://api.github.com/repos/_orgname/_myrepo/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/_orgname/_myrepo/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/_orgname/_myrepo/tags",
+      "blobs_url": "https://api.github.com/repos/_orgname/_myrepo/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/_orgname/_myrepo/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/_orgname/_myrepo/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/_orgname/_myrepo/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/_orgname/_myrepo/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/_orgname/_myrepo/languages",
+      "stargazers_url": "https://api.github.com/repos/_orgname/_myrepo/stargazers",
+      "contributors_url": "https://api.github.com/repos/_orgname/_myrepo/contributors",
+      "subscribers_url": "https://api.github.com/repos/_orgname/_myrepo/subscribers",
+      "subscription_url": "https://api.github.com/repos/_orgname/_myrepo/subscription",
+      "commits_url": "https://api.github.com/repos/_orgname/_myrepo/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/_orgname/_myrepo/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/_orgname/_myrepo/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/_orgname/_myrepo/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/_orgname/_myrepo/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/_orgname/_myrepo/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/_orgname/_myrepo/merges",
+      "archive_url": "https://api.github.com/repos/_orgname/_myrepo/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/_orgname/_myrepo/downloads",
+      "issues_url": "https://api.github.com/repos/_orgname/_myrepo/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/_orgname/_myrepo/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/_orgname/_myrepo/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/_orgname/_myrepo/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/_orgname/_myrepo/labels{/name}",
+      "releases_url": "https://api.github.com/repos/_orgname/_myrepo/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/_orgname/_myrepo/deployments",
+      "created_at": "2023-02-08T22:09:09Z",
+      "updated_at": "2023-02-08T22:09:09Z",
+      "pushed_at": "2023-02-09T00:11:29Z",
+      "git_url": "git://github.com/_orgname/_myrepo.git",
+      "ssh_url": "git@github.com:_orgname/_myrepo.git",
+      "clone_url": "https://github.com/_orgname/_myrepo.git",
+      "svn_url": "https://github.com/_orgname/_myrepo",
+      "homepage": null,
+      "size": 12,
+      "stargazers_count": 0,
+      "watchers_count": 0,
+      "language": null,
+      "has_issues": true,
+      "has_projects": true,
+      "has_downloads": true,
+      "has_wiki": true,
+      "has_pages": false,
+      "has_discussions": false,
+      "forks_count": 0,
+      "mirror_url": null,
+      "archived": false,
+      "disabled": false,
+      "open_issues_count": 1,
+      "license": null,
+      "allow_forking": false,
+      "is_template": false,
+      "web_commit_signoff_required": false,
+      "topics": [],
+      "visibility": "internal",
+      "forks": 0,
+      "open_issues": 1,
+      "watchers": 0,
+      "default_branch": "main"
+    },
+    "organization": {
+      "login": "_orgname",
+      "id": 100000002,
+      "node_id": "O_OrgNodeId==",
+      "url": "https://api.github.com/orgs/_orgname",
+      "repos_url": "https://api.github.com/orgs/_orgname/repos",
+      "events_url": "https://api.github.com/orgs/_orgname/events",
+      "hooks_url": "https://api.github.com/orgs/_orgname/hooks",
+      "issues_url": "https://api.github.com/orgs/_orgname/issues",
+      "members_url": "https://api.github.com/orgs/_orgname/members{/member}",
+      "public_members_url": "https://api.github.com/orgs/_orgname/public_members{/member}",
+      "avatar_url": "https://avatars.githubusercontent.com/u/100000002?v=4",
+      "description": ""
+    },
+    "enterprise": {
+      "id": 2,
+      "slug": "_enterprise",
+      "name": "MyCorp.",
+      "node_id": "MDEwOkVudGVycHJpc2Uy",
+      "avatar_url": "https://avatars.githubusercontent.com/b/2?v=4",
+      "description": "Makers of all the best products.",
+      "website_url": "https://github.com/enterprises/_enterprise/",
+      "html_url": "https://github.com/enterprises/_enterprise",
+      "created_at": "2018-04-06T02:42:55Z",
+      "updated_at": "2022-09-29T12:24:24Z"
+    },
+    "sender": {
+      "login": "github",
+      "id": 9919,
+      "node_id": "MDEyOk9yZ2FuaXphdGlvbjk5MTk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9919?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github",
+      "html_url": "https://github.com/github",
+      "followers_url": "https://api.github.com/users/github/followers",
+      "following_url": "https://api.github.com/users/github/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github/subscriptions",
+      "organizations_url": "https://api.github.com/users/github/orgs",
+      "repos_url": "https://api.github.com/users/github/repos",
+      "events_url": "https://api.github.com/users/github/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github/received_events",
+      "type": "Organization",
+      "site_admin": false
+    },
+    "installation": {
+      "id": 10000004,
+      "node_id": "MDInstallationNodeId=="
+    }
+  }
+}

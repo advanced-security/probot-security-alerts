@@ -1,41 +1,141 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.238.0/containers/typescript-node
 {
-	"name": "Probot",
-	"build": {
-		"dockerfile": "Dockerfile",
-		"args": {
-			"VARIANT": "18-bullseye"
-		}
-	},
-
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"dbaeumer.vscode-eslint",
-				"Orta.vscode-jest",
-				"EditorConfig.EditorConfig",
-				"redhat.vscode-yaml"
-			]
-		}
-	},
-
-	"postCreateCommand": {
-		"install-dependencies": "npm install"
-	},
-	"postStartCommand": {
-		"configure-git": "git config --global --add safe.directory ${containerWorkspaceFolder}"
-	},
-
-	"remoteUser": "node",
-	"portsAttributes": {
-		"3000": {
-			"label": "Probot"
-		}
-	},
-	"features": {
-		"ghcr.io/dhoeric/features/hadolint:1": {
-			"version": "latest"
-		}
-	}
+  "name": "Probot",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "remoteEnv": {
+    "SAM_CLI_TELEMETRY": "0",
+    "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT": "true"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "arcanis.vscode-zipfs",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "EditorConfig.EditorConfig",
+        "github.vscode-github-actions",
+        "mhutchie.git-graph",
+        "ms-azuretools.vscode-azurefunctions",
+        "Orta.vscode-jest",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "aws.telemetry": false,
+        "jest.virtualFolders": [
+          {
+            "name": "app",
+            "rootPath": "./packages/app"
+          },
+          {
+            "name": "server",
+            "rootPath": "./packages/server"
+          },
+          {
+            "name": "aws",
+            "rootPath": "./packages/aws"
+          }
+        ],
+        "jest.runMode": {
+          "type": "on-demand",
+          "deferred": true
+        },
+        "search.exclude": {
+          "**/.yarn": true,
+          "**/.pnp.*": true
+        },
+        "typescript.tsdk": ".yarn/sdks/typescript/lib",
+        "typescript.enablePromptUseWorkspaceTsdk": true,
+        "eslint.nodePath": ".yarn/sdks",
+        "eslint.validate": ["javascript", "typescript"],
+        "eslint.enable": true,
+        "eslint.options": {},
+        "eslint.useFlatConfig": true,
+        "eslint.workingDirectories": [
+          {
+            "mode": "auto"
+          }
+        ],
+        "azureFunctions.deploySubpath": ".",
+        //"azureFunctions.postDeployTask": "",
+        "azureFunctions.projectLanguage": "TypeScript",
+        "azureFunctions.projectRuntime": "~4",
+        "debug.internalConsoleOptions": "neverOpen",
+        //"azureFunctions.preDeployTask": "Install Dependencies",
+        "jest.jestCommandLine": "yarn run test",
+        "typescript.tsserver.log": "off",
+        "typescript.tsserver.nodePath": "node",
+        "js/ts.implicitProjectConfig.module": "ESNext",
+        // Workaround for https://github.com/yarnpkg/berry/issues/6270
+        "typescript.tsserver.experimental.useVsCodeWatcher": false,
+        "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "vscode.json-language-features"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[yaml]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        }
+      }
+    }
+  },
+  "onCreateCommand": {
+    "setup-yarn": "corepack enable && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack install --global yarn@stable"
+  },
+  "updateContentCommand": {
+    "install-packages": "COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install && yarn dlx @yarnpkg/sdks base"
+  },
+  "postAttachCommand": {
+    "configure-git": "[ \"$(git config --global --get safe.directory)\" = '${containerWorkspaceFolder}' ] || git config --global --add safe.directory '${containerWorkspaceFolder}'"
+  },
+  "remoteUser": "vscode",
+  "portsAttributes": {
+    "3000": {
+      "label": "Probot"
+    },
+    "3001": {
+      "label": "Emulator"
+    },
+    "5555": {
+      "label": "Mockserver 1",
+      "protocol": "http",
+      "onAutoForward": "silent"
+    },
+    "5556": {
+      "label": "Mockserver 2",
+      "protocol": "http",
+      "onAutoForward": "silent"
+    },
+    "10000": {
+      "label": "Azurite Storage Emulator"
+    }
+  },
+  "features": {
+    "./features/hadolint": {},
+    "./features/aws-sam": {},
+    "./features/azure-function": {},
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers/features/azure-cli:1": {
+      "installBicep": true
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22.10.0",
+      "nvmVersion": "latest"
+    },
+    "./features/python-binary": {
+      "version": "3.13"
+    }
+  },
+  "otherPortsAttributes": {
+    "onAutoForward": "ignore"
+  }
 }

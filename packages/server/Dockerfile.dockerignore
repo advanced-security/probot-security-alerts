@@ -1,0 +1,27 @@
+# This restricts certain files from being copied into
+# the build target for the multi-stage build. The main
+# image selectively includes a subset of files.
+
+**/.devcontainer
+**/.dockerignore
+**/.editorconfig
+**/.env
+**/.env.example
+**/.git
+**/.gitattributes
+**/.github
+**/.gitignore
+**/.pnp.cjs
+**/.pnp.loader.mjs
+**/.vscode
+**/.yarn
+**/*.example
+**/*.log
+**/*.md
+**/aws
+**/azure
+**/coverage
+**/dist
+**/Dockerfile*
+**/LICENSE
+**/node_modules

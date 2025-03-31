@@ -1,0 +1,4 @@
+# Ignore these files:
+**/dist
+**/coverage
+**/.aws-sam
