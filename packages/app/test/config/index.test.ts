@@ -28,7 +28,7 @@ describe('When a private key is provided', () => {
 
   test(`new line escapes are removed`, async () => {
     // Arrange
-    const key = privateKey.replace('\n', '\\n');
+    const key = privateKey.replace(/\n/g, '\\n');
     process.env.PRIVATE_KEY = key;
 
     // Act
